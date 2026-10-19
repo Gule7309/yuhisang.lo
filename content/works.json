@@ -1,0 +1,102 @@
+[
+  {
+    "slug": "when2ask",
+    "category": "research",
+    "title_en": "When2ask: Clarification Under Candidate-Set Incompleteness",
+    "title_zh": "When2ask：候選意圖不完整時的 Agent 澄清策略",
+    "subtitle_en": "Research reconstruction & controlled stress test",
+    "subtitle_zh": "研究機制重建與對照實驗",
+    "summary_en": "Investigating whether structured uncertainty remains reliable when the correct tool-use interpretation is missing from an AI agent's generated candidate set. Experimental results are not yet claimed.",
+    "summary_zh": "研究當正確的工具呼叫意圖不在 Agent 生成的候選集合中時，結構化不確定性是否仍然可靠。目前尚未宣稱已有實證結果。",
+    "year": "2026",
+    "status_en": "Research in progress",
+    "status_zh": "研究進行中",
+    "tags": [
+      "LLM Agents",
+      "Uncertainty",
+      "Human–AI Interaction"
+    ],
+    "image": "",
+    "github": "https://github.com/Gule7309/When2ask",
+    "demo": "",
+    "paper": "",
+    "featured": true,
+    "published": true,
+    "order": 10
+  },
+  {
+    "slug": "authority-aware-agents",
+    "category": "research",
+    "title_en": "Authority-Aware Decision Making for Tool-Using Agents",
+    "title_zh": "工具型 Agent 的權限感知決策",
+    "subtitle_en": "Research direction · Human-centered AI",
+    "subtitle_zh": "研究方向 · 以人為中心的 AI",
+    "summary_en": "Exploring the boundary between helping and taking over: how an assistant can choose among clarification, confirmation, and execution while respecting user authority.",
+    "summary_zh": "探索 AI 協助與取代決策之間的界線：在尊重使用者權限與自主性的前提下，如何選擇詢問、確認或執行。",
+    "year": "2026",
+    "status_en": "Research proposal",
+    "status_zh": "研究提案階段",
+    "tags": [
+      "HCAI",
+      "Agent Safety",
+      "User Agency"
+    ],
+    "image": "",
+    "github": "",
+    "demo": "",
+    "paper": "",
+    "featured": true,
+    "published": true,
+    "order": 20
+  },
+  {
+    "slug": "trading-radar",
+    "category": "project",
+    "title_en": "Trading Radar — Agentic Research Assistant",
+    "title_zh": "股研雷達 — Agentic 台股研究助理",
+    "subtitle_en": "Agent engineering · Research workbench",
+    "subtitle_zh": "Agent 工程 · 研究工作台",
+    "summary_en": "A Taiwan-stock research prototype combining official data ingestion with agent-oriented research, evidence verification, thesis tracking, and a research workbench.",
+    "summary_zh": "結合台股資料匯入、Agent 研究流程、證據驗證、投資論點追蹤與研究工作台的原型系統。",
+    "year": "2026",
+    "status_en": "Prototype",
+    "status_zh": "原型開發",
+    "tags": [
+      "TypeScript",
+      "Agent Systems",
+      "Evidence Verification"
+    ],
+    "image": "",
+    "github": "https://github.com/Gule7309/trading_radar",
+    "demo": "",
+    "paper": "",
+    "featured": true,
+    "published": true,
+    "order": 10
+  },
+  {
+    "slug": "vr-dementia",
+    "category": "project",
+    "title_en": "VR Dementia — Adaptive Cognitive Training Models",
+    "title_zh": "VR 樂園「憶」壽延年 — 自適應認知訓練模型",
+    "subtitle_en": "Applied AI · Experimental toolkit",
+    "subtitle_zh": "應用 AI · 實驗性模型套件",
+    "summary_en": "Exploratory models for behavior analysis, adaptive difficulty, multimodal perception, and cognitive training. Not a clinically validated medical system.",
+    "summary_zh": "探索行為分析、動態難度、多模態感知與認知訓練的實驗性模型；並非經臨床驗證的醫療系統。",
+    "year": "2026",
+    "status_en": "Exploratory prototype",
+    "status_zh": "探索性原型",
+    "tags": [
+      "Python",
+      "Adaptive Systems",
+      "VR"
+    ],
+    "image": "",
+    "github": "https://github.com/Gule7309/VR-Dementia",
+    "demo": "",
+    "paper": "",
+    "featured": false,
+    "published": true,
+    "order": 20
+  }
+]
