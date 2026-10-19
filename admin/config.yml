@@ -1,0 +1,100 @@
+backend:
+  name: github
+  repo: Gule7309/yuhisang.lo
+  branch: main
+  auth_methods: [token]
+app_title: Gule Luo Portfolio CMS
+site_url: https://gule7309.github.io/yuhisang.lo/
+display_url: https://gule7309.github.io/yuhisang.lo/
+media_folder: assets/uploads
+public_folder: assets/uploads
+collections:
+  - name: profile
+    label: Profile and Education
+    files:
+      - name: profile
+        label: Profile
+        file: content/profile.json
+        format: json
+        fields:
+          - {name: name_en, label: Name English, widget: string}
+          - {name: name_zh, label: Name Chinese, widget: string}
+          - {name: short_name, label: Short Name, widget: string}
+          - {name: role_en, label: Role English, widget: string}
+          - {name: role_zh, label: Role Chinese, widget: string}
+          - {name: affiliation_en, label: Affiliation English, widget: string}
+          - {name: affiliation_zh, label: Affiliation Chinese, widget: string}
+          - {name: headline_en, label: Headline English, widget: string}
+          - {name: headline_zh, label: Headline Chinese, widget: string}
+          - {name: about_en, label: About English, widget: text}
+          - {name: about_zh, label: About Chinese, widget: text}
+          - {name: avatar, label: Avatar URL, widget: string, required: false}
+          - {name: email, label: Public email, widget: string, required: false}
+          - {name: cv_url, label: CV URL, widget: string, required: false}
+          - {name: interests, label: Research interests, widget: list, required: false}
+          - name: socials
+            label: Links
+            widget: list
+            required: false
+            fields:
+              - {name: label, label: Name, widget: string}
+              - {name: url, label: URL, widget: string}
+          - name: education
+            label: Education
+            widget: list
+            fields:
+              - {name: institution_en, label: School English, widget: string}
+              - {name: institution_zh, label: School Chinese, widget: string}
+              - {name: degree_en, label: Degree English, widget: string}
+              - {name: degree_zh, label: Degree Chinese, widget: string}
+              - {name: period, label: Years, widget: string}
+              - {name: details_en, label: Details English, widget: text, required: false}
+              - {name: details_zh, label: Details Chinese, widget: text, required: false}
+          - name: experience
+            label: Experience
+            widget: list
+            required: false
+            fields:
+              - {name: organization_en, label: Organization English, widget: string}
+              - {name: organization_zh, label: Organization Chinese, widget: string}
+              - {name: role_en, label: Role English, widget: string}
+              - {name: role_zh, label: Role Chinese, widget: string}
+              - {name: period, label: Years, widget: string}
+              - {name: details_en, label: Details English, widget: text, required: false}
+              - {name: details_zh, label: Details Chinese, widget: text, required: false}
+              - {name: published, label: Show, widget: boolean, default: false}
+  - name: works
+    label: Research and Projects
+    file: content/works.json
+    identifier_field: slug
+    summary: '{{title_en}}'
+    fields:
+      - {name: slug, label: ID, widget: string}
+      - {name: category, label: Section, widget: select, options: [research, project]}
+      - {name: title_en, label: Title English, widget: string}
+      - {name: title_zh, label: Title Chinese, widget: string}
+      - {name: subtitle_en, label: Subtitle English, widget: string}
+      - {name: subtitle_zh, label: Subtitle Chinese, widget: string}
+      - {name: summary_en, label: Summary English, widget: text}
+      - {name: summary_zh, label: Summary Chinese, widget: text}
+      - {name: status_en, label: Status English, widget: string}
+      - {name: status_zh, label: Status Chinese, widget: string}
+      - {name: year, label: Year, widget: string}
+      - {name: tags, label: Tags, widget: list, required: false}
+      - {name: image, label: Cover image URL, widget: string, required: false}
+      - {name: github, label: GitHub URL, widget: string, required: false}
+      - {name: demo, label: Demo URL, widget: string, required: false}
+      - {name: paper, label: Paper URL, widget: string, required: false}
+      - {name: featured, label: Featured, widget: boolean, default: false}
+      - {name: published, label: Public, widget: boolean, default: false}
+      - {name: order, label: Order, widget: number, value_type: int, default: 50}
+  - name: news
+    label: News
+    file: content/news.json
+    identifier_field: date
+    summary: '{{date}} {{title_en}}'
+    fields:
+      - {name: date, label: Date YYYY-MM, widget: string}
+      - {name: title_en, label: English, widget: text}
+      - {name: title_zh, label: Chinese, widget: text}
+      - {name: published, label: Public, widget: boolean, default: true}
