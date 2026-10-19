@@ -1,0 +1,58 @@
+{
+  "name_en": "Yu-Hsiang (Gule) Luo",
+  "name_zh": "羅榆翔 Yu-Hsiang Luo",
+  "short_name": "Gule Luo",
+  "role_en": "M.S. Student · Information Management",
+  "role_zh": "資訊管理研究所碩士生",
+  "affiliation_en": "National Yang Ming Chiao Tung University",
+  "affiliation_zh": "國立陽明交通大學",
+  "headline_en": "Building trustworthy AI that helps people stay in control.",
+  "headline_zh": "打造值得信任的 AI，讓人們保有自主與選擇的能力。",
+  "about_en": "I am a master's student in Information Management at National Yang Ming Chiao Tung University, Taiwan. My interests lie at the intersection of human-centered AI, autonomous agents, and trustworthy interaction.\n\nMy research explores how AI agents should behave when user intent is ambiguous: when to ask, when to confirm, and when to execute. Alongside research, I build software products and experimental systems to test these ideas.\n\nMy long-term goal is to develop AI that supports human agency and extends people's ability to live independently.",
+  "about_zh": "目前就讀國立陽明交通大學資訊管理研究所，關注以人為中心的 AI、自主代理系統，以及人機互動中的信任問題。\n\n我的研究探索當使用者意圖不完整時，AI Agent 應該何時詢問、何時確認，以及何時執行。我也透過實驗與軟體產品，把研究想法轉化成可測試的系統。\n\n長期希望打造能維持人類自主權、延長獨立生活能力的可信任 AI。",
+  "avatar": "https://avatars.githubusercontent.com/u/139859978?v=4",
+  "email": "",
+  "cv_url": "",
+  "interests": [
+    "Human-Centered AI",
+    "Trustworthy Agents",
+    "Human–AI Interaction",
+    "Independent Aging"
+  ],
+  "socials": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/Gule7309"
+    }
+  ],
+  "education": [
+    {
+      "institution_en": "National Yang Ming Chiao Tung University",
+      "institution_zh": "國立陽明交通大學",
+      "degree_en": "M.S. in Information Management",
+      "degree_zh": "資訊管理研究所碩士",
+      "period": "2026 – Present",
+      "details_en": "Human-Centered AI and trustworthy agent systems.",
+      "details_zh": "以人為中心的 AI 與可信任代理系統。"
+    },
+    {
+      "institution_en": "National Sun Yat-sen University",
+      "institution_zh": "國立中山大學",
+      "degree_en": "B.S. in Information Management",
+      "degree_zh": "資訊管理學系學士",
+      "period": "Graduated 2026",
+      "details_en": "",
+      "details_zh": ""
+    },
+    {
+      "institution_en": "University of Freiburg, Germany",
+      "institution_zh": "德國弗萊堡大學",
+      "degree_en": "Exchange Student",
+      "degree_zh": "交換學生",
+      "period": "2026",
+      "details_en": "International exchange semester.",
+      "details_zh": "國際交換學習。"
+    }
+  ],
+  "experience": []
+}
