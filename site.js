@@ -48,19 +48,8 @@ const url = (raw) => {
     return ['https:', 'mailto:'].includes(parsed.protocol) ? parsed.href : '';
   } catch (_) { return ''; }
 };
-const iconClasses = {
-  github: 'bi-github', linkedin: 'bi-linkedin', instagram: 'bi-instagram',
-  twitter: 'bi-twitter-x', x: 'bi-twitter-x', threads: 'bi-threads',
-  youtube: 'bi-youtube', scholar: 'bi-mortarboard', googlescholar: 'bi-mortarboard',
-  researchgate: 'bi-book', orcid: 'bi-person-vcard',
-  email: 'bi-envelope', cv: 'bi-file-earmark-pdf', resume: 'bi-file-earmark-pdf',
-  blog: 'bi-journal-text', website: 'bi-globe2', facebook: 'bi-facebook',
-  medium: 'bi-medium', portfolio: 'bi-globe2'
-};
-function getIcon(icon, label) {
-  const key = String(icon || label || '').toLowerCase().replace(/[\s_-]/g, '');
-  return iconClasses[key] || 'bi-box-arrow-up-right';
-}
+// Shared icons are auto-selected from the platform, label, or URL.
+function getIcon(iconName, label, href) { return PortfolioUI.socialIcon(iconName, label, href); }
 function icon(name) { return '<i class="bi ' + esc(name) + '" aria-hidden="true"></i>'; }
 function anchor(raw, label, cssClass, iconName) {
   const href = url(raw);
@@ -71,7 +60,7 @@ function anchor(raw, label, cssClass, iconName) {
     (iconName ? icon(iconName) : '') + '<span>' + esc(label) + '</span></a>';
 }
 function socialLink(link) {
-  return anchor(link.url, link.label, 'social-link', getIcon(link.icon, link.label));
+  return anchor(link.url, link.label, 'social-link', getIcon(link.icon, link.label, link.url));
 }
 function tags(list) {
   const values = Array.isArray(list) ? list : [];
@@ -101,6 +90,7 @@ function renderWorks(category) {
   const items = (database.works || []).filter((w) => w.published && w.category === category)
     .sort((a, b) => (a.order || 0) - (b.order || 0));
   return items.map((w) => {
+    const statusVariant = PortfolioUI.statusType(w);
     const hasImage = Boolean(url(w.image));
     const cover = hasImage ? renderImage(w.image, tr(w, 'title'), '') :
       '<small>GULE LAB / ' + esc(category) + '</small>' +
@@ -112,8 +102,9 @@ function renderWorks(category) {
       anchor(w.video_link, labels[language].video, '', 'bi-play-circle')
     ].filter(Boolean).join('');
     return '<article class="work"><div class="cover' + (hasImage ? ' has-image' : '') + '">' +
-      cover + '</div><div><span class="badge">' + esc(tr(w, 'status')) +
-      '</span><span class="year">' + esc(w.year || '') + '</span><h3>' +
+      cover + '</div><div><span class="badge status-badge status-badge--' + esc(statusVariant) + '">' +
+      icon(PortfolioUI.statusIcon(statusVariant)) + '<span>' + esc(tr(w, 'status')) +
+      '</span></span><span class="year">' + esc(w.year || '') + '</span><h3>' +
       esc(tr(w, 'title')) + '</h3><div class="subtitle">' + esc(tr(w, 'subtitle')) +
       '</div><p class="summary">' + esc(tr(w, 'summary')) + '</p>' + tags(w.tags) +
       (links ? '<div class="links work-extra-links">' + links + '</div>' : '') +
@@ -228,7 +219,7 @@ function render() {
     if (heading) heading.textContent = tr(database.personal, 'title');
   }
   const contacts = (p.email ? anchor('mailto:' + p.email, 'Email', '', 'bi-envelope') : '') +
-    (p.socials || []).map((s) => anchor(s.url, s.label, '', getIcon(s.icon, s.label))).join('') +
+    (p.socials || []).map((s) => anchor(s.url, s.label, '', getIcon(s.icon, s.label, s.url))).join('') +
     (p.cv_url ? anchor(p.cv_url, t.cv, '', 'bi-file-earmark-pdf') : '');
   section('contact', '<p class="hint">' + t.contactNote + '</p><div class="contactlinks">' +
     contacts + '</div>');
