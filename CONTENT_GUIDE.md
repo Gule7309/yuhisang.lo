@@ -36,9 +36,27 @@ For each entry under **Research and Projects**:
 
 If media URLs are empty, the website displays typographic project covers instead of fabricated screenshots or broken buttons.
 
+## Status colors for new projects
+
+Open **Research and Projects** in the CMS, create or edit an entry, and fill in the bilingual status labels. The new **Status color / 狀態顏色** dropdown controls its color and associated status icon:
+
+| CMS stage | Visual | Example |
+| --- | --- | --- |
+| Exploration | Muted amber | Prototype exploration / 原型探索中 |
+| Active development | Muted teal | Active prototype / 持續開發中的原型 |
+| Testing | Muted indigo | Internal testing / 內部測試中 |
+| Prototype | Muted blue | General prototype |
+| Research | Blue | Research in progress |
+| Proposal | Violet | Research proposal |
+| Released | Green | Released |
+| Paused | Gray | On hold |
+| Auto (default) | Inferred from EN/ZH labels; neutral fallback when unknown | Future projects |
+
+The status **text remains authoritative**: color is a visual aid, never evidence that a product is released or that research is accepted. New entries with an unrecognized label still display a generic icon and neutral badge.
+
 ## Social and professional icons
 
-The sidebar detects common labels and also supports an **Icon** dropdown in the CMS: GitHub, LinkedIn, Instagram, X, Threads, YouTube, Google Scholar, ORCID, Email, CV, Blog, and more. The matching Bootstrap icon is placed beside the label. Missing accounts are never invented.
+Every new social link displays an icon. The site first respects a selected **Icon** in the CMS; when set to **Auto** or left empty, it recognizes common platform names or URL domains (GitHub, LinkedIn, X, Instagram, YouTube, Google Scholar, ORCID, Discord, Substack, etc.). Unknown platforms use a generic link icon. No new code is required for supported platforms; unsupported platforms can be added to the mapping later. Missing accounts are never invented.
 
 **Current known public links:** GitHub, LinkedIn, Instagram. To add X, Google Scholar, or ORCID, use the real profile URL only when ready.
 
