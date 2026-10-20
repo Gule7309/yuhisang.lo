@@ -50,3 +50,6 @@
 @media(max-width:1050px){.top{gap:16px}nav{gap:13px}nav a{font-size:11.8px}}
 @media(max-width:680px){.top{gap:8px 14px}nav{gap:19px}.photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.credential{grid-template-columns:1fr 45px}.work-images a{width:75px;height:54px}.socials{gap:10px 17px}.socials a{font-size:12px}.cv-link{width:fit-content}}
 @media(prefers-reduced-motion:reduce){.socials .bi,.work-images img{transition:none}}
+
+.cover.has-image{padding:0}
+.cover.has-image img{width:100%;height:100%;object-fit:cover}
