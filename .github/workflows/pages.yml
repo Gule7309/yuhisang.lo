@@ -18,12 +18,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test UI states and icons
+        run: node --test tests/*.test.cjs
       - uses: actions/configure-pages@v5
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Install CV rendering dependency
-        run: python -m pip install 'reportlab>=4.2,<5'
+        run: python -m pip install 'reportlab>=4.2,<5' 'PyYAML>=6,<7'
+      - name: Validate CMS schema
+        run: |
+          python -c "import yaml; d=yaml.safe_load(open('admin/config.yml', encoding='utf-8')); assert len(d['collections']) >= 6, 'Missing CMS collections'; assert not any(k == 'name' for k in d), 'CMS collections must be nested'"
       - name: Generate public CV from CMS data
         run: python scripts/generate_cv.py
       - uses: actions/upload-pages-artifact@v3
