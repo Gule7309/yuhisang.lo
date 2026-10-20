@@ -56,6 +56,6 @@ test('site loads status utilities before use; current project metadata is valid'
   const works = JSON.parse(fs.readFileSync(path.join(root,'content/works.json'),'utf8'));
   for (const entry of works) {
     const kind=statusType(entry);
-    assert.match(css,new RegExp('status-badge--'+kind+'\\\\s*\\\\{'));
+    assert.ok(css.includes('.status-badge--' + kind + ' {'));
   }
 });
