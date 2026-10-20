@@ -221,7 +221,12 @@ function render() {
   section('writing', articles ? '<p class="section-eyebrow">' + t.writingNote + '</p>' + articles : '');
   const awards = achievements();
   section('achievements', awards ? '<p class="section-eyebrow">' + t.achievementNote + '</p>' + awards : '');
-  section('personal', personal());
+  const personalContent = personal();
+  section('personal', personalContent);
+  if (personalContent && database.personal && tr(database.personal, 'title')) {
+    const heading = document.querySelector('#personal h2');
+    if (heading) heading.textContent = tr(database.personal, 'title');
+  }
   const contacts = (p.email ? anchor('mailto:' + p.email, 'Email', '', 'bi-envelope') : '') +
     (p.socials || []).map((s) => anchor(s.url, s.label, '', getIcon(s.icon, s.label))).join('') +
     (p.cv_url ? anchor(p.cv_url, t.cv, '', 'bi-file-earmark-pdf') : '');
