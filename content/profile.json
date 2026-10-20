@@ -12,7 +12,7 @@
   "about_zh": "目前就讀國立陽明交通大學資訊管理研究所，關注以人為中心的 AI、自主代理系統，以及人機互動中的信任問題。\n\n我的研究探索當使用者意圖不完整時，AI Agent 應該何時詢問、何時確認，以及何時執行。我也透過實驗與軟體產品，把研究想法轉化成可測試的系統。\n\n長期希望打造能維持人類自主權、延長獨立生活能力的可信任 AI。",
   "avatar": "https://avatars.githubusercontent.com/u/139859978?v=4",
   "email": "",
-  "cv_url": "https://gule7309.github.io/yuhisang.lo/assets/cv/Yu-Hsiang_Luo_CV.pdf",
+  "cv_url": "https://gule7309.github.io/yuhisang.lo/assets/generated-cv/Yu-Hsiang_Luo_CV.pdf",
   "interests": [
     "Human-Centered AI",
     "Trustworthy Agents",
@@ -72,8 +72,8 @@
       "role_en": "GenAI Implementation Intern",
       "role_zh": "GenAI 導入實習生",
       "period": "Jul–Aug 2025",
-      "details_en": "Supported internal adoption of generative AI and explored workflow automation. Specific impact metrics are omitted until independently verified.",
-      "details_zh": "協助公司導入生成式 AI 並探索工作流程自動化；具體成效數字待核實後再公開。",
+      "details_en": "Supported generative AI adoption and workflow automation in an enterprise environment.",
+      "details_zh": "協助企業導入生成式 AI，並探索日常工作流程的自動化。",
       "published": true
     },
     {
