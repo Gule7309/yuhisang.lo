@@ -24,7 +24,8 @@
     "published": true,
     "order": 10,
     "gallery": [],
-    "video_link": ""
+    "video_link": "",
+    "status_type": "research"
   },
   {
     "slug": "authority-aware-agents",
@@ -51,7 +52,8 @@
     "published": true,
     "order": 20,
     "gallery": [],
-    "video_link": ""
+    "video_link": "",
+    "status_type": "proposal"
   },
   {
     "slug": "trading-radar",
@@ -78,7 +80,8 @@
     "published": true,
     "order": 10,
     "gallery": [],
-    "video_link": ""
+    "video_link": "",
+    "status_type": "prototype"
   },
   {
     "slug": "vr-dementia",
@@ -105,7 +108,8 @@
     "published": true,
     "order": 20,
     "gallery": [],
-    "video_link": ""
+    "video_link": "",
+    "status_type": "exploration"
   },
   {
     "slug": "pixelfit",
@@ -132,7 +136,8 @@
     "video_link": "",
     "featured": true,
     "published": true,
-    "order": 5
+    "order": 5,
+    "status_type": "testing"
   },
   {
     "slug": "tavi",
@@ -160,7 +165,8 @@
     "video_link": "",
     "featured": true,
     "published": true,
-    "order": 15
+    "order": 15,
+    "status_type": "active"
   },
   {
     "slug": "gptl",
@@ -187,6 +193,7 @@
     "video_link": "",
     "featured": false,
     "published": true,
-    "order": 25
+    "order": 25,
+    "status_type": "exploration"
   }
 ]
