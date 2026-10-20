@@ -1,0 +1,28 @@
+[
+  {
+    "slug": "toefl-ibt-99",
+    "type": "certification",
+    "title_en": "TOEFL iBT — 99",
+    "title_zh": "TOEFL iBT — 99 分",
+    "year": "2026",
+    "issuer": "ETS",
+    "details_en": "English proficiency test score.",
+    "details_zh": "英語能力測驗成績。",
+    "evidence_url": "",
+    "published": true,
+    "order": 10
+  },
+  {
+    "slug": "toeic-895",
+    "type": "certification",
+    "title_en": "TOEIC — 895",
+    "title_zh": "TOEIC — 895 分",
+    "year": "2026",
+    "issuer": "ETS",
+    "details_en": "English proficiency test score.",
+    "details_zh": "英語能力測驗成績。",
+    "evidence_url": "",
+    "published": true,
+    "order": 20
+  }
+]
