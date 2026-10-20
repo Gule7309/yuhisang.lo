@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "asking-before-acting",
+    "date": "2026-10",
+    "type": "Research Note",
+    "title_en": "When Should a Tool-Using Agent Ask First?",
+    "title_zh": "工具型 Agent 何時應該先問？",
+    "summary_en": "A working note on why clarifying intent, confirming authority, and executing an action are different decisions.",
+    "summary_zh": "思考為什麼澄清意圖、確認授權與執行動作是三種不同決策。",
+    "body_en": "A useful AI agent should do more than complete tasks. It should also recognize what the user has—and has not—authorized. When the user’s intent is ambiguous, executing quickly can hide a transfer of control. My current research direction treats clarify, confirm, and execute as separate choices rather than a single confidence threshold.\n\nA good evaluation therefore needs to ask not only whether the task was completed, but whether the user retained meaningful agency and could recover after a misunderstanding. These are open research questions, not empirical findings.",
+    "body_zh": "有用的 AI Agent 不只是把事情做完，也要知道使用者實際授權了什麼、尚未授權什麼。當意圖不清楚時，快速執行有可能掩蓋了控制權的轉移。因此，我目前把「澄清」、「確認」與「執行」視為三種不同的決策，而不是只根據一個信心分數判斷。\n\n評估時也不能只看任務有沒有完成，還應該關注使用者是否保有自主性，以及誤解發生後能不能恢復。這些都是正在探索的研究問題，尚非實驗結論。",
+    "related_url": "https://github.com/Gule7309/When2ask",
+    "published": true,
+    "order": 10
+  },
+  {
+    "slug": "missing-hypothesis",
+    "date": "2026-10",
+    "type": "Research Note",
+    "title_en": "Confidence Within the Wrong Candidate Set",
+    "title_zh": "候選集合錯了，信心分數還有意義嗎？",
+    "summary_en": "Exploring a weakness in structured uncertainty: a model may be confident among options that omit the correct action.",
+    "summary_zh": "探索結構化不確定性的一個盲點：當正確答案不在候選集合中，Agent 可能仍然很有信心。",
+    "body_en": "Many tool-using agents first generate a small set of possible interpretations and then estimate uncertainty across them. But what if the intended tool call never enters that set? The model can be internally certain while still being wrong about what the user meant.\n\nIn When2ask, I am studying this candidate-set incompleteness with matched interventions: natural candidates, an oracle-complete set, and a forced-miss set. The current repository documents the planned stress tests and instrumented steps. It does not yet establish improved accuracy or reduced clarification burden.",
+    "body_zh": "許多工具型 Agent 會先生成幾個可能的意圖，再計算這些候選意圖之間的不確定性。但如果真正正確的工具呼叫根本沒有進入候選集合呢？模型可能對「已考慮的選項」很有信心，卻仍然誤解使用者。\n\n在 When2ask 中，我以自然候選集合、補入正確候選的集合、以及刻意移除正確候選的集合進行對照，研究候選集合不完整造成的影響。目前 Repository 描述的是實驗計畫和機制重建，尚未能宣稱改善準確率或減少澄清次數。",
+    "related_url": "https://github.com/Gule7309/When2ask",
+    "published": true,
+    "order": 20
+  }
+]
