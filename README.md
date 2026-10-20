@@ -1,39 +1,51 @@
 # Gule Luo — Research & Engineering Portfolio
 
-A bilingual academic-style personal website with a Git-based content management system.
+A bilingual, academic-minimalist personal website for Yu-Hsiang (Gule) Luo, with a Git-based content-management interface.
 
-## Public site
+**Website:** https://gule7309.github.io/yuhisang.lo/  
+**CMS:** https://gule7309.github.io/yuhisang.lo/admin/  
+**Detailed editing guide:** [CONTENT_GUIDE.md](CONTENT_GUIDE.md)
 
-After GitHub Pages deployment is enabled: https://gule7309.github.io/yuhisang.lo/
+## Features
 
-## Admin
+- English / Traditional Chinese, responsive academic researcher layout
+- About, Research, Projects, Experience, Education and News
+- Writing & Research Notes (expandable bilingual essays)
+- Awards & Credentials with optional evidence links
+- Personal introduction and optional photography gallery
+- Recognizable icons for GitHub, LinkedIn, Instagram, X, Google Scholar, ORCID, Email, and more
+- Multiple real screenshots, demo/video links, technical tags and publication status per project
+- Public English CV PDF auto-generated from editorial content via GitHub Actions
 
-Once the site is live, open https://gule7309.github.io/yuhisang.lo/admin/ .
+## Editing the website
 
-The admin uses Sveltia CMS with GitHub. Sign in with a **fine-grained personal access token** restricted to **this repository**, granting **Contents: read and write**. Never put your token in Git, a chat, or public documentation. Save edits in the admin panel to commit the updated content to GitHub. Deployment reruns when the main branch is updated.
+Open **/admin/** and sign in using a GitHub fine-grained personal access token restricted to **Gule7309/yuhisang.lo** with **Contents: Read and write**. Do not share the token. The Sveltia CMS editor directly changes content files on the repository's `main` branch. A GitHub Pages workflow publishes updates automatically.
 
-- `content/profile.json`: introduction, research interests, biography, school history, public contact information.
-- `content/works.json`: research and engineering entries, summaries, tags, order, visibility and links.
-- `content/news.json`: dated updates.
-- Change `published` to false to hide an entry on the website (but **not** in the public GitHub repository).
-- English and Traditional Chinese use the same structured content; click **EN** or **中文** on the website to switch.
+| Content | Source |
+| --- | --- |
+| Profile / Education / Experience / Social icons / CV | `content/profile.json` |
+| Research / Projects / Screenshot galleries | `content/works.json` |
+| News | `content/news.json` |
+| Writing / Research Notes | `content/writing.json` |
+| Awards / Certifications | `content/achievements.json` |
+| Photography / Personal | `content/personal.json` |
 
-## Enable GitHub Pages
+The `published` boolean controls visibility on the *website only*. The repository itself is **public**; hidden entries are still publicly accessible as JSON and Git history. Do not add private drafts, confidential work, private credentials or unapproved screenshots.
 
-In repository **Settings → Pages**, select **Source: GitHub Actions**. Then inspect **Actions → Publish portfolio**. The workflow uploads the static site and publishes to the project's `/yuhisang.lo/` path; no build dependencies or database are necessary.
+## Curriculum Vitae
 
-If the Sveltia CMS editor cannot load, first check whether the CMS CDN is reachable and that GitHub sign-in is configured appropriately. The admin has not been browser-tested with a live GitHub token.
+The GitHub Pages workflow runs `scripts/generate_cv.py`, producing an English CV at `assets/generated-cv/Yu-Hsiang_Luo_CV.pdf` from the publicly editable JSON data. The PDF is regenerated on every deployment. The generator intentionally omits personal phone number, street address and unverified paper/award claims.
 
-## Editorial checklist
+To use a custom-designed CV instead, upload the PDF in CMS under **Profile and Links → Public CV PDF**. The PDF will be stored in `assets/cv/`; saving updates `profile.cv_url` so the website uses the custom file.
 
-Shipped public entries: When2ask, Authority-Aware Agents research direction, Trading Radar, VR Dementia experimental toolkit. All are labeled as in-progress/prototype as appropriate; no unverified papers, awards or clinical claims.
+## Deployment
 
-Next content candidates: PixelFit, Tavi, GPTL, selected experience and CV. Confirm disclosure permission and exact responsibilities before publishing. Add a suitable portrait and project screenshots rather than fabricated visuals.
+GitHub Actions runs `.github/workflows/pages.yml` when `main` changes and publishes GitHub Pages. It installs ReportLab, generates the public CV and uploads the static website directory. GitHub Pages must be enabled with **Source: GitHub Actions**.
 
-## Technical notes
+## Accuracy
 
-This project uses plain HTML, CSS, JavaScript and JSON. No application server or package manager is required. The layout is independently implemented, inspired by the restrained academic portfolio approach at https://ming053l.github.io/ . Content is escaped on rendering, and external links are limited to HTTPS/mailto URLs. GitHub Pages is the deployment target.
+Research-in-progress entries are not presented as peer-reviewed publications. Product prototypes and internal testing builds are not claimed to be released. Awards require verifiable details before they are published. External professional links are only added when the owner supplies a real account URL.
 
-## Security
+## Architecture
 
-This is a public repository. Do not commit private drafts, credentials, confidential employer data or personal identifiers. A hidden `published:false` entry is still public in Git history.
+Plain static HTML/CSS/JavaScript and JSON; no application database, deployment API keys or server needed. Sveltia CMS is a separate static admin interface backed by GitHub. Bootstrap Icons supply accessible, recognizable social icon graphics; link labels remain readable without the icon CDN.
