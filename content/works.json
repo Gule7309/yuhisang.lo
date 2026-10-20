@@ -22,7 +22,9 @@
     "paper": "",
     "featured": true,
     "published": true,
-    "order": 10
+    "order": 10,
+    "gallery": [],
+    "video_link": ""
   },
   {
     "slug": "authority-aware-agents",
@@ -47,7 +49,9 @@
     "paper": "",
     "featured": true,
     "published": true,
-    "order": 20
+    "order": 20,
+    "gallery": [],
+    "video_link": ""
   },
   {
     "slug": "trading-radar",
@@ -72,7 +76,9 @@
     "paper": "",
     "featured": true,
     "published": true,
-    "order": 10
+    "order": 10,
+    "gallery": [],
+    "video_link": ""
   },
   {
     "slug": "vr-dementia",
@@ -97,6 +103,90 @@
     "paper": "",
     "featured": false,
     "published": true,
-    "order": 20
+    "order": 20,
+    "gallery": [],
+    "video_link": ""
+  },
+  {
+    "slug": "pixelfit",
+    "category": "project",
+    "title_en": "PixelFit — Android Fitness Companion",
+    "title_zh": "PixelFit — Android 健身紀錄產品",
+    "subtitle_en": "Independent product · Mobile app",
+    "subtitle_zh": "獨立產品 · Android App",
+    "summary_en": "An Android fitness product focused on useful workout tracking and an intuitive everyday experience. An internal testing build is available; public release and results are not claimed.",
+    "summary_zh": "著重訓練紀錄與日常使用體驗的 Android 健身產品，已有內部測試版本，尚未宣稱公開上架或正式營運成果。",
+    "year": "2026",
+    "status_en": "Internal testing",
+    "status_zh": "內部測試中",
+    "tags": [
+      "Android",
+      "Product Engineering",
+      "Fitness"
+    ],
+    "image": "",
+    "gallery": [],
+    "github": "",
+    "demo": "",
+    "paper": "",
+    "video_link": "",
+    "featured": true,
+    "published": true,
+    "order": 5
+  },
+  {
+    "slug": "tavi",
+    "category": "project",
+    "title_en": "Tavi — Calm Adaptive Travel Companion",
+    "title_zh": "Tavi — 以使用者自主為核心的旅行助理",
+    "subtitle_en": "Mobile-first travel planning · Expo / React Native",
+    "subtitle_zh": "行動優先旅行規劃 · Expo / React Native",
+    "summary_en": "A mobile-first travel companion that keeps the next action clear, protects existing commitments, and helps users review uncertain changes before confirming them.",
+    "summary_zh": "以旅途中下一步行動為核心的旅行助理，強調保護既定安排、清楚呈現不確定資訊，並讓使用者確認重要變更。",
+    "year": "2026",
+    "status_en": "Active prototype",
+    "status_zh": "持續開發中的原型",
+    "tags": [
+      "Expo",
+      "React Native",
+      "TypeScript",
+      "Human-AI Interaction"
+    ],
+    "image": "",
+    "gallery": [],
+    "github": "",
+    "demo": "",
+    "paper": "",
+    "video_link": "",
+    "featured": true,
+    "published": true,
+    "order": 15
+  },
+  {
+    "slug": "gptl",
+    "category": "project",
+    "title_en": "GPTL — A Global Restroom Atlas",
+    "title_zh": "GPTL — 全球廁所探索地圖",
+    "subtitle_en": "Independent product concept · Mobile-first map",
+    "subtitle_zh": "獨立產品原型 · 行動地圖",
+    "summary_en": "A mobile-first place discovery experiment built around community-submitted restroom locations, ambience and quality signals, and a personal globe-style atlas.",
+    "summary_zh": "結合全球廁所投稿、氛圍與品質資訊，以及個人地球儀足跡的行動優先地圖產品原型。",
+    "year": "2026",
+    "status_en": "Prototype exploration",
+    "status_zh": "原型探索中",
+    "tags": [
+      "Product Design",
+      "Maps",
+      "Community"
+    ],
+    "image": "",
+    "gallery": [],
+    "github": "",
+    "demo": "",
+    "paper": "",
+    "video_link": "",
+    "featured": false,
+    "published": true,
+    "order": 25
   }
 ]
