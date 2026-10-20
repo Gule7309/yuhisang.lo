@@ -51,10 +51,11 @@ collections:
               - {name: label, label: Name, widget: string}
               - {name: url, label: URL, widget: string}
               - name: icon
-                label: Icon
+                label: Icon (optional / 可留空自動偵測)
+                hint: New links automatically get a matching icon from their platform URL or label. Other sites get a generic link icon.
                 widget: select
                 required: false
-                options: [github, linkedin, instagram, x, threads, youtube, scholar, orcid, email, cv, blog, website, facebook, medium, link]
+                options: [auto, github, gitlab, linkedin, instagram, x, threads, youtube, scholar, orcid, email, cv, blog, substack, notion, website, facebook, medium, discord, telegram, tiktok, reddit, twitch, behance, dribbble, stackoverflow, researchgate, link]
           - name: education
             label: Education
             widget: list
@@ -95,6 +96,23 @@ collections:
       - {name: summary_zh, label: Summary Chinese, widget: text}
       - {name: status_en, label: Status English, widget: string}
       - {name: status_zh, label: Status Chinese, widget: string}
+      - name: status_type
+        label: Status color / 狀態顏色
+        hint: Choose the project stage for a consistent badge; Auto recognizes common English and Chinese labels.
+        widget: select
+        required: false
+        default: auto
+        options:
+          - {label: Auto (from status text), value: auto}
+          - {label: Exploration / 探索（暖黃色）, value: exploration}
+          - {label: Active development / 持續開發（青綠色）, value: active}
+          - {label: Testing / 測試（紫色）, value: testing}
+          - {label: Prototype / 原型（藍色）, value: prototype}
+          - {label: Research in progress / 研究中（藍色）, value: research}
+          - {label: Proposal / 提案（淡紫色）, value: proposal}
+          - {label: Released / 已上線（綠色）, value: released}
+          - {label: Paused / 暫停（灰色）, value: paused}
+          - {label: Other / 其他（中性）, value: default}
       - {name: year, label: Year, widget: string}
       - {name: tags, label: Tags, widget: list, required: false}
       - {name: image, label: Cover image, widget: image, required: false}
@@ -123,7 +141,7 @@ collections:
       - {name: title_en, label: English, widget: text}
       - {name: title_zh, label: Chinese, widget: text}
       - {name: published, label: Public, widget: boolean, default: true}
-- name: writing
+  - name: writing
     label: Writing & Research Notes
     label_singular: Note
     file: content/writing.json
