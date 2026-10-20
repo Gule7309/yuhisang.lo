@@ -6,14 +6,18 @@ backend:
 app_title: Gule Luo Portfolio CMS
 site_url: https://gule7309.github.io/yuhisang.lo/
 display_url: https://gule7309.github.io/yuhisang.lo/
-media_folder: assets/uploads
-public_folder: assets/uploads
+media_folder: /assets/uploads
+public_folder: /yuhisang.lo/assets/uploads
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
 collections:
   - name: profile
-    label: Profile and Education
+    label: Profile, Education and Experience
     files:
       - name: profile
-        label: Profile
+        label: Profile and Links
         file: content/profile.json
         format: json
         fields:
@@ -28,12 +32,13 @@ collections:
           - {name: headline_zh, label: Headline Chinese, widget: string}
           - {name: about_en, label: About English, widget: text}
           - {name: about_zh, label: About Chinese, widget: text}
-          - {name: avatar, label: Avatar URL, widget: string, required: false}
+          - {name: avatar, label: Profile photo, widget: image, required: false}
           - {name: email, label: Public email, widget: string, required: false}
           - {name: cv_url, label: CV URL, widget: string, required: false}
           - {name: interests, label: Research interests, widget: list, required: false}
           - name: socials
-            label: Links
+            label: Social and professional links
+            hint: Prefer GitHub, LinkedIn, Email, CV; add X or Instagram only if intended for public visitors.
             widget: list
             required: false
             fields:
@@ -81,7 +86,7 @@ collections:
       - {name: status_zh, label: Status Chinese, widget: string}
       - {name: year, label: Year, widget: string}
       - {name: tags, label: Tags, widget: list, required: false}
-      - {name: image, label: Cover image URL, widget: string, required: false}
+      - {name: image, label: Cover image, widget: image, required: false}
       - {name: github, label: GitHub URL, widget: string, required: false}
       - {name: demo, label: Demo URL, widget: string, required: false}
       - {name: paper, label: Paper URL, widget: string, required: false}
