@@ -19,6 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install CV rendering dependency
+        run: python -m pip install 'reportlab>=4.2,<5'
+      - name: Generate public CV from CMS data
+        run: python scripts/generate_cv.py
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
