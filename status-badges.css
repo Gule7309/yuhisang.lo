@@ -1,0 +1,74 @@
+/* Academic portfolio: meaningful status colors, intentionally muted. */
+.badge.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 6px;
+  border: 1px solid var(--status-border, #DFE6EC);
+  background: var(--status-bg, #F4F7F9);
+  color: var(--status-fg, #536477);
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.005em;
+  vertical-align: middle;
+}
+.status-badge .bi {
+  display: inline-block;
+  flex-shrink: 0;
+  font-size: 11px;
+  line-height: 1;
+}
+.status-badge--exploration {
+  --status-bg: #FFF5E5;
+  --status-fg: #8D550C;
+  --status-border: #F3DCB7;
+}
+.status-badge--active {
+  --status-bg: #E7F7F2;
+  --status-fg: #116354;
+  --status-border: #C6E7DA;
+}
+.status-badge--testing {
+  --status-bg: #F0EEFF;
+  --status-fg: #5145A2;
+  --status-border: #DDD6FD;
+}
+.status-badge--prototype {
+  --status-bg: #EDF4FA;
+  --status-fg: #2E5D84;
+  --status-border: #D1E1F0;
+}
+.status-badge--research {
+  --status-bg: #EAF2FB;
+  --status-fg: #2A5F95;
+  --status-border: #CEDFF1;
+}
+.status-badge--proposal {
+  --status-bg: #F5EFFB;
+  --status-fg: #72538B;
+  --status-border: #E7D8F3;
+}
+.status-badge--released {
+  --status-bg: #E9F7EE;
+  --status-fg: #256940;
+  --status-border: #C8E9D1;
+}
+.status-badge--paused {
+  --status-bg: #F2F4F6;
+  --status-fg: #626872;
+  --status-border: #DFE3E8;
+}
+.status-badge--default {
+  --status-bg: #F4F7F9;
+  --status-fg: #536477;
+  --status-border: #DFE6EC;
+}
+/* Existing Bootstrap icons also label actions for newly added projects. */
+.work-extra-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.work-extra-links .bi { font-size: 12px; }
