@@ -34,7 +34,13 @@ collections:
           - {name: about_zh, label: About Chinese, widget: text}
           - {name: avatar, label: Profile photo, widget: image, required: false}
           - {name: email, label: Public email, widget: string, required: false}
-          - {name: cv_url, label: CV URL, widget: string, required: false}
+          - name: cv_url
+            label: Public CV PDF (upload or URL)
+            widget: file
+            accept: application/pdf,.pdf
+            required: false
+            media_folder: /assets/cv
+            public_folder: /yuhisang.lo/assets/cv
           - {name: interests, label: Research interests, widget: list, required: false}
           - name: socials
             label: Social and professional links
@@ -44,6 +50,11 @@ collections:
             fields:
               - {name: label, label: Name, widget: string}
               - {name: url, label: URL, widget: string}
+              - name: icon
+                label: Icon
+                widget: select
+                required: false
+                options: [github, linkedin, instagram, x, threads, youtube, scholar, orcid, email, cv, blog, website, facebook, medium, link]
           - name: education
             label: Education
             widget: list
@@ -87,8 +98,17 @@ collections:
       - {name: year, label: Year, widget: string}
       - {name: tags, label: Tags, widget: list, required: false}
       - {name: image, label: Cover image, widget: image, required: false}
+      - name: gallery
+        label: Real screenshots (optional)
+        widget: list
+        required: false
+        fields:
+          - {name: image, label: Screenshot, widget: image}
+          - {name: caption_en, label: Caption English, widget: string, required: false}
+          - {name: caption_zh, label: Caption Chinese, widget: string, required: false}
       - {name: github, label: GitHub URL, widget: string, required: false}
       - {name: demo, label: Demo URL, widget: string, required: false}
+      - {name: video_link, label: Public demo video URL, widget: string, required: false}
       - {name: paper, label: Paper URL, widget: string, required: false}
       - {name: featured, label: Featured, widget: boolean, default: false}
       - {name: published, label: Public, widget: boolean, default: false}
@@ -103,3 +123,61 @@ collections:
       - {name: title_en, label: English, widget: text}
       - {name: title_zh, label: Chinese, widget: text}
       - {name: published, label: Public, widget: boolean, default: true}
+- name: writing
+    label: Writing & Research Notes
+    label_singular: Note
+    file: content/writing.json
+    identifier_field: slug
+    summary: '{{title_en}}'
+    fields:
+      - {name: slug, label: Unique ID, widget: string}
+      - {name: date, label: Date (YYYY-MM), widget: string}
+      - {name: type, label: Type, widget: select, options: [Research Note, Technical Article, Reflection]}
+      - {name: title_en, label: Title English, widget: string}
+      - {name: title_zh, label: Title Chinese, widget: string}
+      - {name: summary_en, label: Summary English, widget: text}
+      - {name: summary_zh, label: Summary Chinese, widget: text}
+      - {name: body_en, label: Note English, widget: text}
+      - {name: body_zh, label: Note Chinese, widget: text}
+      - {name: related_url, label: Related resource URL, widget: string, required: false}
+      - {name: published, label: Public, widget: boolean, default: false}
+      - {name: order, label: Display Order, widget: number, value_type: int, default: 50}
+  - name: achievements
+    label: Awards & Credentials
+    label_singular: Achievement
+    file: content/achievements.json
+    identifier_field: slug
+    summary: '{{title_en}}'
+    fields:
+      - {name: slug, label: Unique ID, widget: string}
+      - {name: type, label: Type, widget: select, options: [award, certification, achievement]}
+      - {name: title_en, label: Title English, widget: string}
+      - {name: title_zh, label: Title Chinese, widget: string}
+      - {name: year, label: Year, widget: string}
+      - {name: issuer, label: Issuer, widget: string, required: false}
+      - {name: details_en, label: Details English, widget: text, required: false}
+      - {name: details_zh, label: Details Chinese, widget: text, required: false}
+      - {name: evidence_url, label: Public evidence URL, widget: string, required: false}
+      - {name: published, label: Public, widget: boolean, default: false}
+      - {name: order, label: Display Order, widget: number, value_type: int, default: 50}
+  - name: personal
+    label: Beyond Research & Photography
+    files:
+      - name: personal
+        label: Personal Introduction & Photo Gallery
+        file: content/personal.json
+        format: json
+        fields:
+          - {name: published, label: Show personal section, widget: boolean, default: true}
+          - {name: title_en, label: Section title English, widget: string}
+          - {name: title_zh, label: Section title Chinese, widget: string}
+          - {name: about_en, label: Personal introduction English, widget: text}
+          - {name: about_zh, label: Personal introduction Chinese, widget: text}
+          - name: photos
+            label: Photography gallery
+            widget: list
+            required: false
+            fields:
+              - {name: image, label: Photo, widget: image}
+              - {name: caption_en, label: Caption English, widget: string, required: false}
+              - {name: caption_zh, label: Caption Chinese, widget: string, required: false}
