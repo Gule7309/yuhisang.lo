@@ -27,13 +27,18 @@ jobs:
           python -c "import yaml; d=yaml.safe_load(open('admin/config.yml', encoding='utf-8')); assert len(d['collections']) >= 6"
       - name: Compile and build static project pages
         run: |
-          python -m py_compile scripts/build_project_pages.py
+          python -m py_compile scripts/build_project_pages.py scripts/build_research_pages.py
           python scripts/build_project_pages.py
-      - name: Run product generator tests
-        run: python -m unittest discover -s tests -p 'test_project_pages.py' -v
+          python scripts/build_research_pages.py
+      - name: Run product and research generator tests
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
       - name: Check generated localized routes
         run: |
           test -f projects/pixelfit/index.html
           test -f zh/projects/tavi/index.html
           test -f projects/index.html
+          test -f research/index.html
+          test -f zh/research/index.html
+          test -f research/when2ask/index.html
+          test -f zh/research/authority-aware-agents/index.html
           test -f sitemap.xml
