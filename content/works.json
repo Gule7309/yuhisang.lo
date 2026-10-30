@@ -81,7 +81,17 @@
     "order": 10,
     "gallery": [],
     "video_link": "",
-    "status_type": "prototype"
+    "status_type": "prototype",
+    "role_en": "Agent and evidence-oriented research workflow design",
+    "role_zh": "Agent 與證據驗證研究流程設計",
+    "challenge_en": "Retail investors often need to move between fragmented disclosures and reports. Research assistants should make their sources traceable, surface risk and avoid turning unsupported outputs into investment recommendations.",
+    "challenge_zh": "自主投資研究常需要在分散的公告、報表和資料來源之間切換。研究助理應讓證據可以追溯、揭露風險，避免把無依據的輸出當成投資建議。",
+    "approach_en": "A Taiwan-market research prototype combining official-market data ingestion with an agent research and verification workflow. The repository documents a front-end workbench and a separate Agent/Evidence module.",
+    "approach_zh": "以臺灣市場官方資料匯入為基礎，搭配 Agent 研究與證據驗證流程。Repository 包含前端研究工作台，以及獨立的 Agent／Evidence 模組。",
+    "outcome_en": "The repository documents a research workbench and implementation scope. Neither investment performance nor production reliability is claimed.",
+    "outcome_zh": "Repository 已整理研究工作台與實作範圍；尚未宣稱投資績效或正式營運可靠性。",
+    "next_steps_en": "Integrate research outputs with traceable evidence, explicit risk checks and an evaluable thesis-tracking workflow.",
+    "next_steps_zh": "持續整合可追溯的研究證據、明確的風險檢查，以及能評估的投資論點追蹤流程。"
   },
   {
     "slug": "vr-dementia",
@@ -137,7 +147,17 @@
     "featured": true,
     "published": true,
     "order": 5,
-    "status_type": "testing"
+    "status_type": "testing",
+    "role_en": "Independent product design and Android development",
+    "role_zh": "獨立產品規劃與 Android 開發",
+    "challenge_en": "Fitness tracking only helps when it is practical to use repeatedly. This product explores a simpler way to record training and understand progress without adding unnecessary interaction costs.",
+    "challenge_zh": "健身紀錄只有在能持續使用時才有價值。PixelFit 探索如何降低記錄訓練與回顧進度的操作負擔。",
+    "approach_en": "Build a focused Android experience, test it on a real phone, and iterate on the interaction flow and data foundation. Work is currently concentrated on internal testing and product readiness.",
+    "approach_zh": "以 Android App 實作核心體驗，在實機上進行內部測試，並持續整理資料基礎與操作流程。目前重點是內測與產品發布準備。",
+    "outcome_en": "An internal-testing build is installed on a phone. No public launch, revenue, or user-growth results are claimed.",
+    "outcome_zh": "已有安裝在手機上的內部測試版本；尚未宣稱公開上架、營收或使用者成長成果。",
+    "next_steps_en": "Validate internal test feedback, improve core reliability and decide which features belong in a first public release.",
+    "next_steps_zh": "整理內測回饋、改善核心可靠性，並確認第一個公開版本所需的功能與品質門檻。"
   },
   {
     "slug": "tavi",
@@ -166,7 +186,17 @@
     "featured": true,
     "published": true,
     "order": 15,
-    "status_type": "active"
+    "status_type": "active",
+    "role_en": "Product concept, interaction architecture and engineering prototype",
+    "role_zh": "產品構想、互動架構與工程原型開發",
+    "challenge_en": "Travel plans become difficult to follow when a delay or disruption changes what happens next. A helpful assistant should present the next action clearly, preserve commitments and ask for confirmation before consequential changes.",
+    "challenge_zh": "行程在遇到延誤或變動時常難以知道下一步。旅行助理應清楚呈現行動、保護既定安排，並在重大修改前要求使用者確認。",
+    "approach_en": "An Expo and React Native application with explicit trip state, daily next steps, disruption reporting and user-controlled plan adjustment. The design prioritizes one primary decision per screen and communicates uncertainty without inventing certainty.",
+    "approach_zh": "使用 Expo 與 React Native 建立行程狀態、每日下一步、突發狀況回報與使用者確認後調整的互動流程。設計原則是每個畫面聚焦主要決策，誠實呈現不確定性。",
+    "outcome_en": "A prototype and engineering documentation exist. This is not presented as a production travel service, and no public user adoption is claimed.",
+    "outcome_zh": "已有原型與工程設計文件；尚不是正式商用旅行服務，也沒有宣稱公開使用者數據。",
+    "next_steps_en": "Continue refining recovery flows, testing and the transition from a prototype to a dependable travel workflow.",
+    "next_steps_zh": "持續改善行程恢復流程、測試策略，以及從原型走向可靠旅行工作流程的品質。"
   },
   {
     "slug": "gptl",
