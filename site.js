@@ -18,6 +18,8 @@ const labels = {
     gallery: 'Project screenshots', openNote: 'Read note',
     contactNote: 'Interested in research, engineering, or collaboration? Find me here.',
     cv: 'Curriculum Vitae', demo: 'Demo', repository: 'GitHub',
+    caseStudy: 'Case study', allProjects: 'Browse all projects',
+    researchDetail: 'Research overview', allResearch: 'Browse all research',
     paper: 'Paper', video: 'Video', resource: 'Related resource', photoAlt: 'Project screenshot'
   },
   zh: {
@@ -32,6 +34,8 @@ const labels = {
     gallery: '專案截圖', openNote: '閱讀筆記',
     contactNote: '歡迎交流研究、工程與產品開發。',
     cv: '英文履歷', demo: 'Demo', repository: 'GitHub',
+    caseStudy: '專案詳情', allProjects: '查看全部專案',
+    researchDetail: '研究詳情', allResearch: '查看全部研究',
     paper: '論文', video: '影片', resource: '相關資料', photoAlt: '專案截圖'
   }
 };
@@ -87,25 +91,34 @@ function renderGallery(item) {
 }
 let database = null;
 function renderWorks(category) {
-  const items = (database.works || []).filter((w) => w.published && w.category === category)
+  const items = (database.works || []).filter((w) =>
+    w.published && w.category === category && (category !== 'project' || w.featured === true))
     .sort((a, b) => (a.order || 0) - (b.order || 0));
   return items.map((w) => {
     const statusVariant = PortfolioUI.statusType(w);
+    const detailPath = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(w.slug || '')
+      ? (language === 'zh' ? 'zh/' : '') + (category === 'research' ? 'research/' : 'projects/') + w.slug + '/' : '';
+    const detailLabel = category === 'research' ? labels[language].researchDetail : labels[language].caseStudy;
+    const ownPaper = category !== 'research' ||
+      (w.publication_status === 'preprint' && Boolean(w.paper)) ||
+      (w.publication_status === 'peer_reviewed' && Boolean(w.paper) && Boolean(w.publication_venue));
     const hasImage = Boolean(url(w.image));
     const cover = hasImage ? renderImage(w.image, tr(w, 'title'), '') :
       '<small>GULE LAB / ' + esc(category) + '</small>' +
       '<strong>' + esc(String(w.slug || '').replace(/-/g, ' ').split(' ').slice(0, 3).join(' ')) + '</strong>';
     const links = [
+      detailPath ? '<a href="' + esc(detailPath) + '"><i class="bi bi-arrow-up-right" aria-hidden="true"></i><span>' + esc(detailLabel) + '</span></a>' : '',
       anchor(w.github, labels[language].repository, '', 'bi-github'),
       anchor(w.demo, labels[language].demo, '', 'bi-box-arrow-up-right'),
-      anchor(w.paper, labels[language].paper, '', 'bi-file-earmark-text'),
+      ownPaper ? anchor(w.paper, labels[language].paper, '', 'bi-file-earmark-text') : '',
       anchor(w.video_link, labels[language].video, '', 'bi-play-circle')
     ].filter(Boolean).join('');
     return '<article class="work"><div class="cover' + (hasImage ? ' has-image' : '') + '">' +
       cover + '</div><div><span class="badge status-badge status-badge--' + esc(statusVariant) + '">' +
       icon(PortfolioUI.statusIcon(statusVariant)) + '<span>' + esc(tr(w, 'status')) +
       '</span></span><span class="year">' + esc(w.year || '') + '</span><h3>' +
-      esc(tr(w, 'title')) + '</h3><div class="subtitle">' + esc(tr(w, 'subtitle')) +
+      (detailPath ? '<a class="case-title-link" href="' + esc(detailPath) + '">' + esc(tr(w, 'title')) + '</a>' : esc(tr(w, 'title'))) +
+      '</h3><div class="subtitle">' + esc(tr(w, 'subtitle')) +
       '</div><p class="summary">' + esc(tr(w, 'summary')) + '</p>' + tags(w.tags) +
       (links ? '<div class="links work-extra-links">' + links + '</div>' : '') +
       renderGallery(w) + '</div></article>';
@@ -203,8 +216,8 @@ function render() {
       '<p>' + esc(x) + '</p>').join('') + '</div>' + tags(p.interests) +
     (p.cv_url ? '<div class="links" style="margin-top:23px">' +
       anchor(p.cv_url, t.cv + ' ↗', 'cv-link', 'bi-file-earmark-pdf') + '</div>' : '');
-  section('research', '<p class="hint">' + t.researchNote + '</p>' + renderWorks('research'));
-  section('projects', '<p class="hint">' + t.projectsNote + '</p>' + renderWorks('project'));
+  section('research', '<p class="hint">' + t.researchNote + '</p>' + renderWorks('research') + '<p class="archive-more"><a href="' + (language === 'zh' ? 'zh/research/' : 'research/') + '">' + esc(t.allResearch) + ' <i class="bi bi-arrow-right" aria-hidden="true"></i></a></p>');
+  section('projects', '<p class="hint">' + t.projectsNote + '</p>' + renderWorks('project') + '<p class="archive-more"><a href="' + (language === 'zh' ? 'zh/projects/' : 'projects/') + '">' + esc(t.allProjects) + ' <i class="bi bi-arrow-right" aria-hidden="true"></i></a></p>');
   section('experience', experience());
   section('education', education());
   section('news', news());

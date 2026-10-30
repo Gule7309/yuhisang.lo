@@ -76,3 +76,47 @@ Every new social link displays an icon. The site first respects a selected **Ico
 - Official CV additions and relevant proof of awards / ICIM 2025 conference record
 - Optional X / Google Scholar / ORCID URLs
 - A public email address only when you choose to show one
+
+
+## Featured homepage projects and product case studies
+
+The homepage Projects section shows only published projects with **Featured = true**. All other published projects appear in the **All Projects** archive after deployment. Use the Project section of the CMS to change ordering, Featured, and Public visibility.
+
+**Product case studies:** Every published project entry automatically receives its own static English and Chinese URLs:
+
+- English: https://gule7309.github.io/yuhisang.lo/projects/{slug}/
+- Traditional Chinese: https://gule7309.github.io/yuhisang.lo/zh/projects/{slug}/
+
+The CMS now supports optional bilingual fields for My Role, Problem & Motivation, Approach, Progress & Evidence, and Next Steps. If a field is empty, the corresponding page section is not shown. Real uploaded images, screenshots, videos, and repository links appear only when present.
+
+**Product case studies and research notes use separate templates.** The research note template was approved on 2026-10-30 (Clarity + Lil'Log inspiration). It has its own archive and truthful publication status controls.
+
+A project edit is published by GitHub Pages Actions, which regenerates the project archive, the localized pages, and sitemap.xml from the current data. **Draft content must never be added to this public repository if it is confidential.**
+
+
+## Managing research pages (Clarity + Lil'Log style)
+
+Research notes are separate from Products and **are not automatically publications**.
+
+- **All Research:** https://gule7309.github.io/yuhisang.lo/research/
+- **Example research note:** https://gule7309.github.io/yuhisang.lo/research/when2ask/
+- **Chinese:** https://gule7309.github.io/yuhisang.lo/zh/research/when2ask/
+- All published research records in `content/works.json` with `category=research` receive their own pages when GitHub Pages builds.
+
+In **CMS → Research and Projects**, select **Section: research**. The new bilingual Research fields support Question, Background, Approach, Evaluation Plan, Current Progress, Limitations, Next Steps, Verified Figures and References & Prior Work. Empty sections will be omitted. A compact table of contents is generated from the sections actually present. Uploaded figures must be authentic and have a descriptive alt text and provenance when derived from an external source.
+
+**Publication status is distinct from website visibility.**
+
+| CMS value | Page handling |
+| --- | --- |
+| Work in progress | Clearly states that it is not a published or peer-reviewed paper; does not display an Own paper button |
+| Preprint | Requires an actual URL to your own manuscript; clearly labels it as not peer-reviewed |
+| Peer-reviewed publication | Requires both a verified venue and the link to your own paper; displays that venue in the status note |
+| Missing or incomplete publication fields | Falls back to a work-in-progress note |
+
+The status/color pill still describes development stage (`Research in progress`, `Proposal`, etc.). The publication field describes scholarly dissemination; they are **not interchangeable**. **References to another author's published work belong in References & Prior Work, not the Own paper field.**
+
+The seeded [When2ask](https://github.com/Gule7309/When2ask) page describes an instrumented SAGE mechanism reconstruction and planned tests. It does not claim measured benchmark improvements or coauthorship of the Suri et al. ACL 2026 paper. Authority-Aware Agents is shown as a proposal with no experiment results claimed.
+
+On every future Pages deployment, `scripts/build_project_pages.py` runs first, then `scripts/build_research_pages.py` creates bilingual research routes and safely extends `sitemap.xml`.
+

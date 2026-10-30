@@ -1,0 +1,88 @@
+name: Portfolio pull request checks
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - feature/featured-product-pages-20261030
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: JavaScript tests
+        run: node --test tests/*.test.cjs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install CMS validator
+        run: python -m pip install 'PyYAML>=6,<7'
+      - name: Validate CMS collection config
+        run: |
+          python -c "import yaml; d=yaml.safe_load(open('admin/config.yml', encoding='utf-8')); assert len(d['collections']) >= 6"
+      - name: Compile and build static project pages
+        run: |
+          python -m py_compile scripts/build_project_pages.py scripts/build_research_pages.py
+          python scripts/build_project_pages.py
+          python scripts/build_research_pages.py
+      - name: Run product and research generator tests
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Check generated localized routes
+        run: |
+          test -f projects/pixelfit/index.html
+          test -f zh/projects/tavi/index.html
+          test -f projects/index.html
+          test -f research/index.html
+          test -f zh/research/index.html
+          test -f research/when2ask/index.html
+          test -f zh/research/authority-aware-agents/index.html
+          test -f sitemap.xml
+      - name: Install CJK font for Chinese preview
+        continue-on-error: true
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk
+      - name: Upload generated HTML for offline visual QA
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-html-bundle
+          path: |
+            research/**/index.html
+            research/index.html
+            zh/research/**/index.html
+            zh/research/index.html
+            projects/**/index.html
+            projects/index.html
+            style.css
+            extras.css
+            project-pages.css
+            research-pages.css
+            status-badges.css
+            index.html
+          if-no-files-found: error
+          retention-days: 7
+      - name: Capture research page preview screenshots
+        continue-on-error: true
+        run: |
+          mkdir -p artifacts/uiqa
+          BROWSER=$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)
+          if [ -z "$BROWSER" ]; then echo "No supported Chrome binary on this runner"; exit 0; fi
+          mkdir -p /tmp/portfolio-preview
+          ln -s "$GITHUB_WORKSPACE" /tmp/portfolio-preview/yuhisang.lo
+          python -m http.server 8765 --bind 127.0.0.1 --directory /tmp/portfolio-preview > /tmp/portfolio-preview-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          sleep 2
+          timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2000 --window-size=1280,900 --screenshot="artifacts/uiqa/research-desktop.png" "http://127.0.0.1:8765/yuhisang.lo/research/when2ask/"
+          timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2000 --window-size=390,844 --screenshot="artifacts/uiqa/research-mobile.png" "http://127.0.0.1:8765/yuhisang.lo/zh/research/authority-aware-agents/"
+      - name: Upload optional research page previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-page-preview
+          path: artifacts/uiqa/*.png
+          if-no-files-found: warn
+          retention-days: 7
