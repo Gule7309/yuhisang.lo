@@ -50,8 +50,14 @@ test('homepage honors Featured and uses localized product detail links', async (
   }
   assert.ok(en.includes('Browse all projects'));
   assert.ok(en.includes('href="projects/"'));
-  assert.ok(elt('#research').innerHTML.includes('When2ask'));
-  assert.ok(!elt('#research').innerHTML.includes('projects/when2ask'));
+  const researchEn = elt('#research').innerHTML;
+  assert.ok(researchEn.includes('When2ask'));
+  assert.ok(researchEn.includes('href="research/when2ask/"'));
+  assert.ok(researchEn.includes('href="research/authority-aware-agents/"'));
+  assert.ok(researchEn.includes('href="research/"'));
+  assert.ok(researchEn.includes('Browse all research'));
+  assert.ok(!researchEn.includes('projects/when2ask'));
+  assert.ok(!researchEn.includes('Paper ↗'));
 
   assert.ok(handlers.has('#chinese:click'));
   handlers.get('#chinese:click')();
@@ -59,5 +65,9 @@ test('homepage honors Featured and uses localized product detail links', async (
   assert.ok(zh.includes('href="zh/projects/"'));
   assert.ok(zh.includes('zh/projects/pixelfit/'));
   assert.ok(zh.includes('查看全部專案'));
+  const researchZh = elt('#research').innerHTML;
+  assert.ok(researchZh.includes('href="zh/research/when2ask/"'));
+  assert.ok(researchZh.includes('href="zh/research/"'));
+  assert.ok(researchZh.includes('查看全部研究'));
   assert.equal(document.documentElement.lang,'zh-Hant');
 });
