@@ -94,6 +94,20 @@ collections:
       - {name: subtitle_zh, label: Subtitle Chinese, widget: string}
       - {name: summary_en, label: Summary English, widget: text}
       - {name: summary_zh, label: Summary Chinese, widget: text}
+      - name: role_en
+        label: Case Study — My Role (English)
+        widget: text
+        required: false
+        hint: Product pages only; research detail design awaits review.
+      - {name: role_zh, label: Case Study — 我的角色 (中文), widget: text, required: false}
+      - {name: challenge_en, label: Case Study — Problem (English), widget: text, required: false}
+      - {name: challenge_zh, label: Case Study — 問題與動機 (中文), widget: text, required: false}
+      - {name: approach_en, label: Case Study — Approach (English), widget: text, required: false}
+      - {name: approach_zh, label: Case Study — 設計解法 (中文), widget: text, required: false}
+      - {name: outcome_en, label: Case Study — Progress and evidence (English), widget: text, required: false}
+      - {name: outcome_zh, label: Case Study — 進度與成果 (中文), widget: text, required: false}
+      - {name: next_steps_en, label: Case Study — Next steps (English), widget: text, required: false}
+      - {name: next_steps_zh, label: Case Study — 下一步 (中文), widget: text, required: false}
       - {name: status_en, label: Status English, widget: string}
       - {name: status_zh, label: Status Chinese, widget: string}
       - name: status_type
@@ -128,7 +142,11 @@ collections:
       - {name: demo, label: Demo URL, widget: string, required: false}
       - {name: video_link, label: Public demo video URL, widget: string, required: false}
       - {name: paper, label: Paper URL, widget: string, required: false}
-      - {name: featured, label: Featured, widget: boolean, default: false}
+      - name: featured
+        label: Featured on homepage
+        widget: boolean
+        default: false
+        hint: Featured projects appear on the homepage; all other published projects remain in the project archive.
       - {name: published, label: Public, widget: boolean, default: false}
       - {name: order, label: Order, widget: number, value_type: int, default: 50}
   - name: news
