@@ -76,3 +76,20 @@ Every new social link displays an icon. The site first respects a selected **Ico
 - Official CV additions and relevant proof of awards / ICIM 2025 conference record
 - Optional X / Google Scholar / ORCID URLs
 - A public email address only when you choose to show one
+
+
+## Featured homepage projects and product case studies
+
+The homepage Projects section shows only published projects with **Featured = true**. All other published projects appear in the **All Projects** archive after deployment. Use the Project section of the CMS to change ordering, Featured, and Public visibility.
+
+**Product case studies:** Every published project entry automatically receives its own static English and Chinese URLs:
+
+- English: https://gule7309.github.io/yuhisang.lo/projects/{slug}/
+- Traditional Chinese: https://gule7309.github.io/yuhisang.lo/zh/projects/{slug}/
+
+The CMS now supports optional bilingual fields for My Role, Problem & Motivation, Approach, Progress & Evidence, and Next Steps. If a field is empty, the corresponding page section is not shown. Real uploaded images, screenshots, videos, and repository links appear only when present.
+
+**The generated product pages are not used as research/paper detail pages.** The research page design must be selected by the site owner before a dedicated paper template is implemented.
+
+A project edit is published by GitHub Pages Actions, which regenerates the project archive, the localized pages, and sitemap.xml from the current data. **Draft content must never be added to this public repository if it is confidential.**
+
