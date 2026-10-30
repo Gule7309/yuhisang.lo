@@ -34,6 +34,10 @@ jobs:
           python -c "import yaml; d=yaml.safe_load(open('admin/config.yml', encoding='utf-8')); assert len(d['collections']) >= 6, 'Missing CMS collections'; assert not any(k == 'name' for k in d), 'CMS collections must be nested'"
       - name: Generate public CV from CMS data
         run: python scripts/generate_cv.py
+      - name: Generate bilingual product case study pages
+        run: python scripts/build_project_pages.py
+      - name: Test generated project pages
+        run: python -m unittest discover -s tests -p 'test_project_pages.py' -v
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
