@@ -42,6 +42,28 @@ jobs:
           test -f research/when2ask/index.html
           test -f zh/research/authority-aware-agents/index.html
           test -f sitemap.xml
+      - name: Install CJK font for Chinese preview
+        continue-on-error: true
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk
+      - name: Upload generated HTML for offline visual QA
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-html-bundle
+          path: |
+            research/**/index.html
+            research/index.html
+            zh/research/**/index.html
+            zh/research/index.html
+            projects/**/index.html
+            projects/index.html
+            style.css
+            extras.css
+            project-pages.css
+            research-pages.css
+            status-badges.css
+            index.html
+          if-no-files-found: error
+          retention-days: 7
       - name: Capture research page preview screenshots
         continue-on-error: true
         run: |
