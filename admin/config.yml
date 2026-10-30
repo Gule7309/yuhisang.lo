@@ -98,7 +98,7 @@ collections:
         label: Case Study — My Role (English)
         widget: text
         required: false
-        hint: Product pages only; research detail design awaits review.
+        hint: Product/engineering case study only; research uses the dedicated Research Note fields below.
       - {name: role_zh, label: Case Study — 我的角色 (中文), widget: text, required: false}
       - {name: challenge_en, label: Case Study — Problem (English), widget: text, required: false}
       - {name: challenge_zh, label: Case Study — 問題與動機 (中文), widget: text, required: false}
@@ -108,6 +108,53 @@ collections:
       - {name: outcome_zh, label: Case Study — 進度與成果 (中文), widget: text, required: false}
       - {name: next_steps_en, label: Case Study — Next steps (English), widget: text, required: false}
       - {name: next_steps_zh, label: Case Study — 下一步 (中文), widget: text, required: false}
+      - name: publication_status
+        label: Research publication status / 研究發表狀態
+        widget: select
+        required: false
+        default: work_in_progress
+        hint: A research page is NOT an accepted paper. Select Preprint or Peer reviewed only for your own real paper and provide the paper link; Peer reviewed also requires a verified venue.
+        options:
+          - {label: Work in progress / 尚未發表, value: work_in_progress}
+          - {label: Preprint (paper URL required) / 預印本, value: preprint}
+          - {label: Peer-reviewed publication (venue and paper URL required) / 已發表, value: peer_reviewed}
+      - {name: publication_venue, label: Verified venue for own paper (if peer reviewed), widget: string, required: false}
+      - {name: research_question_en, label: Research — Question English, widget: text, required: false}
+      - {name: research_question_zh, label: Research — 問題中文, widget: text, required: false}
+      - {name: research_background_en, label: Research — Background English, widget: text, required: false}
+      - {name: research_background_zh, label: Research — 背景中文, widget: text, required: false}
+      - {name: research_approach_en, label: Research — Approach English, widget: text, required: false}
+      - {name: research_approach_zh, label: Research — 方法中文, widget: text, required: false}
+      - {name: research_evaluation_en, label: Research — Evaluation Plan English, widget: text, required: false}
+      - {name: research_evaluation_zh, label: Research — 評估規劃中文, widget: text, required: false}
+      - {name: research_progress_en, label: Research — Current Progress English, widget: text, required: false}
+      - {name: research_progress_zh, label: Research — 目前進度中文, widget: text, required: false}
+      - {name: research_limitations_en, label: Research — Limitations English, widget: text, required: false}
+      - {name: research_limitations_zh, label: Research — 研究限制中文, widget: text, required: false}
+      - {name: research_next_steps_en, label: Research — Next Steps English, widget: text, required: false}
+      - {name: research_next_steps_zh, label: Research — 下一步中文, widget: text, required: false}
+      - name: research_figures
+        label: Research — Verified Figures / 研究圖表
+        widget: list
+        required: false
+        hint: Upload only authentic diagrams or figures you own or are licensed to use. Captions must attribute external sources.
+        fields:
+          - {name: image, label: Figure image, widget: image}
+          - {name: alt_en, label: Alternative description English, widget: string, required: false}
+          - {name: alt_zh, label: 圖片描述中文, widget: string, required: false}
+          - {name: caption_en, label: Caption English, widget: text, required: false}
+          - {name: caption_zh, label: 圖說中文, widget: text, required: false}
+          - {name: source_url, label: Original figure source URL, widget: string, required: false}
+      - name: research_references
+        label: Research — References & Prior Work / 參考文獻
+        widget: list
+        required: false
+        fields:
+          - {name: title_en, label: Citation English, widget: string}
+          - {name: title_zh, label: 文獻名稱中文, widget: string, required: false}
+          - {name: url, label: Verified source URL, widget: string}
+          - {name: note_en, label: Note English, widget: text, required: false}
+          - {name: note_zh, label: 備註中文, widget: text, required: false}
       - {name: status_en, label: Status English, widget: string}
       - {name: status_zh, label: Status Chinese, widget: string}
       - name: status_type
@@ -146,8 +193,12 @@ collections:
         label: Featured on homepage
         widget: boolean
         default: false
-        hint: Featured projects appear on the homepage; all other published projects remain in the project archive.
-      - {name: published, label: Public, widget: boolean, default: false}
+        hint: Featured projects appear on the homepage; all other published projects remain in the project archive. Research entries can be listed independently.
+      - name: published
+        label: Public on website / 網站顯示
+        hint: Website visibility ONLY. This public GitHub repository still exposes saved draft JSON. It is NOT academic publication status.
+        widget: boolean
+        default: false
       - {name: order, label: Order, widget: number, value_type: int, default: 50}
   - name: news
     label: News
