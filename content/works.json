@@ -25,7 +25,40 @@
     "order": 10,
     "gallery": [],
     "video_link": "",
-    "status_type": "research"
+    "status_type": "research",
+    "publication_status": "work_in_progress",
+    "publication_venue": "",
+    "research_question_en": "Does SAGE-Agent's structured uncertainty remain reliable when the intended tool-call interpretation is missing from the generated candidate set?",
+    "research_question_zh": "當正確的工具呼叫意圖沒有出現在 Agent 生成的候選集合時，SAGE-Agent 的結構化不確定性是否仍然可靠？",
+    "research_background_en": "Tool-using agents often first generate possible tool-call interpretations and then evaluate uncertainty within that finite set. A high score within the considered candidates does not necessarily mean that the correct interpretation was considered. I am investigating the gap between conditional confidence and open-world uncertainty.\n\nThis is a diagnostic follow-up to the structured uncertainty formulation introduced in Suri et al. (Findings of ACL 2026), not a claim that their reported findings are mine.",
+    "research_background_zh": "工具型 Agent 常先生成有限的工具呼叫候選集合，再評估集合內的不確定性。即使某個候選得到很高的內部信心分數，也不代表真正正確的意圖已被納入。此研究關注「已考慮選項中的信心」與「候選集合是否完整」之間的落差。\n\n研究以 Suri 等人在 Findings of ACL 2026 提出的結構化不確定性機制作為研究背景，並非宣稱原論文結果為自己的成果。",
+    "research_approach_en": "Reconstruct the relevant SAGE decision mechanism and compare three matched candidate-set conditions: Natural (model-generated), Oracle-complete (add a ground-truth-compatible partial candidate when absent), and Forced-miss (remove compatible candidates and, where feasible, insert a structural decoy).\n\nTasks, tool schemas, model settings, prompts, and downstream decision logic should remain fixed across conditions. Ground truth is used for diagnostic labeling, never passed into candidate-generation prompts.",
+    "research_approach_zh": "先重建 SAGE 相關決策機制，再對照三種候選集合條件：Natural（模型自然生成）、Oracle-complete（在缺少正確候選時補入與真值相容的部分候選）、Forced-miss（移除與真值相容的候選，可能時加入結構相近的干擾候選）。\n\n各條件應固定任務、工具 Schema、模型設定、Prompt 與後續決策邏輯。Ground truth 只用於研究標記，不注入生成候選的 Prompt。",
+    "research_evaluation_en": "The planned evaluation uses the ambiguous portion of ClarifyBench, measuring candidate recall, correctness conditioned on ground-truth candidate presence, high-confidence wrong execution (HCWE), confidence/correctness calibration, clarification questions, and the oracle recovery gap.\n\nAn initial 20-example smoke test and manual audit precede the full candidate-set intervention study. Any model substitution is reported as mechanism reconstruction or robustness testing, not a reproduction of the original paper's benchmark results.",
+    "research_evaluation_zh": "預計以 ClarifyBench 的 ambiguous 任務進行評估，包括候選召回率、依正確候選是否存在分組的執行正確率、高信心錯誤執行率（HCWE）、信心校準、澄清問題數，以及 Oracle recovery gap。\n\n先進行 20 筆樣本的 Smoke Test 與人工檢查，再進入完整候選集合干預實驗。更換模型時會清楚標示為機制重建或跨模型穩健性測試，不直接當成原論文 Benchmark 的復現。",
+    "research_progress_en": "The repository currently contains instrumented SAGE decision steps, candidate generation and viability tracing, aspect-targeted question generation, synthetic replay fixtures, diagnostics, and tests. The question score is explicitly labeled an optimistic perfect-resolution approximation rather than full response-weighted EVPI.\n\nThese are engineering and mechanism-reconstruction milestones. The synthetic examples validate plumbing; no benchmark-level empirical findings or improvement claims are reported.",
+    "research_progress_zh": "Repository 已有具儀器化紀錄的 SAGE 決策步驟、候選生成與可行性分數 Trace、針對參數面向的澄清問題生成、合成 Replay Fixture、診斷程式與測試。問題分數也明確標示為「樂觀的完美解析近似」，不是原論文完整的回應加權 EVPI。\n\n目前屬於工程實作與機制重建進度。合成案例只驗證流程能否運作，尚未報告 Benchmark 層級的實證發現或方法改善成果。",
+    "research_limitations_en": "This is not yet a complete reproduction of SAGE-Agent's multi-turn workflow. The current reconstruction does not implement the original response-weighted EVPI distribution, and some original settings are unspecified or differ from upstream code. Threshold settings shown in smoke tests are sensitivity settings rather than recovered paper parameters.",
+    "research_limitations_zh": "目前尚未完整重現 SAGE-Agent 的多輪互動流程，也未實作原方法具回應分布權重的完整 EVPI。部分原論文參數未明確提供，且與公開程式碼設定存在差異。Smoke Test 使用的閾值只是敏感度設定，並非宣稱已找回原論文參數。",
+    "research_next_steps_en": "Run the candidate-recall smoke test and audit traces; apply matched candidate-set interventions; measure HCWE and calibration by candidate presence. Explore an open-world uncertainty fix only after the diagnostic hypotheses are tested.",
+    "research_next_steps_zh": "執行候選召回 Smoke Test 並人工檢查 Trace；進行三種候選集合干預；按候選是否存在分析 HCWE 與校準。只有在診斷假設得到檢驗後，才考慮設計開放世界不確定性修正方法。",
+    "research_figures": [],
+    "research_references": [
+      {
+        "title_en": "Suri et al. (2026), Structured Uncertainty guided Clarification for LLM Agents",
+        "title_zh": "Suri 等人（2026），Structured Uncertainty guided Clarification for LLM Agents",
+        "url": "https://aclanthology.org/2026.findings-acl.2028/",
+        "note_en": "Findings of ACL 2026 — prior work by independent authors",
+        "note_zh": "Findings of ACL 2026，其他研究者的原始論文"
+      },
+      {
+        "title_en": "ClarifyBench — original benchmark and code",
+        "title_zh": "ClarifyBench — 原始 Benchmark 與程式碼",
+        "url": "https://github.com/MananSuri27/ClarifyBench",
+        "note_en": "Official benchmark repository of the original authors",
+        "note_zh": "原研究作者公開的 Benchmark Repository"
+      }
+    ]
   },
   {
     "slug": "authority-aware-agents",
@@ -53,7 +86,33 @@
     "order": 20,
     "gallery": [],
     "video_link": "",
-    "status_type": "proposal"
+    "status_type": "proposal",
+    "publication_status": "work_in_progress",
+    "publication_venue": "",
+    "research_question_en": "When should a tool-using AI agent clarify the request, ask for explicit confirmation, execute an action, or abstain when the user's intent and delegated authority are incomplete?",
+    "research_question_zh": "當使用者意圖與授權範圍不完整時，工具型 AI Agent 應在什麼情況下澄清、取得明確確認、執行，或選擇不執行？",
+    "research_background_en": "Tool-calling agents can act on external systems, so successful task completion is not the only quality criterion. Uncertain instructions, consequential actions, and unclear authorization raise different questions. A system may infer what the user wants without being authorized to act.\n\nThis research direction prioritizes user agency and scopes of authorization rather than equating model confidence with consent.",
+    "research_background_zh": "工具型 Agent 能操作外部系統，因此「任務完成」不是唯一的品質指標。模糊指令、有後果的動作與不清楚的授權是不同問題。即使系統推測出使用者的意圖，也不代表取得了執行授權。\n\n此研究方向希望保護使用者自主權，區分意圖推測與動作授權，而不是把模型信心直接視為同意。",
+    "research_approach_en": "This is an early-stage thesis direction. The proposed framework separates intent uncertainty, action consequences, and permission scope, and studies the choice among Clarify, Confirm, Execute, and Abstain. The design should allow reversible low-impact tasks to proceed differently from irreversible or high-impact actions.\n\nThe framework, annotation protocol, baselines, and evaluation assumptions remain to be refined; no implemented algorithm or validated finding is claimed here.",
+    "research_approach_zh": "這仍是早期論文方向。初步構想分別考慮意圖不確定性、動作後果與授權範圍，研究 Clarify、Confirm、Execute、Abstain 四種決策。可逆且低風險的任務，應與不可逆或高影響動作採不同處理方式。\n\n目前仍須進一步定義框架、資料標註規則、基準方法與評估假設；此頁不宣稱已實作新演算法或得到驗證結果。",
+    "research_evaluation_en": "Candidate evaluation dimensions include action correctness, unnecessary-clarification cost, unauthorized-action rate, consequence-weighted errors, and user recovery after a misunderstanding. A benchmark and human assessment protocol are still being designed; there are no measured scores.",
+    "research_evaluation_zh": "可能的評估面向包括動作正確率、不必要澄清成本、未經授權的執行率、依動作後果加權的錯誤，以及誤解後使用者能否恢復控制。Benchmark 與人工評估規則仍待設計，尚無量測數據。",
+    "research_progress_en": "Research framing and scoping are under discussion. The conceptual distinction among clarification, confirmation, and action authorization has been identified as a starting point. No paper acceptance, quantitative benchmark outcome, or finished system is reported.",
+    "research_progress_zh": "目前在研究問題與範圍界定階段，已將澄清意圖、確認決策與動作授權之間的區別列為切入點。尚無論文錄取、量化 Benchmark 結果或完成的系統。",
+    "research_limitations_en": "The action consequence model, authorization taxonomy, benchmark coverage, and operational definition of human agency remain open design questions. The research direction may change after literature review and supervisor feedback.",
+    "research_limitations_zh": "動作後果模型、授權分類、Benchmark 範圍及使用者自主權的可操作定義仍待明確化。研究方向也可能隨文獻整理及指導教授回饋而修正。",
+    "research_next_steps_en": "Refine the research question with supervisor feedback, build a literature map and annotated task taxonomy, select public baselines, and define pilot studies before making performance claims.",
+    "research_next_steps_zh": "與指導教授討論並收斂研究問題、建立文獻圖譜與任務標註分類，選擇公開基準方法，先設計 Pilot Study，再討論實證結果。",
+    "research_figures": [],
+    "research_references": [
+      {
+        "title_en": "Suri et al. (2026), Structured Uncertainty guided Clarification for LLM Agents",
+        "title_zh": "Suri 等人（2026），Structured Uncertainty guided Clarification for LLM Agents",
+        "url": "https://aclanthology.org/2026.findings-acl.2028/",
+        "note_en": "Related prior work on clarification and structured uncertainty",
+        "note_zh": "與澄清決策及結構化不確定性相關的先前研究"
+      }
+    ]
   },
   {
     "slug": "trading-radar",
