@@ -167,6 +167,12 @@ class ResearchGenerationTests(unittest.TestCase):
         self.assertEqual(kind, "preprint")
         self.assertTrue(eligible)
 
+    def test_research_toc_overrides_global_flex_navigation_styles(self):
+        css = (REPO / "research-pages.css").read_text(encoding="utf-8")
+        self.assertIn(".research-toc nav { display: block; overflow: visible;", css)
+        self.assertIn(".research-toc ol { columns: 1; }", css)
+        self.assertIn(".sidebar .profile-quicklink { grid-column: 1 / -1;", css)
+
     def test_rejects_duplicate_and_unsafe_research_slugs(self):
         bad = json.loads((self.root / "content/works.json").read_text(encoding="utf-8"))
         bad[1]["slug"] = bad[0]["slug"]
