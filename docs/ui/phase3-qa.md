@@ -4,7 +4,7 @@
 **Repository:** Gule7309/yuhisang.lo
 **Branch:** feature/featured-product-pages-20261030
 **PR:** https://github.com/Gule7309/yuhisang.lo/pull/1 (Draft)
-**Decision:** Automated functional checks PASS; full visual/browser and authenticated CMS end-to-end verification remain BLOCKED in this environment.
+**Decision:** NEEDS_REVIEW. Automated tests and desktop/mobile visual preview checks PASS. Authenticated CMS editing, optional figure uploads, and production-device accessibility checks remain untested.
 
 ## Approved visual direction
 
@@ -39,9 +39,11 @@ The templates are independently written; no third-party markup, fonts or copyrig
 | Homepage research EN/zh links | PASS | tests/homepage-featured.test.cjs |
 | CMS YAML parse | PASS | CI PyYAML validation |
 | Research source attribution | Reviewed | When2ask public repository README and ACL Anthology link |
-| Desktop 1280×800 screenshot | NOT TESTED | Browser cannot render GitHub PR branch preview locally in this session |
-| Mobile 390×844 screenshot | NOT TESTED | Browser cannot render GitHub PR branch preview locally in this session |
-| Keyboard / screen reader / visual contrast on full page | NOT TESTED | Requires actual rendered browser/device check |
+| Desktop 1280×900 screenshot | PASS | Headless Chrome on GH Actions renders generated HTML using site CSS; screenshot manually inspected (run 41035199616, artifact research-page-preview) |
+| Mobile 390×844 screenshot | PASS | Headless Chrome on GH Actions renders Chinese page with Noto CJK; screenshot manually inspected (run 41035199616, artifact research-page-preview) |
+| Native TOC toggle and 8 anchored links | PASS | Playwright set_content using generated HTML and CSS; collapse/expand/anchor navigation verified on 390px viewport |
+| No horizontal overflow on 390px/1280px | PASS | Playwright DOM measurements on generated English and Chinese HTML; scrollWidth matched viewport |
+| Screen reader and full contrast audit | NOT TESTED | Requires manual assistive technology review; status palette contrast separately documented in Phase 1 |
 | CMS authenticated editing / upload / publication | NOT TESTED | Requires owner authentication in Sveltia CMS |
 
 ## Accuracy and provenance
@@ -58,5 +60,13 @@ The templates are independently written; no third-party markup, fonts or copyrig
 - Try keyboard Tab, TOC opening, anchor links and language toggles.
 - Log into CMS and check research editing, optional figures and publication status fields.
 - Confirm every claim and reference is appropriate for the public website.
+
+### Screenshot evidence and repair
+
+- [GitHub Actions generated previews](https://github.com/Gule7309/yuhisang.lo/actions/runs/41035199616), artifact `research-page-preview` (English desktop 1280×900 and Chinese mobile 390×844). Both screenshots were downloaded and inspected.
+- Offline generated page HTML and styles were imported into Playwright for full-page review. DOM inspection found **8/8 TOC entries** visible at 390px, and no horizontal overflow at 390px or 1280px.
+- During visual QA, the mobile TOC was initially clipped by inherited global nav styles (`display:flex`, `overflow-x:auto`, and a 38px mobile nav height). Fixed with a scoped `.research-toc nav` override, added a regression assertion, and re-captured the preview. The fixed mobile screenshot shows the beginning of the full vertical TOC; remaining entries continue below the viewport.
+- GitHub-runner Chinese font initially missing; installed a CJK preview font for accurate localization screenshot evidence. The production website continues to use the viewer's system font.
+- Exact pixel diff to A/C sources is **not comparable**, because those are inspiration/reference sites with different text, layout and content; the current portfolio's approved design system is retained.
 
 No production GitHub Pages deployment or PR merge was performed.
