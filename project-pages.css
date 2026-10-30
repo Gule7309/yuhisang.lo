@@ -1,0 +1,55 @@
+/* Product case studies extend the existing academic design without a new visual system. */
+.project-content{padding-top:36px}
+.project-content .eyebrow{margin:22px 0 12px}
+.project-content .case-back{display:inline-flex;gap:8px;align-items:center;font-size:12px;color:#5c7286;text-decoration:none}
+.project-content .case-back:hover,.case-footer a:hover{text-decoration:underline;color:#1c518f}
+.case-title{margin:0 0 19px;color:#192f45;font-size:30px;font-weight:750;letter-spacing:-.055em;line-height:1.34;max-width:790px}
+.case-status{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:0 0 19px}
+.case-status .case-year{font-size:12px;color:#738397}
+.case-lead{max-width:790px;color:#425b72;font-size:15px;line-height:1.86;margin:0 0 19px}
+.project-content .tags{margin:0 0 15px}
+.case-actions{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0 27px}
+.case-link{display:inline-flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid #dce5ed;border-radius:6px;background:#fff;color:#2a577f;font-size:12px;font-weight:650;line-height:1.4;text-decoration:none;transition:background .15s ease,border-color .15s ease}
+.case-link:hover{background:#f4f8fb;border-color:#c5d8e6;text-decoration:none}
+.case-link .bi{font-size:14px}
+.case-cover{margin:22px 0 38px;max-width:850px;border:1px solid #e4ebf1;border-radius:8px;overflow:hidden;background:#f6f9fc}
+.case-cover img{display:block;width:100%;height:auto;max-height:580px;object-fit:contain}
+.case-section{margin:36px 0 42px;scroll-margin-top:90px}
+.case-section h2{font-size:21px;letter-spacing:-.04em;padding-bottom:10px;margin:0 0 18px;border-bottom:1px solid #e0e8ef;color:#20374e}
+.case-section p{font-size:13.5px;color:#435b70;line-height:1.94;max-width:770px;margin:0 0 13px;white-space:pre-line}
+.case-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:19px}
+.case-gallery figure{margin:0}
+.case-gallery a{display:block;border:1px solid #e3eaf0;border-radius:7px;overflow:hidden;background:#f6f9fa}
+.case-gallery img{display:block;width:100%;height:auto;max-height:360px;object-fit:contain}
+.case-gallery figcaption{font-size:12px;line-height:1.6;color:#6b8093;margin-top:8px}
+.case-footer{margin:62px 0 30px;border-top:1px solid #e2e8ee;padding-top:20px}
+.case-footer a{display:inline-flex;align-items:center;gap:9px;color:#37618a;font-size:12px;font-weight:650}
+.project-list-item{display:grid;grid-template-columns:minmax(170px,30%) minmax(0,1fr);gap:25px;padding:27px 0;border-bottom:1px solid #e6ebf0;align-items:start}
+.project-list-item:last-child{border-bottom:none}
+.project-list-cover{display:flex;align-items:center;justify-content:center;aspect-ratio:1.6;border:1px solid #e2eaf1;border-radius:8px;overflow:hidden;background:#edf3f8;text-decoration:none}
+.project-list-cover img{width:100%;height:100%;object-fit:cover}
+.case-placeholder{padding:15px;color:#5e7891;text-align:center;font-size:19px;line-height:1.26;letter-spacing:-.035em;font-weight:650;overflow-wrap:anywhere}
+.project-list-item:nth-child(even) .project-list-cover{background:#eef5f1}
+.project-list-item h2{font-size:18px;line-height:1.46;letter-spacing:-.035em;margin:10px 0 8px;border:0;padding:0}
+.project-list-item h2 a{color:#20374e}
+.project-list-item p{color:#61758a;font-size:12.7px;line-height:1.83;margin:0 0 9px}
+.case-more{display:inline-flex;gap:5px;align-items:center;font-size:12px;font-weight:650}
+.language a{border:0;background:transparent;color:#718296;font-size:12px;font-weight:650;padding:6px 7px;border-radius:5px;text-decoration:none}
+.language a:hover{color:#1c518f}
+.language a.selected{background:#edf3f9;color:#1c518f}
+@media(max-width:850px){
+ .project-list-item{gap:16px;grid-template-columns:32% minmax(0,1fr)}
+ .case-title{font-size:26px}
+}
+@media(max-width:680px){
+ .project-content{padding-top:25px}
+ .case-title{font-size:25px;line-height:1.36}
+ .case-lead{font-size:14px}
+ .project-list-item{grid-template-columns:1fr;gap:13px;padding:22px 0}
+ .project-list-cover{max-width:480px;aspect-ratio:1.9}
+ .case-gallery{grid-template-columns:1fr}
+ .case-actions{gap:8px}
+ .case-link{padding:9px 12px}
+ .case-section h2{font-size:20px}
+}
+@media(prefers-reduced-motion:reduce){.case-link{transition:none}}
