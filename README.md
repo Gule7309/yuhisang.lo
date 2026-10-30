@@ -17,6 +17,11 @@ A bilingual, academic-minimalist personal website for Yu-Hsiang (Gule) Luo, with
 - Multiple real screenshots, demo/video links, technical tags and publication status per project
 - Public English CV PDF auto-generated from editorial content via GitHub Actions
 
+- Bilingual research notes with a Clarity + Lil'Log-inspired layout, collapsible TOC, truthful publication state, authentic figures and references
+- Static research routes: `/research/`, `/research/when2ask/`, and corresponding `/zh/research/` pages
+- Static product case studies: `/projects/`, `/projects/pixelfit/`, and corresponding `/zh/projects/` pages
+- Research and products are generated from CMS JSON by two Python scripts on deployment, with sitemap and canonical/hreflang tags
+
 ## Editing the website
 
 Open **/admin/** and sign in using a GitHub fine-grained personal access token restricted to **Gule7309/yuhisang.lo** with **Contents: Read and write**. Do not share the token. The Sveltia CMS editor directly changes content files on the repository's `main` branch. A GitHub Pages workflow publishes updates automatically.
@@ -40,11 +45,11 @@ To use a custom-designed CV instead, upload the PDF in CMS under **Profile and L
 
 ## Deployment
 
-GitHub Actions runs `.github/workflows/pages.yml` when `main` changes and publishes GitHub Pages. It installs ReportLab, generates the public CV and uploads the static website directory. GitHub Pages must be enabled with **Source: GitHub Actions**.
+GitHub Actions runs `.github/workflows/pages.yml` when `main` changes and publishes GitHub Pages. It installs ReportLab, generates the public CV, runs product/research page generators in order, and uploads the static website directory. GitHub Pages must be enabled with **Source: GitHub Actions**.
 
 ## Accuracy
 
-Research-in-progress entries are not presented as peer-reviewed publications. Product prototypes and internal testing builds are not claimed to be released. Awards require verifiable details before they are published. External professional links are only added when the owner supplies a real account URL.
+Research-in-progress entries are not presented as peer-reviewed publications. The When2ask research note is an independent mechanism reconstruction, and the Suri et al. ACL 2026 paper is cited solely as prior work by other authors. Product prototypes and internal testing builds are not claimed to be released. Awards require verifiable details before they are published. External professional links are only added when the owner supplies a real account URL.
 
 ## Architecture
 
