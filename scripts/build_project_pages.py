@@ -171,7 +171,8 @@ def head(title: str, description: str, canonical: str,
 
 
 def shell(profile: dict, lang: str, head_html: str, main: str,
-          english: str, chinese: str) -> str:
+          english: str, chinese: str, *, active: str = "projects",
+          main_class: str = "project-content") -> str:
     label = LABELS[lang]
     home = PREFIX + "/"
     portrait = safe_href(profile.get("avatar"), allow_local=True)
@@ -196,9 +197,13 @@ def shell(profile: dict, lang: str, head_html: str, main: str,
     )
     en_class = ' class="selected"' if lang == "en" else ""
     zh_class = ' class="selected"' if lang == "zh" else ""
+    research_index = f'{PREFIX}/{"zh/" if lang == "zh" else ""}research/'
+    research_url = research_index if active == "research" else home + "#research"
+    research_current = ' aria-current="page"' if active == "research" else ""
+    projects_current = ' aria-current="page"' if active == "projects" else ""
     nav = (f'<a href="{home}#about">{escape(label["about"])}</a>'
-           f'<a href="{home}#research">{escape(label["research"])}</a>'
-           f'<a href="{escape(index_path(lang))}" aria-current="page">{escape(label["projects"])}</a>'
+           f'<a href="{escape(research_url)}"{research_current}>{escape(label["research"])}</a>'
+           f'<a href="{escape(index_path(lang))}"{projects_current}>{escape(label["projects"])}</a>'
            f'<a href="{home}#contact">{escape(label["contact"])}</a>')
     return (
         '<!doctype html><html lang="' + ("zh-Hant" if lang == "zh" else "en") + '"><head>'
@@ -210,7 +215,7 @@ def shell(profile: dict, lang: str, head_html: str, main: str,
         f'<a{zh_class} href="{escape(chinese)}" lang="zh-Hant">中文</a>'
         '</div></div></header><div class="layout">'
         '<aside class="sidebar">' + aside + '</aside>'
-        '<main class="content project-content" id="main">' + main + '</main></div></body></html>'
+        '<main class="content ' + escape(main_class) + '" id="main">' + main + '</main></div></body></html>'
     )
 
 
