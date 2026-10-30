@@ -170,6 +170,7 @@ class ResearchGenerationTests(unittest.TestCase):
     def test_research_toc_overrides_global_flex_navigation_styles(self):
         css = (REPO / "research-pages.css").read_text(encoding="utf-8")
         self.assertIn(".research-toc nav { display: block; overflow: visible;", css)
+        self.assertIn("height: auto; max-height: none;", css)
         self.assertIn(".research-toc ol { columns: 1; }", css)
         self.assertIn(".sidebar .profile-quicklink { grid-column: 1 / -1;", css)
 
