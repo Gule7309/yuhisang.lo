@@ -149,14 +149,30 @@
       "Agent Systems",
       "Evidence Verification"
     ],
-    "image": "",
+    "image": "/yuhisang.lo/assets/projects/trading-radar-dashboard-demo.png",
     "github": "https://github.com/Gule7309/trading_radar",
     "demo": "",
     "paper": "",
     "featured": true,
     "published": true,
     "order": 10,
-    "gallery": [],
+    "gallery": [
+      {
+        "image": "/yuhisang.lo/assets/projects/trading-radar-dashboard-demo.png",
+        "caption_en": "Real React interface — desktop candidate screener, with explicitly labeled mock data.",
+        "caption_zh": "實際 React 介面：桌面版選股研究，資料為明確標示的 Mock 範例。"
+      },
+      {
+        "image": "/yuhisang.lo/assets/projects/trading-radar-dashboard-mobile-demo.png",
+        "caption_en": "Real responsive mobile layout running the same mock demonstration environment.",
+        "caption_zh": "同一套 Mock 示範環境下實際執行的手機響應式版面。"
+      },
+      {
+        "image": "/yuhisang.lo/assets/projects/trading-radar-detail-ui-test.png",
+        "caption_en": "Real development-only UI stress-test screen with test fixtures — not a genuine stock-research outcome.",
+        "caption_zh": "實際開發用 UI 壓力測試畫面，內容是測試替身，並非真正的個股研究結論。"
+      }
+    ],
     "video_link": "",
     "status_type": "prototype",
     "role_en": "Agent and evidence-oriented research workflow design",
@@ -168,7 +184,9 @@
     "outcome_en": "The repository documents a research workbench and implementation scope. Neither investment performance nor production reliability is claimed.",
     "outcome_zh": "Repository 已整理研究工作台與實作範圍；尚未宣稱投資績效或正式營運可靠性。",
     "next_steps_en": "Integrate research outputs with traceable evidence, explicit risk checks and an evaluable thesis-tracking workflow.",
-    "next_steps_zh": "持續整合可追溯的研究證據、明確的風險檢查，以及能評估的投資論點追蹤流程。"
+    "next_steps_zh": "持續整合可追溯的研究證據、明確的風險檢查，以及能評估的投資論點追蹤流程。",
+    "image_caption_en": "Actual Trading Radar frontend screenshot captured against its development mock API (November 2026). Candidate figures are labeled demo data, not live research results or investment performance.",
+    "image_caption_zh": "2026 年 11 月從 Trading Radar 實際前端搭配開發用 Mock API 擷取；候選股票與數值屬示範資料，並非即時研究結果或投資績效。"
   },
   {
     "slug": "vr-dementia",
