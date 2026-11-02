@@ -247,3 +247,34 @@ A researcher or technical recruiter should be able to connect a project/research
 - Keyboard: native anchors, clear focus, research TOC link to source trace; source opens a new tab with `noopener noreferrer`.
 - CI: Python static generators + security tests, CMS YAML, Node existing tests, exact URL and snippet boundary checks, no page-level overflow on 1280/390 screenshots. Playwright should actually scroll to source trace before capture; for mobile, prove the last card can be viewed.
 - Do not calculate unverified benchmarks or infer research improvements from the existence of executable code. Do not claim authenticated CMS upload or live source verification after publication.
+
+---
+
+## Phase 9 — Homepage usability, mobile navigation and loading performance (2026-11-02)
+
+**Mode:** system evolution. Authoritative source: current deployed `main` academic portfolio and its original [Chia-Ming Lee minimalist inspiration](https://ming053l.github.io/). Preserve navy on white, understated borders, left profile rail, editorial case-study cards and existing A+C research detail pages. Work only on **homepage** `/yuhisang.lo/`; no new research experiments, no PR #6 merge, no publication changes.
+
+### Measured baseline (source inspection)
+
+- Homepage header has eight anchor links in one horizontal `nav`, with `overflow-x:auto; scrollbar-width:none`; on 390/320px mobile some labels are offscreen without clear discoverability.
+- `#about` starts blank until six JSON fetches complete; if `content/profile.json` fails, only an invisible/empty profile and a plain error message remain.
+- The home page currently fetches full `content/works.json` even though the cards use only metadata, cover/gallery previews and links. Main branch: 7 content entries (5 homepage-visible); full source text ~40K characters while a carefully selected projection is ~7.6K characters (rough preliminary projection, **not a measured transferred-byte benchmark**).
+- Language buttons currently communicate selection visually via CSS but lack `aria-pressed`. Mobile nav active/expanded state is not available.
+- Existing site uses plain HTML + JS and static GitHub Pages CI; no React/framework dependency or authenticated backend. Existing source data remain in `content/*.json`, with CMS editing original full works.
+
+### Requested behavior
+
+1. **Mobile navigation (<= 680px):** replace visually hidden horizontal-overflow links with a compact native button **Sections / 選單** beside EN / 中文. The existing `<nav>` is reused as a clearly bounded, scrollable dropdown; no duplicated links. Touch target >=40px, `aria-expanded`/ `aria-controls`, Escape closes and restores focus, selecting a section closes, outside tap closes, desktop nav remains unchanged. Menu only opens on deliberate interaction. Visible links continue to reflect content availability and language.
+2. **Accessible localization:** update nav aria-label, skip link, back-to-top label and `aria-pressed` of language buttons when toggling languages. Preserve stored language choice, escape markup and keep focus outlines.
+3. **Loading/failure feedback:** `role=status` light editorial loading notice while the page loads; hide after data rendered. On missing required profile, show a safe bilingual `role=alert` message with actual archive links; avoid a blank page. No infinite loading spinner or inert retry control.
+4. **Homepage data projection:** a deterministic dependency-free build script emits `content/homepage-works.json` from **source** `content/works.json` with only the published research and featured projects plus fields/images actually read on homepage. Keep bilingual names, statuses, tags, cover and gallery preview, genuine image/citation labels and safe links. Full `content/works.json` remains unchanged and authoritative for all project/research detail generators and CMS. Regenerate compact data on **every Pages deployment before JS tests**, and in PR CI before homepage tests. A tracked snapshot also supports offline preview.
+5. **No SEO or factual regressions:** keep exact bilingual routes, original source image labels and statuses, working Skip-to-content, correct GitHub Pages subpath, README/CMS instructions.
+
+### Visual and test targets
+
+- Header desktop 1280×900: same height (70px), title/nav/language alignment, no added visible menu button.
+- Mobile 390×844 and narrow 320×700: single-row header with logo/menu/language; dropdown 1 column, 12–14px label, max viewport height scrollable with no page overflow, white background, 1px #dfe8ef border, 7px radius, subtle shadow; no heavy accent color.
+- Body loading note uses existing small body text and pale border, avoids large color box or decorative placeholders.
+- Tests: Node projection equality/size budget, menu open/close/ESC/outside/section clicks, language states, content error; Python routes/CMS unaffected. Actual Playwright Chrome screenshot desktop (1280), mobile (390), compact mobile (320) for closed/open menu, EN/zh navigation and no overflow. Keyboard and pointer states verified, plus generated payload gzip/file byte summary. The project/research pages remain unchanged.
+- **Data freshness:** after every CMS save to main, Pages workflow builds compact payload from updated raw works before producing deployment artifact. Never manually maintain two independent data sources.
+- PR only; no merging or deploying until owner approval. Note that CI screenshots and scripts do not replace a full manual screen-reader or authenticated Sveltia CMS edit test.
