@@ -52,6 +52,9 @@ test('homepage honors Featured and uses localized product detail links', async (
   assert.ok(en.includes('pixelfit-workout-browser-preview.jpg'));
   assert.ok(en.includes('pixelfit-result-browser-preview.jpg'));
   assert.ok(en.includes('class="cover-phone-strip"'));
+  assert.ok(en.includes('loading="eager"'));
+  const pixelPart = en.slice(en.indexOf('pixelfit-home-browser-preview.jpg'), en.indexOf('Trading Radar'));
+  assert.ok(!pixelPart.includes('Project screenshots'), 'Avoid redundant thumbnail strip for phone showcase');
   assert.ok(en.includes('has-phone-layout'));
   assert.ok(en.includes('Real UI · browser QA'));
   assert.ok(en.includes('trading-radar-dashboard-demo.png'));
