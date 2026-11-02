@@ -38,7 +38,7 @@ const cases = [
         viewport:item.viewport,deviceScaleFactor:1,reducedMotion:'reduce'
       });
       try {
-        await page.goto(BASE+item.route,{waitUntil:'networkidle'});
+        await page.goto(BASE+item.route,{waitUntil:'domcontentloaded',timeout:25000});
         const target = page.locator(item.anchor).first();
         await target.waitFor({state:'visible',timeout:15000});
         await target.evaluate((element,align)=>element.scrollIntoView({
