@@ -278,8 +278,9 @@ def details(item: dict, profile: dict, lang: str) -> str:
     caption = localized(item, "image_caption", lang)
     caption_html = (f'<figcaption>{icon("bi-info-circle")} {escape(caption)}</figcaption>'
                     if caption else "")
+    image_alt = localized(item, "image_alt", lang) or title
     media = (f'<figure class="case-cover"><img src="{escape(safe_img)}"'
-             f' alt="{escape(title)}" loading="eager">{caption_html}</figure>') if safe_img else ""
+             f' alt="{escape(image_alt)}" loading="eager">{caption_html}</figure>') if safe_img else ""
     main = (
         f'<a class="case-back" href="{escape(index_path(lang))}">'
         f'{icon("bi-arrow-left")} {escape(LABELS[lang]["back"])}</a>'
