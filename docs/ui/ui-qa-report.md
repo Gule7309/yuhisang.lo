@@ -60,3 +60,14 @@
 - The real visual preview artifact `research-page-preview` includes six exact source code references, screenshots of first and last excerpts on each page, and `source-trace-qa.json`.
 - **Manual screenshot review:** academic visual hierarchy and code source links remain clear; a mobile swipe hint was added for truncated-by-viewport monospace lines.
 - **Not tested:** logged-in CMS editing, full screen-reader navigation, real benchmark outcomes and post-merge production rollout. The phase remains in [Draft PR #5](https://github.com/Gule7309/yuhisang.lo/pull/5) for human approval.
+
+---
+
+## Phase 9 — Homepage mobile navigation and data size (2026-11-02)
+
+**PASS in tested scope, NEEDS_REVIEW before merge.** [Draft PR #7](https://github.com/Gule7309/yuhisang.lo/pull/7).
+
+- [Full Phase 9 QA report](phase9-qa.md) includes design reference, tested viewports, real Chrome screenshots and precise file sizes.
+- [Successful Actions run #41466751884](https://github.com/Gule7309/yuhisang.lo/actions/runs/41466751884) tested 1280px desktop and 390/320px mobile, open/closed EN/zh menu, Escape/focus, section selection, outside pointer, error fallback, 0px overflow and preserved work cards.
+- Measured `content/works.json` 48,929 / 17,605 UTF-8/gzip bytes vs derived homepage index 10,585 / 4,008 bytes; reductions 78.4% / 77.2%. These are payload sizes only, **not a measured page-speed or Core Web Vitals claim**.
+- Existing research and product templates unaffected, and CMS still edits only the original works source. All changes remain in the Draft PR; authenticated CMS and full manual screen-reader QA were **NOT TESTED**.
