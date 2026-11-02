@@ -103,6 +103,16 @@ jobs:
           sleep 2
           BROWSER=$(command -v google-chrome || command -v chromium || command -v chromium-browser)
           NODE_PATH=/tmp/portfolio-qa/node_modules PORTFOLIO_PREVIEW_URL=http://127.0.0.1:8766/yuhisang.lo PORTFOLIO_BROWSER="$BROWSER" node scripts/capture_portfolio_qa.cjs
+      - name: Verify bilingual engineering case studies in rendered Chrome
+        run: |
+          mkdir -p /tmp/portfolio-preview
+          ln -sfn "$GITHUB_WORKSPACE" /tmp/portfolio-preview/yuhisang.lo
+          python -m http.server 8767 --bind 127.0.0.1 --directory /tmp/portfolio-preview > /tmp/portfolio-technical-qa.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          sleep 2
+          BROWSER=$(command -v google-chrome || command -v chromium || command -v chromium-browser)
+          NODE_PATH=/tmp/portfolio-qa/node_modules PORTFOLIO_PREVIEW_URL=http://127.0.0.1:8767/yuhisang.lo PORTFOLIO_BROWSER="$BROWSER" node scripts/capture_technical_qa.cjs
       - name: Upload optional research page previews
         if: always()
         uses: actions/upload-artifact@v4
