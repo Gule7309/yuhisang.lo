@@ -176,6 +176,15 @@ collections:
           - {label: Other / 其他（中性）, value: default}
       - {name: year, label: Year, widget: string}
       - {name: tags, label: Tags, widget: list, required: false}
+      - name: media_layout
+        label: Cover display / 封面版型
+        widget: select
+        default: default
+        required: false
+        hint: Choose Phone screenshots only for verified portrait UI captures in the gallery. Keeps existing layout for all other projects and research.
+        options:
+          - {label: Standard image / 標準圖片, value: default}
+          - {label: Phone screenshots / 手機介面截圖, value: phone}
       - {name: image, label: Cover image (authentic screenshots or original diagrams only), widget: image, required: false}
       - {name: image_alt_en, label: Cover alt text English, widget: string, required: false}
       - {name: image_alt_zh, label: 封面圖替代文字 (中文), widget: string, required: false}
