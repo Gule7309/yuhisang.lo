@@ -118,10 +118,16 @@ function renderWorks(category) {
     const preview = previewMedia(w);
     const hasImage = Boolean(preview.image);
     const isDiagram = /\.svg(?:[?#]|$)/i.test(preview.image);
+    const phoneShots = category === 'project' && w.media_layout === 'phone' && Array.isArray(w.gallery)
+      ? w.gallery.filter(g => g && url(g.image)).slice(0, 3) : [];
+    const hasPhoneStrip = phoneShots.length > 1;
     const mediaLabel = hasImage && tr(w, 'media_label') ? '<span class="media-proof-label">' + esc(tr(w, 'media_label')) + '</span>' : '';
-    const cover = hasImage ? renderImage(preview.image, preview.alt, '') :
-      '<small>GULE LAB / ' + esc(category) + '</small>' +
-      '<strong>' + esc(String(w.slug || '').replace(/-/g, ' ').split(' ').slice(0, 3).join(' ')) + '</strong>';
+    const cover = hasPhoneStrip
+      ? '<div class="cover-phone-strip">' + phoneShots.map(g =>
+          renderImage(g.image, tr(g, 'caption') || tr(w, 'title'), 'phone-shot')).join('') + '</div>'
+      : hasImage ? renderImage(preview.image, preview.alt, '') :
+        '<small>GULE LAB / ' + esc(category) + '</small>' +
+        '<strong>' + esc(String(w.slug || '').replace(/-/g, ' ').split(' ').slice(0, 3).join(' ')) + '</strong>';
     const links = [
       detailPath ? '<a href="' + esc(detailPath) + '"><i class="bi bi-arrow-up-right" aria-hidden="true"></i><span>' + esc(detailLabel) + '</span></a>' : '',
       anchor(w.github, labels[language].repository, '', 'bi-github'),
@@ -129,7 +135,7 @@ function renderWorks(category) {
       ownPaper ? anchor(w.paper, labels[language].paper, '', 'bi-file-earmark-text') : '',
       anchor(w.video_link, labels[language].video, '', 'bi-play-circle')
     ].filter(Boolean).join('');
-    return '<article class="work"><div class="cover' + (hasImage ? ' has-image' : '') + (isDiagram ? ' has-diagram' : '') + '">' +
+    return '<article class="work"><div class="cover' + (hasImage ? ' has-image' : '') + (isDiagram ? ' has-diagram' : '') + (hasPhoneStrip ? ' has-phone-layout' : '') + '">' +
       cover + mediaLabel + '</div><div><span class="badge status-badge status-badge--' + esc(statusVariant) + '">' +
       icon(PortfolioUI.statusIcon(statusVariant)) + '<span>' + esc(tr(w, 'status')) +
       '</span></span><span class="year">' + esc(w.year || '') + '</span><h3>' +
