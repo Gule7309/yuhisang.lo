@@ -176,9 +176,11 @@ collections:
           - {label: Other / 其他（中性）, value: default}
       - {name: year, label: Year, widget: string}
       - {name: tags, label: Tags, widget: list, required: false}
-      - {name: image, label: Cover image, widget: image, required: false}
+      - {name: image, label: Cover image (authentic screenshots or original diagrams only), widget: image, required: false}
+      - {name: image_caption_en, label: Cover image context / source (English), widget: text, required: false}
+      - {name: image_caption_zh, label: 封面圖片的來源與使用情境 (中文), widget: text, required: false}
       - name: gallery
-        label: Real screenshots (optional)
+        label: Real screenshots (optional; never simulated as real data)
         widget: list
         required: false
         fields:
