@@ -41,10 +41,12 @@ Source documentation in the user's private development project: ANDROID_UX_BATCH
 
 | Public asset | Original Git blob SHA | Screen / proof boundary |
 | --- | --- | --- |
-| assets/projects/pixelfit-home-browser-preview.png | 41ceb9e5ee8307e656cf1c6bcd7744bb54792073 | Actual rendered workout home in browser QA; routine and mascot are demo state |
-| assets/projects/pixelfit-workout-browser-preview.png | c34ac7d8cb89fa85af5839290128aa10b9ea1b45 | Actual active workout UI; input weight and repetition numbers are sample QA data |
-| assets/projects/pixelfit-result-browser-preview.png | c12a7f45b044bff2fd0e9b7ecf38f6801843f600 | Actual completion UI; 6 sets and 02:10 shown are QA example values |
-| assets/projects/pixelfit-companion-browser-preview.png | 913f9cae5051f2ae905d3b3292352a8b6cc22d6b | Actual companion account/progress view using a synthetic QA tester, not retention metrics |
+| assets/projects/pixelfit-home-browser-preview.jpg | 41ceb9e5ee8307e656cf1c6bcd7744bb54792073 | Actual rendered workout home in browser QA; routine and mascot are demo state |
+| assets/projects/pixelfit-workout-browser-preview.jpg | c34ac7d8cb89fa85af5839290128aa10b9ea1b45 | Actual active workout UI; input weight and repetition numbers are sample QA data |
+| assets/projects/pixelfit-result-browser-preview.jpg | c12a7f45b044bff2fd0e9b7ecf38f6801843f600 | Actual completion UI; 6 sets and 02:10 shown are QA example values |
+| assets/projects/pixelfit-companion-browser-preview.jpg | 913f9cae5051f2ae905d3b3292352a8b6cc22d6b | Actual companion account/progress view using a synthetic QA tester, not retention metrics |
+
+The original source files carried .png names but contained JPEG/JFIF bytes. This repository stores the **unchanged source image bytes** with accurate .jpg extensions, as confirmed by CI media signature validation.
 
 The portfolio case study labels the images **Real UI · browser QA / 實際介面 · 瀏覽器 QA** and provides bilingual source captions. The phone-like three-image cover arrangement uses original screenshot bytes; it does not add fake operating-system chrome, devices or UI elements. These screenshots may not reflect the newest development state.
 
