@@ -77,11 +77,12 @@ function tags(list) {
   return values.length ? '<div class="tags">' + values.map((s) =>
     '<span>' + esc(s) + '</span>').join('') + '</div>' : '';
 }
-function renderImage(raw, alt, className) {
+function renderImage(raw, alt, className, loading = 'lazy') {
   const src = url(raw);
   if (!src) return '';
+  const priority = loading === 'eager' ? 'eager' : 'lazy';
   return '<img' + (className ? ' class="' + esc(className) + '"' : '') +
-    ' src="' + esc(src) + '" alt="' + esc(alt) + '" loading="lazy" decoding="async">';
+    ' src="' + esc(src) + '" alt="' + esc(alt) + '" loading="' + priority + '" decoding="async">';
 }
 function renderGallery(item) {
   const files = Array.isArray(item.gallery) ? item.gallery : [];
@@ -124,7 +125,7 @@ function renderWorks(category) {
     const mediaLabel = hasImage && tr(w, 'media_label') ? '<span class="media-proof-label">' + esc(tr(w, 'media_label')) + '</span>' : '';
     const cover = hasPhoneStrip
       ? '<div class="cover-phone-strip">' + phoneShots.map(g =>
-          renderImage(g.image, tr(g, 'caption') || tr(w, 'title'), 'phone-shot')).join('') + '</div>'
+          renderImage(g.image, tr(g, 'caption') || tr(w, 'title'), 'phone-shot', 'eager')).join('') + '</div>'
       : hasImage ? renderImage(preview.image, preview.alt, '') :
         '<small>GULE LAB / ' + esc(category) + '</small>' +
         '<strong>' + esc(String(w.slug || '').replace(/-/g, ' ').split(' ').slice(0, 3).join(' ')) + '</strong>';
@@ -143,7 +144,7 @@ function renderWorks(category) {
       '</h3><div class="subtitle">' + esc(tr(w, 'subtitle')) +
       '</div><p class="summary">' + esc(tr(w, 'summary')) + '</p>' + tags(w.tags) +
       (links ? '<div class="links work-extra-links">' + links + '</div>' : '') +
-      renderGallery(w) + '</div></article>';
+      (hasPhoneStrip ? '' : renderGallery(w)) + '</div></article>';
   }).join('');
 }
 function section(id, content) {
