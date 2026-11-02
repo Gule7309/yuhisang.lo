@@ -48,9 +48,9 @@ test('homepage honors Featured and uses localized product detail links', async (
   for (const project of data.works.filter(w=>w.category==='project' && !w.featured)) {
     assert.ok(!en.includes('projects/'+project.slug+'/'));
   }
-  assert.ok(en.includes('pixelfit-home-browser-preview.png'));
-  assert.ok(en.includes('pixelfit-workout-browser-preview.png'));
-  assert.ok(en.includes('pixelfit-result-browser-preview.png'));
+  assert.ok(en.includes('pixelfit-home-browser-preview.jpg'));
+  assert.ok(en.includes('pixelfit-workout-browser-preview.jpg'));
+  assert.ok(en.includes('pixelfit-result-browser-preview.jpg'));
   assert.ok(en.includes('class="cover-phone-strip"'));
   assert.ok(en.includes('has-phone-layout'));
   assert.ok(en.includes('Real UI · browser QA'));
