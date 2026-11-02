@@ -142,6 +142,35 @@ class ResearchGenerationTests(unittest.TestCase):
         self.assertIn("候選集合研究", page)
         self.assertIn("研究狀態", page)
 
+    def test_reconstruction_trace_adds_toc_without_publication_claims(self):
+        works = json.loads((self.root / "content/works.json").read_text(encoding="utf-8"))
+        sha = "b" * 40
+        works[0]["source_traces"] = [
+            {"title_en": "Candidate-set insertion",
+             "title_zh": "候選集合插入",
+             "explanation_en": "Only a controlled reconstruction, not a research result.",
+             "explanation_zh": "僅為控制條件下的重建，尚非研究成果。",
+             "code": "if not present:\n    add_candidate()",
+             "language": "python",
+             "source_url": f"https://github.com/example/reconstruction/blob/{sha}/src/interventions.py#L9-L10"}
+        ]
+        (self.root / "content/works.json").write_text(
+            json.dumps(works), encoding="utf-8")
+        self.build()
+        en = self.read("research/candidate-test/index.html")
+        zh = self.read("zh/research/candidate-test/index.html")
+        proposal = self.read("research/proposed-direction/index.html")
+        self.assertIn('href="#implementation"', en)
+        self.assertIn('class="research-section case-source-traces"', en)
+        self.assertIn('id="implementation"', en)
+        self.assertIn("Implementation &amp; reproducibility", en)
+        self.assertIn("not a published or peer-reviewed paper", en)
+        self.assertIn(f'/src/interventions.py#L9-L10"', en)
+        self.assertIn('href="#implementation"', zh)
+        self.assertIn("候選集合插入", zh)
+        self.assertIn("並非 Benchmark", zh)
+        self.assertNotIn('href="#implementation"', proposal)
+
     def test_sitemap_merges_idempotently_with_product_routes(self):
         self.build()
         tree = ET.parse(self.root / "sitemap.xml")
