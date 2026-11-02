@@ -28,6 +28,7 @@ LABELS = {
         "progress": "Current progress", "limitations": "Limitations",
         "next_steps": "Next steps", "figures": "Figures & diagrams",
         "references": "References & related work", "read": "Explore research",
+        "implementation": "Implementation & reproducibility",
         "code": "Research code", "paper": "Own paper",
         "notice": "Research status", "not_published": "Work in progress — not a published or peer-reviewed paper. No experimental findings are claimed beyond the documented progress.",
         "proposal": "Research proposal — a working direction, not a completed study or published paper.",
@@ -44,6 +45,7 @@ LABELS = {
         "progress": "目前進度", "limitations": "研究限制",
         "next_steps": "下一步", "figures": "圖表與架構", "references": "參考文獻與相關研究",
         "read": "閱讀研究", "code": "研究程式碼", "paper": "本研究論文",
+        "implementation": "實作證據與可重現性",
         "notice": "研究狀態", "not_published": "研究進行中，並非已發表或經同儕審查的論文；目前不宣稱已有實驗成果。",
         "proposal": "研究提案階段，尚非完成的實證研究，也未發表論文。",
         "preprint": "作者提供的預印本，尚未經同儕審查。",
@@ -169,10 +171,13 @@ def research_details(item: dict, profile: dict, lang: str) -> str:
         for id_, field in SECTIONS if base.localized(item, field, lang).strip()
     ]
     figures_html = figures_markup(item, lang)
+    implementation_html = base.source_traces_markup(item, lang, research=True)
     references_html = references_markup(item, lang)
     toc = [(id_, label) for id_, label, _ in sections]
     if figures_html:
         toc.append(("figures", l["figures"]))
+    if implementation_html:
+        toc.append(("implementation", l["implementation"]))
     if references_html:
         toc.append(("references", l["references"]))
     nav_html = (
@@ -205,7 +210,7 @@ def research_details(item: dict, profile: dict, lang: str) -> str:
         + f'<p>{base.escape(description)}</p></div></aside>'
         + actions + cover + nav_html
         + "".join(section_markup(i, name, text) for i, name, text in sections)
-        + figures_html + references_html
+        + figures_html + implementation_html + references_html
         + f'<footer class="research-footer"><a href="{base.escape(archive_path(lang))}">'
         f'{base.icon("bi-arrow-left")} {base.escape(l["back"])}</a></footer>'
     )

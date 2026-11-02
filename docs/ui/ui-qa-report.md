@@ -49,3 +49,14 @@
 3. Add a test social link with no explicit Icon to verify platform domain and generic fallback, then remove the test item.
 
 **Fidelity claim:** The colored status component was rendered and inspected locally; no claim of exact visual match to a full live-page screenshot is made.
+
+---
+
+## Phase 7 — Source-backed implementation traces (2026-11-02)
+
+**Result:** NEEDS_REVIEW (new PR not deployed). The full, separately versioned [Phase 7 QA report](phase7-qa.md) documents checked source files and frozen commit/line links, the actual Playwright/Chrome screenshots (1280×900 and 390×844, EN/zh-Hant), browser-visible code proof, security tests, keyboard behavior, preserved research status, remaining CMS/accessibility gaps and the previous visual reference limitations.
+
+- [Verified browser/CI run](https://github.com/Gule7309/yuhisang.lo/actions/runs/41406726835): passed existing tests and four source-panel scenarios with 0px document horizontal overflow.
+- The real visual preview artifact `research-page-preview` includes six exact source code references, screenshots of first and last excerpts on each page, and `source-trace-qa.json`.
+- **Manual screenshot review:** academic visual hierarchy and code source links remain clear; a mobile swipe hint was added for truncated-by-viewport monospace lines.
+- **Not tested:** logged-in CMS editing, full screen-reader navigation, real benchmark outcomes and post-merge production rollout. The phase remains in [Draft PR #5](https://github.com/Gule7309/yuhisang.lo/pull/5) for human approval.

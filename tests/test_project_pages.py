@@ -184,6 +184,60 @@ class ProductPageGeneratorTests(unittest.TestCase):
         self.assertNotIn('id="architecture"', archive)
         self.assertNotIn('id="verification"', archive)
 
+    def test_pinned_source_trace_renders_escaped_code_and_rejects_invalid_links(self):
+        fixture = json.loads((self.folder / "content/works.json").read_text(encoding="utf-8"))
+        pin = "a" * 40
+        fixture[0]["source_traces"] = [
+            {"title_en": "Source-grounded <script>claim</script>",
+             "title_zh": "原始碼證據",
+             "explanation_en": "Only shows a branch of the decision.",
+             "explanation_zh": "僅顯示其中一條規則。",
+             "code": 'if x < y:\n    return "safe"',
+             "language": "python",
+             "source_url": f"https://github.com/example/public-repo/blob/{pin}/src/step.py#L15-L16"},
+            {"title_en": "Unpinned link", "explanation_en": "unsafe",
+             "code": "return True", "source_url":
+             "https://github.com/example/repo/blob/main/a.py#L1"},
+            {"title_en": "Mismatched lines", "explanation_en": "inexact",
+             "code": "return True", "source_url":
+             f"https://github.com/example/repo/blob/{pin}/a.py#L1-L3"},
+            {"title_en": "Private code", "explanation_en": "unsafe",
+             "code": "return True", "source_url": "javascript:alert(1)"},
+            {"title_en": "Traversal", "explanation_en": "unsafe",
+             "code": "return True", "source_url":
+             f"https://github.com/example/repo/blob/{pin}/src/../secrets.py#L1"},
+        ]
+        (self.folder / "content/works.json").write_text(
+            json.dumps(fixture), encoding="utf-8")
+        generator.build()
+        en = self.read("projects/featured-app/index.html")
+        zh = self.read("zh/projects/featured-app/index.html")
+        other = self.read("projects/archive-app/index.html")
+        self.assertIn('class="case-section case-source-traces"', en)
+        self.assertIn('id="implementation"', en)
+        self.assertIn('class="case-trace-list"', en)
+        self.assertIn("Source-grounded &lt;script&gt;claim&lt;/script&gt;", en)
+        self.assertIn("if x &lt; y:", en)
+        self.assertNotIn("<script>claim</script>", en)
+        self.assertIn(f'/src/step.py#L15-L16"', en)
+        self.assertIn('rel="noopener noreferrer"', en)
+        self.assertNotIn("Unpinned link", en)
+        self.assertNotIn("Mismatched lines", en)
+        self.assertNotIn("Private code", en)
+        self.assertNotIn("Traversal", en)
+        self.assertIn("原始碼證據", zh)
+        self.assertNotIn('id="implementation"', other)
+
+    def test_source_trace_is_absent_without_safe_exact_source(self):
+        fake = {"title_en": "Unlinked", "explanation_en": "Not verified",
+                "code": "print('hi')", "source_url": "http://github.com/code"}
+        self.assertEqual(generator.verified_source_traces({"source_traces": [fake]}, "en"), [])
+        self.assertEqual(generator.source_traces_markup({"source_traces": [fake]}, "en"), "")
+        giant = {"title_en": "Overlong", "explanation_en": "Not valid",
+                 "code": "line\n" * 15,
+                 "source_url": f"https://github.com/a/b/blob/{'a'*40}/f.py#L1-L15"}
+        self.assertEqual(generator.verified_source_traces({"source_traces": [giant]}, "en"), [])
+
     def test_sitemap_and_safe_url_handling(self):
         generator.build()
         sitemap = self.read("sitemap.xml")

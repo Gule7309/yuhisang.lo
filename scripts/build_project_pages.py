@@ -54,6 +54,9 @@ LABELS = {
         "stage_planned": "Planned", "evidence_verified": "Tested",
         "evidence_limited": "Limited scope", "evidence_pending": "Not yet validated",
         "source": "Evidence source",
+        "source_traces": "Implementation trace",
+        "source_traces_intro": "Selected excerpts from publicly available, pinned source code. These examples explain the implementation; they do not establish reliability, model accuracy or sole authorship of team modules.",
+        "source_exact": "View exact source",
         "contact": "Contact",
     },
     "zh": {
@@ -74,6 +77,9 @@ LABELS = {
         "stage_planned": "規劃中", "evidence_verified": "已完成特定測試",
         "evidence_limited": "驗證範圍有限", "evidence_pending": "尚未驗證",
         "source": "查看證據來源",
+        "source_traces": "實作程式碼與來源",
+        "source_traces_intro": "以下節錄公開且鎖定版本的原始碼，可用來核對實作設計；不代表系統可靠度、模型準確率，亦不代表團隊模組完全由本站作者獨立完成。",
+        "source_exact": "查看原始程式與行號",
         "contact": "聯絡",
     },
 }
@@ -336,6 +342,92 @@ def verification_evidence(item: dict, lang: str) -> str:
             f'<ul class="case-evidence-list">{"".join(cards)}</ul></section>')
 
 
+# Require line-addressable immutable GitHub permalinks; reject mutable branches,
+# arbitrary external hosts, unsafe schemes, fragments and suspicious traversals.
+SOURCE_TRACE_URL = re.compile(
+    r"^https://github[.]com/([A-Za-z0-9-]+)/([A-Za-z0-9_.-]+)/blob/"
+    r"([0-9a-f]{40})/([^?#\s]+)#L([1-9]\d*)(?:-L([1-9]\d*))?$"
+)
+TRACE_LANGS = {"python", "typescript", "javascript", "text"}
+
+
+def verified_source_traces(item: dict, lang: str) -> list[dict[str, str]]:
+    """Require a correct code/line range before displaying a source excerpt."""
+    records = item.get("source_traces") or []
+    if not isinstance(records, list):
+        return []
+    result = []
+    for entry in records:
+        if not isinstance(entry, dict):
+            continue
+        heading = localized(entry, "title", lang).strip()
+        explanation = localized(entry, "explanation", lang).strip()
+        code = str(entry.get("code") or "").replace("\r\n", "\n").rstrip("\n")
+        href = str(entry.get("source_url") or "").strip()
+        match = SOURCE_TRACE_URL.fullmatch(href)
+        if not match or not heading or not explanation or not code:
+            continue
+        relative_path = match.group(4)
+        if any(seg in {"..", ".", ""} for seg in relative_path.split("/")):
+            continue
+        start = int(match.group(5))
+        end = int(match.group(6) or match.group(5))
+        lines = code.split("\n")
+        if end < start or len(lines) != end - start + 1 or not 1 <= len(lines) <= 14:
+            continue
+        if len(code) > 1300 or len(heading) > 130 or len(explanation) > 600:
+            continue
+        lang_key = str(entry.get("language") or "text").lower()
+        language = lang_key if lang_key in TRACE_LANGS else "text"
+        result.append({
+            "title": heading, "explanation": explanation,
+            "code": code, "url": href, "language": language,
+            "file": relative_path.rsplit("/", 1)[-1],
+            "lines": f"L{start}" + (f"–{end}" if end != start else ""),
+        })
+    return result[:5]
+
+
+def source_traces_markup(item: dict, lang: str, *, research: bool = False) -> str:
+    """Render escaped, source-pinned excerpts with no executable HTML or client JS."""
+    entries = verified_source_traces(item, lang)
+    if not entries:
+        return ""
+    heading = ("Implementation & reproducibility" if lang == "en"
+               else "實作證據與可重現性") if research else LABELS[lang]["source_traces"]
+    intro = (
+        "Excerpts from an ongoing independent mechanism reconstruction. "
+        "They are not benchmark results or a peer-reviewed publication."
+        if lang == "en" else
+        "以下為進行中的獨立機制重建程式碼節錄，並非 Benchmark 實驗結果或經同儕審查的研究成果。"
+    ) if research else LABELS[lang]["source_traces_intro"]
+    cards = []
+    for entry in entries:
+        cards.append(
+            '<article class="case-trace-card">'
+            f'<h3>{escape(entry["title"])}</h3>'
+            f'<p>{escape(entry["explanation"])}</p>'
+            f'<div class="case-trace-code-frame"><div class="case-trace-code-meta">'
+            f'<span>{escape(entry["language"])}</span>'
+            f'<span>{escape(entry["file"])} · {escape(entry["lines"])}</span></div>'
+            f'<pre tabindex="0"><code>{escape(entry["code"])}</code></pre>'
+            f'<span class="case-trace-scroll-hint">'
+            f'{escape("↔ Swipe to read full code" if lang == "en" else "↔ 左右滑動可閱讀完整程式碼")}'
+            f'</span></div>'
+            f'<a class="case-trace-link" href="{escape(entry["url"])}" '
+            f'target="_blank" rel="noopener noreferrer">'
+            f'{icon("bi-code-slash")}{escape("View exact source" if lang == "en" else "查看原始程式與行號")}'
+            f'{icon("bi-arrow-up-right")}</a></article>'
+        )
+    section_class = "research-section case-source-traces" if research else "case-section case-source-traces"
+    return (
+        f'<section class="{section_class}" id="implementation">'
+        f'<h2>{escape(heading)}</h2>'
+        f'<p class="case-traces-intro">{escape(intro)}</p>'
+        + '<div class="case-trace-list">' + "".join(cards) + '</div></section>'
+    )
+
+
 def phone_strip(item: dict, lang: str) -> str:
     """Show actual QA captures side by side; never invent mobile frames."""
     if item.get("media_layout") != "phone":
@@ -418,6 +510,7 @@ def details(item: dict, profile: dict, lang: str) -> str:
         + engineering_decisions(item, lang)
         + info_section(item, lang, "outcome")
         + verification_evidence(item, lang)
+        + source_traces_markup(item, lang)
         + info_section(item, lang, "next_steps")
         + gallery(item, lang)
         + f'<footer class="case-footer"><a href="{escape(index_path(lang))}">'

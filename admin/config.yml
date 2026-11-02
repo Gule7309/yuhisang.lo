@@ -205,6 +205,29 @@ collections:
           - {name: url, label: Verified source URL, widget: string}
           - {name: note_en, label: Note English, widget: text, required: false}
           - {name: note_zh, label: 備註中文, widget: text, required: false}
+      - name: source_traces
+        label: Implementation proof / 程式碼實作證據（Research & Projects）
+        widget: list
+        required: false
+        hint: Public GitHub code only. Use an immutable 40-character commit SHA and exact #Lx-Ly anchor; paste matching 1–14 source lines. Never paste private PixelFit code, secrets, research results or third-party code without proper attribution.
+        fields:
+          - {name: title_en, label: What this code demonstrates (English), widget: string}
+          - {name: title_zh, label: 此程式碼展示什麼（中文）, widget: string}
+          - {name: explanation_en, label: Explanation and evidence limits English, widget: text}
+          - {name: explanation_zh, label: 技術解釋與驗證界線中文, widget: text}
+          - {name: code, label: Exact source code excerpt (1–14 lines), widget: text}
+          - name: language
+            label: Code language
+            widget: select
+            default: text
+            options:
+              - {label: Python, value: python}
+              - {label: TypeScript, value: typescript}
+              - {label: JavaScript, value: javascript}
+              - {label: Plain text, value: text}
+          - name: source_url
+            label: "Pinned public GitHub source URL (commit SHA and #Lx-Ly)"
+            widget: string
       - {name: status_en, label: Status English, widget: string}
       - {name: status_zh, label: Status Chinese, widget: string}
       - name: status_type

@@ -215,3 +215,35 @@ Distinguish meaningful project stages including **原型探索中** and **持續
 - Test EN/zh copy, safe HTML escaping, absent-data graceful omissions, stage enum allowlist and malicious links, CMS YAML, static routes, image assets and prior homepage assertions.
 - Capture actual rendered 1280x900 English and 390x844 zh-Hant case pages, plus an anchored browser screenshot of each new architecture/evidence area after scrolling into view. Verify no horizontal overflow; keep screenshot in CI artifact.
 - Document PASS/FAIL/NOT TESTED in a Phase 6 QA report. Manual screen-reader and authenticated CMS editing remain explicitly NOT TESTED until performed. New PR only; do not merge before user review.
+
+---
+
+## Phase 7 — Verified implementation traces (2026-11-02)
+
+**Mode:** `system`. The user approved continued development after Phase 6. The authoritative visual system is the approved academic portfolio, inspired by [Chia-Ming Lee](https://ming053l.github.io/) and its existing editorial case studies. For research notes, preserve the approved A+C Clarity (https://shikun.io/projects/clarity) + Lil'Log (https://lilianweng.github.io/posts/2023-06-23-agent/) hierarchy. This phase extends **existing details pages** `/projects/trading-radar/` and `/research/when2ask/`, plus their Traditional Chinese equivalents. No homepage redesign, release, or source-project modification.
+
+### Reader task and verified inputs
+
+A researcher or technical recruiter should be able to connect a project/research claim to **specific lines of publicly viewable user/team source code** and understand what the snippet actually proves. The original code repository, not generated text, is the authoritative source. Sources inspected:
+- [Trading Radar public source](https://github.com/Gule7309/trading_radar): pinned main commit `985351296d4d0c1225121be03e31aa115f003769`, plus published Agent/Evidence branch commit `a8cd0261455c178159765d691d9b35d3e57e51f2`.
+- [When2ask WIP reconstruction](https://github.com/Gule7309/When2ask), pinned main commit `320fd61fcae47a566948feaeee48a44efda15567`. This is **not** the original SAGE paper's implementation, or a validated benchmark result.
+- PixelFit source is private: **no code excerpts, file paths or public source links added** without separate authorization. Its already approved technical narrative remains.
+
+### UI components
+
+- A compact **Implementation Trace** section appears after Engineering Decisions / Evidence on a project page (only when valid traces exist) and after research Progress / Figures but before References on a research note (when evidence exists). Add an entry to the research in-page TOC.
+- 2–3 vertically stacked editorial cards, not a dark full-screen code editor. Each card: small pin-style title and bilingual interpretation, a restrained mono code excerpt (max 14 lines; hard cap 1300 chars), a single prominent **View exact source (commit & lines)** link, and a factual scope note as needed. Text in plain `<pre><code>` using HTML escaping and no runtime syntax-highlighting dependency.
+- Border `#dfe8ef` 1px, radius 7px, type 12–14px, light gray code surface `#f5f8fa`; preserve 36–42px section rhythm. Long code can scroll inside its own region; the page itself must not horizontally overflow. Keep 1280px and 390px QA screenshot viewports.
+- CSS changes only to existing `project-pages.css`; research uses that shared stylesheet. No image assets or animations required.
+- CMS `source_traces` list per work: title_en/zh, explanation_en/zh, one exact snippet, language, pinned `github.com/.../blob/<40hex>/...#Lx-Ly` source URL. Other projects display no empty section. Source code is owned by the source repo; this portfolio does not claim individual authorship of every team module.
+- Links must be real and operable without JS. Require HTTPS, `github.com`, a 40-character commit SHA and a line anchor. Fail closed on malformed/untrusted URLs; escape snippets and labels; do not link private repos.
+- The research page must **retain publication_status=work_in_progress**, attribution to Suri et al. and the explicit limitations of its SAGE reconstruction.
+
+### States and gates
+
+- Default: 3 authentic trace cards for Trading Radar and 3 for When2ask. Other projects/research with no data: absent section.
+- Invalid URL or missing snippet: skip the item; if no valid items remain omit the heading and research TOC entry.
+- Missing Chinese text falls back to English according to existing CMS localization conventions, never fake translation.
+- Keyboard: native anchors, clear focus, research TOC link to source trace; source opens a new tab with `noopener noreferrer`.
+- CI: Python static generators + security tests, CMS YAML, Node existing tests, exact URL and snippet boundary checks, no page-level overflow on 1280/390 screenshots. Playwright should actually scroll to source trace before capture; for mobile, prove the last card can be viewed.
+- Do not calculate unverified benchmarks or infer research improvements from the existence of executable code. Do not claim authenticated CMS upload or live source verification after publication.

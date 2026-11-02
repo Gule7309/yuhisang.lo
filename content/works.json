@@ -69,7 +69,36 @@
       }
     ],
     "media_label_en": "Conceptual diagram",
-    "media_label_zh": "研究概念示意"
+    "media_label_zh": "研究概念示意",
+    "source_traces": [
+      {
+        "title_en": "Oracle-complete candidate-set intervention",
+        "title_zh": "Oracle-complete 候選集合干預",
+        "explanation_en": "The independent When2ask reconstruction adds one ground-truth-compatible candidate only if none is present. This tests a planned candidate-recall hypothesis; no benchmark outcome is implied.",
+        "explanation_zh": "When2ask 的獨立重建程式只在集合缺少 ground-truth 相容候選時補入一個，用於規劃中的候選召回假設測試，並不代表已有 Benchmark 結果。",
+        "language": "python",
+        "code": "    current = tuple(candidates)\n    if candidate_set_contains_gt(current, ground_truth):\n        return InterventionResult(current, False, \"ground truth already represented\")\n    if not is_gt_compatible(oracle_candidate, ground_truth):\n        raise ValueError(\"oracle_candidate must be ground-truth compatible\")\n    return InterventionResult(\n        current + (oracle_candidate,), True, \"added ground-truth-compatible candidate\"\n    )",
+        "source_url": "https://github.com/Gule7309/When2ask/blob/320fd61fcae47a566948feaeee48a44efda15567/src/when2ask/interventions.py#L23-L30"
+      },
+      {
+        "title_en": "Forced-miss candidate-set intervention",
+        "title_zh": "Forced-miss 候選集合干預",
+        "explanation_en": "A controlled diagnostic removes compatible candidates and optionally inserts an incompatible replacement. It does not demonstrate a real-world model failure rate.",
+        "explanation_zh": "控制條件會移除所有與標準答案相容的候選，必要時插入不相容替代選項；這不代表模型在真實環境的錯誤率。",
+        "language": "python",
+        "code": "    \"\"\"Remove all GT-compatible candidates, optionally preserving set size.\"\"\"\n    current = tuple(candidates)\n    kept = tuple(c for c in current if not is_gt_compatible(c, ground_truth))\n    removed = len(current) - len(kept)\n    if removed == 0:\n        return InterventionResult(current, False, \"ground truth not represented\")\n\n    if replacement is not None:\n        if is_gt_compatible(replacement, ground_truth):\n            raise ValueError(\"replacement must not be ground-truth compatible\")\n        kept = kept + (replacement,)\n\n    return InterventionResult(kept, True, f\"removed {removed} compatible candidate(s)\")",
+        "source_url": "https://github.com/Gule7309/When2ask/blob/320fd61fcae47a566948feaeee48a44efda15567/src/when2ask/interventions.py#L38-L50"
+      },
+      {
+        "title_en": "Pre-question execution threshold",
+        "title_zh": "澄清問題生成前的執行閾值",
+        "explanation_en": "This reconstructed SAGE Step 1 chooses EXECUTE or NEEDS_QUESTION_SCORING based on viability. The second option is not a final ASK decision; full response-weighted EVPI is not yet implemented.",
+        "explanation_zh": "此 SAGE Step 1 重建依可行性閾值選擇 EXECUTE 或 NEEDS_QUESTION_SCORING；後者不是最終 ASK 決策，完整回應加權 EVPI 尚未實作。",
+        "language": "python",
+        "code": "    if not 0.0 <= tau_exec <= 1.0:\n        raise ValueError(\"tau_exec must be between 0 and 1\")\n    best = best_belief(beliefs)\n    action = (\n        PreQuestionAction.EXECUTE\n        if best.viability >= tau_exec\n        else PreQuestionAction.NEEDS_QUESTION_SCORING\n    )\n    return PreQuestionDecision(action=action, best=best, tau_exec=tau_exec)",
+        "source_url": "https://github.com/Gule7309/When2ask/blob/320fd61fcae47a566948feaeee48a44efda15567/src/when2ask/decision.py#L33-L41"
+      }
+    ]
   },
   {
     "slug": "authority-aware-agents",
@@ -271,6 +300,35 @@
         "detail_zh": "自動資料更新、真實單股重查、大規模來源查證正確率、投資人測試與投資報酬仍未驗證；Mock 情境變化不能視為真實市場表現。",
         "status": "pending",
         "source_url": "https://github.com/Gule7309/trading_radar/blob/main/docs/FRONTEND_VALIDATION.md"
+      }
+    ],
+    "source_traces": [
+      {
+        "title_en": "Snapshot-aware screening fingerprint",
+        "title_zh": "含資料版本的篩選指紋",
+        "explanation_en": "The candidate-screening input fingerprint contains pricing/revenue/financial periods, user profile, configuration and data version. This is a traceability and run-reuse mechanism, not evidence that market data is always current.",
+        "explanation_zh": "候選篩選指紋納入行情、營收與財報期別、使用者設定及資料版本，用於追溯與重用執行結果；不代表市場資料永遠保持最新。",
+        "language": "python",
+        "code": "def _fingerprint(periods: Periods, profile: Profile, config: ScreeningConfig, data_version: str) -> str:\n    payload = {\n        \"asOfDate\": periods.as_of_date, \"priceAsOf\": periods.price_as_of,\n        \"revenueMonth\": periods.revenue_month, \"financialQuarter\": periods.financial_quarter,\n        \"profile\": profile.to_dict(), \"config\": config.to_dict(), \"dataVersion\": data_version,\n    }\n    return hashlib.sha256(json.dumps(payload, sort_keys=True).encode(\"utf-8\")).hexdigest()",
+        "source_url": "https://github.com/Gule7309/trading_radar/blob/985351296d4d0c1225121be03e31aa115f003769/packages/taiwan_data/src/taiwan_data/screening/api.py#L101-L107"
+      },
+      {
+        "title_en": "Represent conflicting evidence explicitly",
+        "title_zh": "將互相矛盾的證據表示為明確狀態",
+        "explanation_en": "The Agent/Evidence team module maps supported and refuted claims to CONFLICTING rather than silently treating mixed evidence as consensus. A status rule is not proof of fact-checking accuracy.",
+        "explanation_zh": "團隊 Agent／Evidence 模組將同時出現支持與反駁的證據標記為 CONFLICTING，避免把矛盾誤當成一致；狀態判斷不等於實際查證準確率已獲驗證。",
+        "language": "typescript",
+        "code": "  const hasSupported = evidence.some(\n    (item) => item.verificationResult === \"SUPPORTED\",\n  );\n  const hasRefuted = evidence.some(\n    (item) => item.verificationResult === \"REFUTED\",\n  );\n\n  if (hasSupported && hasRefuted) return \"CONFLICTING\";\n  if (hasSupported) return \"SUPPORTED\";\n  if (hasRefuted) return \"REFUTED\";\n  return \"INSUFFICIENT\";",
+        "source_url": "https://github.com/Gule7309/trading_radar/blob/a8cd0261455c178159765d691d9b35d3e57e51f2/src/evidence/verification-pipeline.ts#L75-L85"
+      },
+      {
+        "title_en": "Block publication on unresolved high-severity conflict",
+        "title_zh": "高嚴重度衝突未解決時阻止發布",
+        "explanation_en": "This publication-gate excerpt rejects reports containing an unresolved HIGH conflict. It illustrates a deterministic safety check within a separately developed team prototype, not an independently audited investment recommendation.",
+        "explanation_zh": "發布門檻遇到未解決的 HIGH 衝突時會拒絕通過，展示團隊原型中的確定性檢查；不代表投資建議已通過獨立審計。",
+        "language": "typescript",
+        "code": "  const hasHighConflict = state.conflicts.some(\n    (conflict) =>\n      conflict.severity === \"HIGH\" && !conflict.resolved,\n  );\n\n  if (hasHighConflict) {\n    return { ok: false, reason: \"HIGH_CONFLICT\" };\n  }\n\n  return { ok: true };\n}",
+        "source_url": "https://github.com/Gule7309/trading_radar/blob/a8cd0261455c178159765d691d9b35d3e57e51f2/src/harness/publication-gate.ts#L149-L159"
       }
     ]
   },
