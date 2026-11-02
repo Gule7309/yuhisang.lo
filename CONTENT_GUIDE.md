@@ -5,6 +5,21 @@
 
 The website is intentionally academic and selective: real, public evidence matters more than an exhaustive project list.
 
+## Website navigation and homepage performance
+
+The homepage's mobile navigation uses **Sections / 選單** rather than a horizontally clipped list. It keeps the same CMS-controlled section visibility and closes after a selection or Escape. Site language is preserved using the existing language preference.
+
+The live homepage now requests `content/homepage-works.json`, a **generated preview-only index**. The editable source remains `content/works.json`; do **not** edit both files. `node scripts/build_homepage_data.cjs` derives the public homepage list from the CMS source (published research, and featured published projects) and retains status text, tags, authentic cover/gallery preview, links and both languages. It strips detailed research and engineering narratives from the homepage transfer. **Both** GitHub Pages and PR CI regenerate the index automatically before running tests. After every CMS save to `main`, Pages regenerates the live index from the latest source before publication.
+
+To preview the static homepage locally after changing `content/works.json`, run:
+
+```bash
+node scripts/build_homepage_data.cjs
+node --test tests/*.test.cjs
+```
+
+The browser shows a small load notice until content arrives. If the essential profile cannot be loaded, it provides working Research/Projects archive links. Existing case-study pages and the original A+C research layout are unchanged.
+
 ## How content is stored
 
 | CMS section | Data | What to update |
