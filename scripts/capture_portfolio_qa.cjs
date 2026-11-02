@@ -56,6 +56,11 @@ const cases = [
         });
         const invalid=pictures.filter(im=>!im.complete || im.naturalWidth<60 || im.naturalHeight<60);
         assert.equal(invalid.length,0,'Broken or tiny images: '+JSON.stringify(invalid));
+        // Decoding is asynchronous even when naturalWidth is available.
+        // Let Chrome paint twice after scrolling so lazy-loaded screenshots are visible.
+        await page.evaluate(()=>new Promise(resolve=>
+          requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+        await page.waitForTimeout(350);
         const dims=await page.evaluate(()=>({
           width:document.documentElement.clientWidth,
           scrollWidth:document.documentElement.scrollWidth
