@@ -1,0 +1,215 @@
+[
+  {
+    "slug": "when2ask",
+    "category": "research",
+    "published": true,
+    "featured": true,
+    "order": 10,
+    "title_en": "When2ask: Clarification Under Candidate-Set Incompleteness",
+    "title_zh": "When2ask：候選意圖不完整時的 Agent 澄清策略",
+    "subtitle_en": "Research reconstruction & controlled stress test",
+    "subtitle_zh": "研究機制重建與對照實驗",
+    "summary_en": "Investigating whether structured uncertainty remains reliable when the correct tool-use interpretation is missing from an AI agent's generated candidate set. Experimental results are not yet claimed.",
+    "summary_zh": "研究當正確的工具呼叫意圖不在 Agent 生成的候選集合中時，結構化不確定性是否仍然可靠。目前尚未宣稱已有實證結果。",
+    "status_en": "Research in progress",
+    "status_zh": "研究進行中",
+    "status_type": "research",
+    "year": "2026",
+    "tags": [
+      "LLM Agents",
+      "Uncertainty",
+      "Human–AI Interaction"
+    ],
+    "image": "",
+    "media_label_en": "Conceptual diagram",
+    "media_label_zh": "研究概念示意",
+    "github": "https://github.com/Gule7309/When2ask",
+    "demo": "",
+    "paper": "",
+    "publication_status": "work_in_progress",
+    "publication_venue": "",
+    "video_link": "",
+    "gallery": [],
+    "research_figures": [
+      {
+        "image": "/yuhisang.lo/assets/figures/when2ask-intervention-plan.svg",
+        "caption_en": "Original conceptual diagram based on the When2ask experiment plan. These are proposed interventions, not measured results or a figure from Suri et al.",
+        "caption_zh": "依 When2ask 實驗計畫整理的原創概念示意圖，僅展示預定的干預條件，並非實驗結果或 Suri 等人論文的原圖。",
+        "alt_en": "Illustrative diagram of the three planned candidate-set conditions: Natural, Oracle-complete and Forced-miss. Each keeps the downstream decision logic fixed.",
+        "alt_zh": "規劃中的候選集合對照實驗示意圖：Natural、Oracle-complete 與 Forced-miss 三種條件使用相同後續決策流程。"
+      }
+    ]
+  },
+  {
+    "slug": "authority-aware-agents",
+    "category": "research",
+    "published": true,
+    "featured": true,
+    "order": 20,
+    "title_en": "Authority-Aware Decision Making for Tool-Using Agents",
+    "title_zh": "工具型 Agent 的權限感知決策",
+    "subtitle_en": "Research direction · Human-centered AI",
+    "subtitle_zh": "研究方向 · 以人為中心的 AI",
+    "summary_en": "Exploring the boundary between helping and taking over: how an assistant can choose among clarification, confirmation, and execution while respecting user authority.",
+    "summary_zh": "探索 AI 協助與取代決策之間的界線：在尊重使用者權限與自主性的前提下，如何選擇詢問、確認或執行。",
+    "status_en": "Research proposal",
+    "status_zh": "研究提案階段",
+    "status_type": "proposal",
+    "year": "2026",
+    "tags": [
+      "HCAI",
+      "Agent Safety",
+      "User Agency"
+    ],
+    "image": "",
+    "media_label_en": "Conceptual diagram",
+    "media_label_zh": "研究概念示意",
+    "github": "",
+    "demo": "",
+    "paper": "",
+    "publication_status": "work_in_progress",
+    "publication_venue": "",
+    "video_link": "",
+    "gallery": [],
+    "research_figures": [
+      {
+        "image": "/yuhisang.lo/assets/figures/authority-aware-framing.svg",
+        "caption_en": "Original research-framing illustration. This is a proposed problem structure, not a validated model, algorithm, or empirical result.",
+        "caption_zh": "原創研究構想圖；這是待研究的問題架構，並非已驗證的模型、演算法或實驗成果。",
+        "alt_en": "Conceptual research framework separating uncertain intent, authorization scope, and action consequences before exploring clarify, confirm, execute and abstain decisions.",
+        "alt_zh": "概念研究框架，區分意圖不確定性、授權範圍、動作後果，以及澄清、確認、執行或不執行等決策。"
+      }
+    ]
+  },
+  {
+    "slug": "trading-radar",
+    "category": "project",
+    "published": true,
+    "featured": true,
+    "order": 10,
+    "title_en": "Trading Radar — Agentic Research Assistant",
+    "title_zh": "股研雷達 — Agentic 台股研究助理",
+    "subtitle_en": "Agent engineering · Research workbench",
+    "subtitle_zh": "Agent 工程 · 研究工作台",
+    "summary_en": "A Taiwan-stock research prototype combining official data ingestion with agent-oriented research, evidence verification, thesis tracking, and a research workbench.",
+    "summary_zh": "結合台股資料匯入、Agent 研究流程、證據驗證、投資論點追蹤與研究工作台的原型系統。",
+    "status_en": "Prototype",
+    "status_zh": "原型開發",
+    "status_type": "prototype",
+    "year": "2026",
+    "tags": [
+      "TypeScript",
+      "Agent Systems",
+      "Evidence Verification"
+    ],
+    "image": "/yuhisang.lo/assets/projects/trading-radar-dashboard-demo.png",
+    "image_alt_en": "Trading Radar's real desktop research dashboard showing stock candidates, filters and financial figures from the mock demonstration dataset.",
+    "image_alt_zh": "Trading Radar 真正的桌面研究工作台，包含候選股票、篩選控制和 Mock 示範資料中的財務數據。",
+    "media_label_en": "Real UI · mock data",
+    "media_label_zh": "真實介面 · Mock 資料",
+    "github": "https://github.com/Gule7309/trading_radar",
+    "demo": "",
+    "paper": "",
+    "video_link": "",
+    "gallery": [
+      {
+        "image": "/yuhisang.lo/assets/projects/trading-radar-dashboard-demo.png",
+        "caption_en": "Real React interface — desktop candidate screener, with explicitly labeled mock data.",
+        "caption_zh": "實際 React 介面：桌面版選股研究，資料為明確標示的 Mock 範例。"
+      },
+      {
+        "image": "/yuhisang.lo/assets/projects/trading-radar-dashboard-mobile-demo.png",
+        "caption_en": "Real responsive mobile layout running the same mock demonstration environment.",
+        "caption_zh": "同一套 Mock 示範環境下實際執行的手機響應式版面。"
+      },
+      {
+        "image": "/yuhisang.lo/assets/projects/trading-radar-detail-ui-test.png",
+        "caption_en": "Real development-only UI stress-test screen with test fixtures — not a genuine stock-research outcome.",
+        "caption_zh": "實際開發用 UI 壓力測試畫面，內容是測試替身，並非真正的個股研究結論。"
+      }
+    ]
+  },
+  {
+    "slug": "pixelfit",
+    "category": "project",
+    "published": true,
+    "featured": true,
+    "order": 5,
+    "title_en": "PixelFit — Android Fitness Companion",
+    "title_zh": "PixelFit — Android 健身紀錄產品",
+    "subtitle_en": "Independent product · Mobile app",
+    "subtitle_zh": "獨立產品 · Android App",
+    "summary_en": "An Android fitness product focused on useful workout tracking and an intuitive everyday experience. An internal testing build is available; public release and results are not claimed.",
+    "summary_zh": "著重訓練紀錄與日常使用體驗的 Android 健身產品，已有內部測試版本，尚未宣稱公開上架或正式營運成果。",
+    "status_en": "Internal testing",
+    "status_zh": "內部測試中",
+    "status_type": "testing",
+    "year": "2026",
+    "tags": [
+      "Android",
+      "Product Engineering",
+      "Fitness"
+    ],
+    "image": "/yuhisang.lo/assets/projects/pixelfit-home-browser-preview.jpg",
+    "image_alt_en": "PixelFit workout home with the upper-body routine, an original blue pixel pet, and the start training button.",
+    "image_alt_zh": "PixelFit 訓練首頁，顯示上半身菜單、原創藍色像素寵物及開始訓練按鈕。",
+    "media_label_en": "Real UI · browser QA",
+    "media_label_zh": "實際介面 · 瀏覽器 QA",
+    "media_layout": "phone",
+    "github": "",
+    "demo": "",
+    "paper": "",
+    "video_link": "",
+    "gallery": [
+      {
+        "image": "/yuhisang.lo/assets/projects/pixelfit-home-browser-preview.jpg",
+        "caption_en": "Workout home — actual PixelFit browser QA screen, with a sample routine and pet.",
+        "caption_zh": "訓練首頁：實際 PixelFit 瀏覽器 QA 畫面，使用示範菜單與寵物。"
+      },
+      {
+        "image": "/yuhisang.lo/assets/projects/pixelfit-workout-browser-preview.jpg",
+        "caption_en": "Active session — editable weights and repetitions with test input values, not personal performance measurements.",
+        "caption_zh": "訓練進行中：可編輯重量與次數，數值為 QA 測試輸入，並非真實個人成績。"
+      },
+      {
+        "image": "/yuhisang.lo/assets/projects/pixelfit-result-browser-preview.jpg",
+        "caption_en": "Workout completion — sample finished-set count and duration shown in the browser QA preview.",
+        "caption_zh": "訓練結算：瀏覽器 QA 預覽中的範例完成組數與訓練時間。"
+      },
+      {
+        "image": "/yuhisang.lo/assets/projects/pixelfit-companion-browser-preview.jpg",
+        "caption_en": "Companion growth — real PixelFit UI using a synthetic development tester; progress is not real-user retention data.",
+        "caption_zh": "寵物成長：實際 PixelFit 介面搭配虛構開發用測試帳號，進度不代表真實使用者留存。"
+      }
+    ]
+  },
+  {
+    "slug": "tavi",
+    "category": "project",
+    "published": true,
+    "featured": true,
+    "order": 15,
+    "title_en": "Tavi — Calm Adaptive Travel Companion",
+    "title_zh": "Tavi — 以使用者自主為核心的旅行助理",
+    "subtitle_en": "Mobile-first travel planning · Expo / React Native",
+    "subtitle_zh": "行動優先旅行規劃 · Expo / React Native",
+    "summary_en": "A mobile-first travel companion that keeps the next action clear, protects existing commitments, and helps users review uncertain changes before confirming them.",
+    "summary_zh": "以旅途中下一步行動為核心的旅行助理，強調保護既定安排、清楚呈現不確定資訊，並讓使用者確認重要變更。",
+    "status_en": "Active prototype",
+    "status_zh": "持續開發中的原型",
+    "status_type": "active",
+    "year": "2026",
+    "tags": [
+      "Expo",
+      "React Native",
+      "TypeScript",
+      "Human-AI Interaction"
+    ],
+    "image": "",
+    "github": "",
+    "demo": "",
+    "paper": "",
+    "video_link": "",
+    "gallery": []
+  }
+]
