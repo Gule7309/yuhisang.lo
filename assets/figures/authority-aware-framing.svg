@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" role="img" aria-labelledby="title desc">
+<title id="title">Authority-aware agent decisions — research framing</title>
+<desc id="desc">A proposed conceptual research framework separates user-intent uncertainty, scope of delegated authority, and action consequences. The open question is how a tool-using assistant should choose among clarify, confirm, execute, or abstain. It is not an implemented or validated algorithm.</desc>
+<defs>
+<style>
+.h{font:700 28px Inter,Arial,sans-serif;fill:#20364c;letter-spacing:-.75px}
+.sub{font:15px Inter,Arial,sans-serif;fill:#647a8d}
+.label{font:700 16px Inter,Arial,sans-serif;fill:#24415b}
+.body{font:13.5px Inter,Arial,sans-serif;fill:#64798c}
+.flag{font:700 14px Inter,Arial,sans-serif}
+.meta{font:12px Inter,Arial,sans-serif;fill:#7b8e9e}
+.line{stroke:#96aebe;stroke-width:1.7;fill:none;stroke-linecap:round}
+</style>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#96aebe"/></marker>
+</defs>
+<rect width="1120" height="500" rx="16" fill="#fcfdfd"/>
+<text x="40" y="56" class="h">Authority-aware action gating</text>
+<text x="40" y="84" class="sub">Conceptual research framing · Separating inferred intent from permission to act</text>
+<line x1="40" y1="109" x2="1080" y2="109" stroke="#e2eaf0"/>
+<text x="41" y="137" class="meta">FACTORS TO MODEL</text>
+<text x="762" y="137" class="meta">POSSIBLE AGENT DECISIONS</text>
+<rect x="42" y="154" width="286" height="86" rx="10" fill="#eff4f8" stroke="#d5e3ed"/>
+<text x="64" y="184" class="label">Intent uncertainty</text>
+<text x="64" y="207" class="body">Is the user's request clear?</text>
+<rect x="42" y="251" width="286" height="86" rx="10" fill="#eff4f8" stroke="#d5e3ed"/>
+<text x="64" y="281" class="label">Authorization scope</text>
+<text x="64" y="304" class="body">What action was permitted?</text>
+<rect x="42" y="348" width="286" height="86" rx="10" fill="#eff4f8" stroke="#d5e3ed"/>
+<text x="64" y="378" class="label">Consequences</text>
+<text x="64" y="401" class="body">Impact and reversibility</text>
+<path class="line" d="M329 198 H414 V294 H456" marker-end="url(#arrow)"/>
+<path class="line" d="M329 294 H456" marker-end="url(#arrow)"/>
+<path class="line" d="M329 392 H414 V294" />
+<rect x="467" y="227" width="222" height="134" rx="11" fill="#fff" stroke="#cadce9" stroke-width="1.8" stroke-dasharray="5 4"/>
+<text x="487" y="268" class="label">Action policy?</text>
+<text x="487" y="292" class="body">Research question:</text>
+<text x="487" y="314" class="body">When should the agent</text>
+<text x="487" y="336" class="body">ask, act, or stop?</text>
+<path class="line" d="M689 295 H736" marker-end="url(#arrow)"/>
+<rect x="755" y="152" width="298" height="66" rx="9" fill="#eff5fb" stroke="#cfe1f0"/>
+<text x="780" y="191" class="flag" fill="#2b5e8b">Clarify</text>
+<text x="872" y="191" class="body">Resolve ambiguity</text>
+<rect x="755" y="227" width="298" height="66" rx="9" fill="#f9f2e8" stroke="#eadac0"/>
+<text x="780" y="266" class="flag" fill="#8d5e1e">Confirm</text>
+<text x="872" y="266" class="body">Ask before impact</text>
+<rect x="755" y="302" width="298" height="66" rx="9" fill="#eaf6ef" stroke="#cce4d7"/>
+<text x="780" y="341" class="flag" fill="#2c704a">Execute</text>
+<text x="872" y="341" class="body">Within permission</text>
+<rect x="755" y="377" width="298" height="66" rx="9" fill="#f2f4f6" stroke="#dce2e7"/>
+<text x="780" y="416" class="flag" fill="#596875">Abstain</text>
+<text x="872" y="416" class="body">Do not perform action</text>
+<line x1="40" y1="458" x2="1080" y2="458" stroke="#e2eaf0"/>
+<text x="40" y="482" class="meta">RESEARCH CONCEPT ONLY  ·  No validated decision policy, implementation or benchmark outcome is claimed</text>
+</svg>
