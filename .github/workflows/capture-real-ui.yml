@@ -5,7 +5,7 @@ on:
     paths:
       - .github/workflows/capture-real-ui.yml
 permissions:
-  contents: read
+  contents: write
 jobs:
   capture:
     runs-on: ubuntu-latest
@@ -15,14 +15,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Gule7309/trading_radar
-          ref: main
+          ref: 985351296d4d0c1225121be03e31aa115f003769
           path: trading-radar
           persist-credentials: false
       - name: Checkout public Trading Radar mock API branch
         uses: actions/checkout@v4
         with:
           repository: Gule7309/trading_radar
-          ref: feat/b-agent-mvp
+          ref: a8cd0261455c178159765d691d9b35d3e57e51f2
           path: trading-radar-backend
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -71,3 +71,25 @@ jobs:
           name: real-trading-radar-ui-capture
           path: screenshots/*.png
           retention-days: 7
+
+
+      - name: Checkout feature branch to store verified app UI captures
+        uses: actions/checkout@v4
+        with:
+          repository: Gule7309/yuhisang.lo
+          ref: feature/authentic-portfolio-media-20261102
+          path: portfolio-site
+      - name: Commit approved mock-UI screenshots to feature branch
+        run: |
+          mkdir -p portfolio-site/assets/projects
+          cp screenshots/trading-radar-dashboard-demo.png portfolio-site/assets/projects/trading-radar-dashboard-demo.png
+          cp screenshots/trading-radar-dashboard-mobile-demo.png portfolio-site/assets/projects/trading-radar-dashboard-mobile-demo.png
+          cp screenshots/trading-radar-desktop-demo.png portfolio-site/assets/projects/trading-radar-detail-ui-test.png
+          cd portfolio-site
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/projects/trading-radar-dashboard-demo.png assets/projects/trading-radar-dashboard-mobile-demo.png assets/projects/trading-radar-detail-ui-test.png
+          if ! git diff --cached --quiet; then
+            git commit -m "media: add captured Trading Radar frontend mock screenshots (clearly labeled)"
+            git push origin HEAD:feature/authentic-portfolio-media-20261102
+          fi
