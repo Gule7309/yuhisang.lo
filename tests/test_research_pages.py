@@ -222,6 +222,7 @@ class ResearchGenerationTests(unittest.TestCase):
         self.assertIn("Normalized share", en)
         self.assertIn("not calibrated correctness probability", en)
         self.assertIn("https://github.com/Gule7309/When2ask/actions/runs/12345/artifacts/98765", en)
+        self.assertIn('href="/yuhisang.lo/content/experiments/test-audit.json"', en)
         self.assertIn("https://github.com/Gule7309/When2ask/blob/" + "a"*40, en)
         self.assertIn('href="#reproducibility"', zh)
         self.assertIn("已執行的機制驗證", zh)
