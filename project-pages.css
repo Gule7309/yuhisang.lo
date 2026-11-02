@@ -66,3 +66,33 @@
 .case-gallery.has-phone-layout figure img{width:100%;max-height:375px;object-fit:contain}
 @media(max-width:850px){.case-gallery.has-phone-layout{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:390px){.project-list-cover.has-phone-layout .cover-phone-strip{gap:5px}.case-gallery.has-phone-layout{gap:9px}}
+
+/* Phase 6: evidence-led technical case studies, using the existing academic palette. */
+.case-technical-jump{display:inline-flex;align-items:center;gap:7px;margin:0 0 14px;font-size:12px;font-weight:650;color:#2a597e}
+.case-technical-jump:hover{text-decoration:underline}
+.case-technical-jump .bi{font-size:14px}
+.case-section-intro{max-width:740px;color:#64798c!important;font-size:12.5px!important;margin:-3px 0 22px!important;line-height:1.85}
+.case-architecture-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin:0;padding:0;list-style:none}
+.case-architecture-layer{display:flex;flex-direction:column;min-width:0;min-height:185px;padding:17px 15px 15px;border:1px solid #e1e9ef;background:#fafcfd;border-radius:7px}
+.case-layer-no{font-size:11px;font-weight:800;letter-spacing:.07em;color:#7e94a7;margin:0 0 14px}
+.case-architecture-layer h3{color:#233c54;font-size:14px;font-weight:700;line-height:1.45;letter-spacing:-.025em;margin:0 0 7px;overflow-wrap:anywhere}
+.case-architecture-layer p{font-size:12px;line-height:1.7;color:#60758a;margin:0 0 16px;white-space:normal;overflow-wrap:anywhere}
+.case-architecture-state{display:inline-flex;align-self:flex-start;margin-top:auto;border-radius:4px;border:1px solid #e1e8ed;background:#f2f5f7;color:#52697c;padding:3px 7px;font-size:10px;line-height:1.5;font-weight:750}
+.case-architecture-state--implemented{color:#285a4d;border-color:#d6e9df;background:#edf7f0}
+.case-architecture-state--prototype{color:#365d83;border-color:#d9e7f1;background:#eff5fb}
+.case-architecture-state--planned{color:#696f79;border-color:#e2e5e8;background:#f5f6f7}
+.case-decisions{list-style:none;margin:0;padding:0;border-top:1px solid #e4ebf0}
+.case-decision{display:grid;grid-template-columns:30px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid #e6edf1}
+.case-decision-no{font-size:12px;font-weight:750;color:#8094a6;font-variant-numeric:tabular-nums;padding-top:3px}
+.case-decision h3,.case-evidence-item h3{font-size:14px;font-weight:700;line-height:1.5;letter-spacing:-.015em;color:#263f56;margin:0 0 6px}
+.case-decision p,.case-evidence-item p{font-size:12.7px;line-height:1.87;color:#546b7e;max-width:740px;margin:0;white-space:pre-line;overflow-wrap:anywhere}
+.case-evidence-list{list-style:none;margin:0;padding:0;border-top:1px solid #e4ebf0}
+.case-evidence-item{display:grid;grid-template-columns:132px minmax(0,1fr);gap:16px;align-items:start;padding:18px 0;border-bottom:1px solid #e6edf1}
+.case-evidence-state{display:inline-block;width:fit-content;padding:4px 8px;border-radius:4px;font-size:10.5px;font-weight:750;line-height:1.5;background:#f3f5f7;color:#60717d}
+.case-evidence-state--verified{background:#ecf7f0;color:#2c6a4e}
+.case-evidence-state--limited{background:#fbf5e9;color:#866327}
+.case-evidence-state--pending{background:#f3f5f7;color:#63717f}
+.case-evidence-source{display:inline-flex;align-items:center;gap:6px;font-weight:650;font-size:11px;margin-top:9px;color:#356990}
+.case-evidence-source .bi{font-size:12px}
+@media(max-width:990px){.case-architecture-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.case-architecture-layer{min-height:165px}}
+@media(max-width:680px){.case-architecture-grid{grid-template-columns:1fr;gap:9px}.case-architecture-layer{min-height:0;padding:14px 15px}.case-layer-no{margin-bottom:8px}.case-architecture-layer p{margin-bottom:11px}.case-evidence-item{grid-template-columns:1fr;gap:10px}.case-decision{gap:10px}.case-technical-jump{margin:0 0 10px}}
