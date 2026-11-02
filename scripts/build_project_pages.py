@@ -406,10 +406,11 @@ def details(item: dict, profile: dict, lang: str) -> str:
         f'<div class="case-status">{badge(item, lang)}'
         f'<span class="case-year">{escape(item.get("year") or "")}</span></div>'
         f'<p class="case-lead">{escape(summary)}</p>'
-        + tags(item) + resource_links(item, lang) + media
+        + tags(item) + resource_links(item, lang)
         + (f'<a class="case-technical-jump" href="#architecture">'
            f'{icon("bi-diagram-3")}{escape(LABELS[lang]["technical_jump"])}</a>'
            if technical_rows(item, "architecture_layers") else "")
+        + media
         + info_section(item, lang, "role")
         + info_section(item, lang, "challenge")
         + info_section(item, lang, "approach")
