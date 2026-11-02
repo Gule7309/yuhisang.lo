@@ -20,7 +20,10 @@ const labels = {
     cv: 'Curriculum Vitae', demo: 'Demo', repository: 'GitHub',
     caseStudy: 'Case study', allProjects: 'Browse all projects',
     researchDetail: 'Research overview', allResearch: 'Browse all research',
-    paper: 'Paper', video: 'Video', resource: 'Related resource', photoAlt: 'Project screenshot'
+    paper: 'Paper', video: 'Video', resource: 'Related resource', photoAlt: 'Project screenshot',
+    menu: 'Sections', menuOpen: 'Open sections', menuClose: 'Close sections',
+    navName: 'Page sections', skip: 'Skip to content', backToTop: 'Back to top',
+    errorTitle: 'Content unavailable', errorMessage: 'The homepage could not load. You can still browse the research and projects archives.'
   },
   zh: {
     about: '關於', research: '精選研究', projects: '精選專案',
@@ -36,7 +39,10 @@ const labels = {
     cv: '英文履歷', demo: 'Demo', repository: 'GitHub',
     caseStudy: '專案詳情', allProjects: '查看全部專案',
     researchDetail: '研究詳情', allResearch: '查看全部研究',
-    paper: '論文', video: '影片', resource: '相關資料', photoAlt: '專案截圖'
+    paper: '論文', video: '影片', resource: '相關資料', photoAlt: '專案截圖',
+    menu: '選單', menuOpen: '開啟章節選單', menuClose: '關閉章節選單',
+    navName: '頁面章節導覽', skip: '跳至主要內容', backToTop: '回到頁首',
+    errorTitle: '內容暫時無法載入', errorMessage: '首頁資料未能成功載入，你仍可瀏覽研究及專案列表。'
   }
 };
 
@@ -224,6 +230,15 @@ function render() {
   });
   $('#english').classList.toggle('selected', language === 'en');
   $('#chinese').classList.toggle('selected', language === 'zh');
+  $('#english').setAttribute('aria-pressed', String(language === 'en'));
+  $('#chinese').setAttribute('aria-pressed', String(language === 'zh'));
+  $('#primary-navigation').setAttribute('aria-label', t.navName);
+  $('#nav-toggle-label').textContent = t.menu;
+  $('#nav-toggle').setAttribute('aria-label',
+    $('#nav-toggle').getAttribute('aria-expanded') === 'true' ? t.menuClose : t.menuOpen);
+  $('#skip-link').textContent = t.skip;
+  $('#up').setAttribute('aria-label', t.backToTop);
+  $('#site-status').hidden = true;
   const social = (p.socials || []).map(socialLink).join('');
   const email = p.email ? anchor('mailto:' + p.email, 'Email', 'social-link', 'bi-envelope') : '';
   const cv = p.cv_url ? anchor(p.cv_url, t.cv + ' ↗', 'profile-quicklink', 'bi-file-earmark-pdf') : '';
@@ -273,7 +288,7 @@ async function fetchJson(name, fallback) {
   }
 }
 Promise.all([
-  fetchJson('profile', null), fetchJson('works', []), fetchJson('news', []),
+  fetchJson('profile', null), fetchJson('homepage-works', []), fetchJson('news', []),
   fetchJson('writing', []), fetchJson('achievements', []), fetchJson('personal', {})
 ]).then(([profile, works, newsItems, writingItems, achievementItems, personalData]) => {
   if (!profile) throw new Error('Missing profile content');
@@ -282,11 +297,53 @@ Promise.all([
   render();
 }).catch((error) => {
   console.error(error);
-  $('#about').textContent = 'Content unavailable. Please refresh the page.';
+  const t = labels[language];
+  const status = $('#site-status');
+  status.hidden = false;
+  status.setAttribute('role', 'alert');
+  status.innerHTML = '<strong>' + esc(t.errorTitle) + '</strong><p>' +
+    esc(t.errorMessage) + '</p><div class="site-status-links">' +
+    '<a href="research/">' + esc(t.allResearch) + '</a>' +
+    '<a href="projects/">' + esc(t.allProjects) + '</a></div>';
 });
+const navToggle = $('#nav-toggle');
+const navMenu = $('#primary-navigation');
+function closeNav(returnFocus = false) {
+  navMenu.removeAttribute('data-open');
+  navToggle.setAttribute('aria-expanded', 'false');
+  navToggle.setAttribute('aria-label', labels[language].menuOpen);
+  if (returnFocus) navToggle.focus();
+}
+function openNav() {
+  navMenu.setAttribute('data-open', 'true');
+  navToggle.setAttribute('aria-expanded', 'true');
+  navToggle.setAttribute('aria-label', labels[language].menuClose);
+}
+navToggle.addEventListener('click', () => {
+  if (navToggle.getAttribute('aria-expanded') === 'true') closeNav();
+  else openNav();
+});
+navMenu.addEventListener('click', (event) => {
+  const target = event.target && event.target.closest('a[href^="#"]');
+  if (target) closeNav();
+});
+if (typeof document.addEventListener === 'function') {
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && navToggle.getAttribute('aria-expanded') === 'true') {
+      closeNav(true);
+    }
+  });
+  document.addEventListener('pointerdown', (event) => {
+    if (navToggle.getAttribute('aria-expanded') === 'true' &&
+        !navMenu.contains(event.target) && !navToggle.contains(event.target)) {
+      closeNav();
+    }
+  });
+}
 function setLanguage(next) {
   language = next;
   try { localStorage.setItem('gule-language', next); } catch (_) {}
+  closeNav();
   if (database) render();
 }
 $('#english').addEventListener('click', () => setLanguage('en'));
