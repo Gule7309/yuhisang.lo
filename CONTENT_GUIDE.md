@@ -35,6 +35,18 @@ This adds a three-screen editorial strip on the homepage and All Projects archiv
 
 **PixelFit:** The four pictures are from its own October 2026 packaged web-app QA screens, not Android device captures, and show development/test data. The private source repository stays private. Do not claim these visuals prove the app has shipped on Google Play or that the numeric values are real workouts. Additional documentation: docs/media/PROVENANCE.md.
 
+## Engineering case-study sections (optional)
+
+In **/admin/ → Research and Projects**, projects can include a technical deep dive without changing their original case-study layout:
+
+1. **Architecture context + System layers:** describe a selected high-level architecture (not a measured production topology). Each layer gets EN/中文 name, short explanation and one stage: **Implemented**, **Prototype**, or **Planned**. Only select Implemented when backed by code or actual tested behavior.
+2. **Engineering decisions:** add a few explicit trade-offs with EN/中文 titles and rationale. Explain why the approach was chosen and what boundary it respects; avoid generic performance/revenue claims.
+3. **Tests and limitations:** a concise, source-backed set of facts. Choose **Tested** only for the exact validated scope; choose **Limited scope** for partial evidence (e.g., single live run, browser-only QA), and **Not yet validated** for claims not measured. Source URLs must be public HTTPS; don't link to a private repo.
+
+These are optional lists; other projects do not show empty technical panels. The page automatically provides a small in-page **Explore technical details / 查看技術細節** link when layers exist. In the schema, research notes still use dedicated research fields; their accepted/preprint status is independent of these product descriptions.
+
+**Verified examples:** PixelFit explains local-first editing, durable IndexedDB writes, isolated beta cloud and server-controlled growth receipts; the displayed captures are still browser QA and not native device screenshots. Trading Radar explains official-data screens, agent/evidence workstream and UI; the live study was a bounded demo, **not** an investment performance benchmark. Editorial evidence ledger: [docs/engineering/CASE_STUDY_EVIDENCE.md](docs/engineering/CASE_STUDY_EVIDENCE.md).
+
 ## Authentic media and clear disclosures
 
 The latest phase adds **actual Trading Radar screenshots** and **source-grounded original diagrams** without implying benchmark results or production reliability.

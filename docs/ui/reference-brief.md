@@ -182,3 +182,36 @@ Distinguish meaningful project stages including **原型探索中** and **持續
 3. Case-study cover and gallery use all four real screen captures, with accurate provenance and alt text.
 4. Existing product/research navigation, status labels, bilingual routing and SEO are unchanged.
 5. CI Node/Python tests and actual desktop/mobile browser screenshot review pass. Do not claim native Android UX was tested.
+
+---
+
+## Phase 6 — Evidence-led technical case studies (2026-11-02)
+
+**Approved direction:** after authentic images, improve engineering depth for recruitment/research audiences. Target is the existing static bilingual `/projects/pixelfit/`, `/projects/trading-radar/` and zh-Hant equivalents; no change to A+C research notes, homepage theme, private apps, payments, or production deployment.
+
+### Source hierarchy
+
+1. **Authoritative styling:** existing Yu-Hsiang Luo Portfolio, Chia-Ming Lee (https://ming053l.github.io/). Preserve white background, navy text, understated border rhythm, left profile sidebar, compact labels and links.
+2. **Case-study editorial influence:** existing A+C Clarity (https://shikun.io/projects/clarity) and Lil'Log (https://lilianweng.github.io/posts/2023-06-23-agent/) decisions: clear hierarchy, thoughtful narrative, figures where supported; not a copy.
+3. **Technical facts:** PixelFit private development docs (ANDROID_UX_BATCH10.md, LATENCY_AND_CLOUD_BATCH12.md, CLOUD_BACKEND_BATCH13.md, PLAY_RECOVERY_BATCH17.md) and Trading Radar's public README, FRONTEND_SETUP.md, FRONTEND_VALIDATION.md, LIVE_DEMO_SETUP.md. Do not expose PixelFit's private repo URL, keys, account IDs, or internal deployment identifiers. Trading Radar's source URLs can be public.
+
+### Layout, responsive states and CMS
+
+- A restrained **System Architecture** block after the project's Approach, with four vertical layers/steps in a responsive 4-column desktop grid (2-column tablet, single-column <= 680px), thin borders, pale blue/grey surface, no unverified performance numbers. Each stage has a small sequence number, title, explanatory line, and bounded stage tag: `implemented`, `prototype`, `planned`. Diagram is a **selected-layer conceptual overview**, never a production topology proof.
+- **Engineering Decisions** is a 2- or 3-item ordered editorial list of specific constraints, design choices and reasons. No generic AI-generated marketing claims; only source-backed decisions. Each record supports bilingual heading and body.
+- **Evidence & Limitations** uses a plain list of tested/limited/to-verify facts. Status text and icons are secondary; never show an unverified claim as a passing metric. Evidence links only when an accessible public URL exists; otherwise describe source documents without publicly exposing a private repo path.
+- Three optional CMS lists: `architecture_layers`, `engineering_decisions`, `verification_evidence`. Existing project pages with no data omit these areas entirely. No new runtime dependency or database.
+- Include small in-page link `Technical details` near the top only when supported content exists. Same robust whitelist validation used for existing links. Cross-section semantics and keyboard focus must work without JavaScript.
+- Spacing estimated from current CSS: section blocks 36-42px apart, title 20-21px, body 13-14px, light 1px borders, radius <= 8px, subdued status ink; avoid saturated background cards. Preserve aria/alt/locale labels and focus outlines.
+
+### Fact boundaries
+
+- PixelFit: React/Capacitor UI; reliable IndexedDB local draft/outbox and deferred sync; authenticated beta callable/Firestore paths with server receipt for growth. The beta is isolated; do not equate targeted 100ms UX with measured latency, or a signed AAB with Play rollout.
+- Trading Radar: official-data ingestion to a versioned SQLite and candidate contract; a separately developed Agent/Evidence branch; a React workbench with mock tested flow and a documented bounded live run. Mock imagery is not real model output; evidence quality, automated recheck and investing outcomes not validated.
+- For both projects, source descriptions support the *design*, not a user study, audited performance, revenue or production SLA. Don't add unsourced quantitative metrics.
+
+### Verification contract
+
+- Test EN/zh copy, safe HTML escaping, absent-data graceful omissions, stage enum allowlist and malicious links, CMS YAML, static routes, image assets and prior homepage assertions.
+- Capture actual rendered 1280x900 English and 390x844 zh-Hant case pages, plus an anchored browser screenshot of each new architecture/evidence area after scrolling into view. Verify no horizontal overflow; keep screenshot in CI artifact.
+- Document PASS/FAIL/NOT TESTED in a Phase 6 QA report. Manual screen-reader and authenticated CMS editing remain explicitly NOT TESTED until performed. New PR only; do not merge before user review.

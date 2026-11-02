@@ -129,6 +129,61 @@ class ProductPageGeneratorTests(unittest.TestCase):
         self.assertIn("/yuhisang.lo/assets/uploads/third.png", archive)
         self.assertNotIn("phone-shot", self.read("projects/archive-app/index.html"))
 
+    def test_optional_technical_sections_are_localized_escaped_and_source_safe(self):
+        fixture = json.loads((self.folder / "content/works.json").read_text(encoding="utf-8"))
+        fixture[0].update({
+            "architecture_note_en": "Prototype layers, not production <script>.",
+            "architecture_note_zh": "這是概念分層，不是正式部署。",
+            "architecture_layers": [
+                {"title_en": "UI <script>alert(1)</script>", "title_zh": "介面",
+                 "description_en": "Client-side editable", "description_zh": "可操作",
+                 "stage": "implemented"},
+                {"title_en": "Unknown stage", "title_zh": "未知階段",
+                 "description_en": "Do not claim verified", "description_zh": "不能聲稱通過",
+                 "stage": "released"}
+            ],
+            "engineering_decisions": [
+                {"title_en": "Reliability", "title_zh": "可靠性",
+                 "rationale_en": "Never trust <b>mock</b> output.",
+                 "rationale_zh": "不能將測試當作成績。"}
+            ],
+            "verification_evidence": [
+                {"title_en": "Mock tests", "title_zh": "Mock 測試",
+                 "detail_en": "Fixture only.", "detail_zh": "僅示範資料。",
+                 "status": "verified",
+                 "source_url": "https://github.com/example/research"},
+                {"title_en": "Unverified release", "title_zh": "未驗證發布",
+                 "detail_en": "Do not claim rollout", "detail_zh": "不可聲稱上線",
+                 "status": "pass", "source_url": "javascript:alert(1)"}
+            ]
+        })
+        (self.folder / "content/works.json").write_text(
+            json.dumps(fixture), encoding="utf-8")
+        generator.build()
+        en = self.read("projects/featured-app/index.html")
+        zh = self.read("zh/projects/featured-app/index.html")
+        archive = self.read("projects/archive-app/index.html")
+        self.assertIn('href="#architecture"', en)
+        self.assertIn('id="architecture"', en)
+        self.assertIn('class="case-architecture-grid"', en)
+        self.assertIn('case-architecture-state--implemented', en)
+        self.assertIn('case-architecture-state--prototype', en)
+        self.assertIn('id="engineering"', en)
+        self.assertIn('id="verification"', en)
+        self.assertIn('case-evidence-state--verified', en)
+        self.assertIn('case-evidence-state--pending', en)
+        self.assertNotIn('case-evidence-state--pass', en)
+        self.assertIn("UI &lt;script&gt;alert(1)&lt;/script&gt;", en)
+        self.assertNotIn("<script>alert(1)</script>", en)
+        self.assertIn("Never trust &lt;b&gt;mock&lt;/b&gt;", en)
+        self.assertIn('href="https://github.com/example/research"', en)
+        self.assertNotIn("javascript:alert", en)
+        self.assertIn("這是概念分層", zh)
+        self.assertIn("工程取捨與設計決策", zh)
+        self.assertIn("尚未驗證", zh)
+        self.assertNotIn('id="architecture"', archive)
+        self.assertNotIn('id="verification"', archive)
+
     def test_sitemap_and_safe_url_handling(self):
         generator.build()
         sitemap = self.read("sitemap.xml")

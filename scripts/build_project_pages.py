@@ -48,6 +48,12 @@ LABELS = {
         "no_media": "Screenshots are not yet public.",
         "empty": "No public projects have been added yet.",
         "intro": "An index of products and engineering prototypes. Status reflects the current development stage.",
+        "architecture": "System Architecture", "engineering": "Engineering Decisions",
+        "verification": "Evidence & Limitations", "technical_jump": "Explore technical details",
+        "stage_implemented": "Implemented", "stage_prototype": "Prototype",
+        "stage_planned": "Planned", "evidence_verified": "Tested",
+        "evidence_limited": "Limited scope", "evidence_pending": "Not yet validated",
+        "source": "Evidence source",
         "contact": "Contact",
     },
     "zh": {
@@ -62,6 +68,12 @@ LABELS = {
         "no_media": "目前尚無公開畫面。",
         "empty": "目前尚未公開專案。",
         "intro": "整理公開產品與工程原型；狀態標籤代表目前開發階段。",
+        "architecture": "系統架構", "engineering": "工程取捨與設計決策",
+        "verification": "驗證證據與限制", "technical_jump": "查看技術細節",
+        "stage_implemented": "已實作", "stage_prototype": "原型開發", 
+        "stage_planned": "規劃中", "evidence_verified": "已完成特定測試",
+        "evidence_limited": "驗證範圍有限", "evidence_pending": "尚未驗證",
+        "source": "查看證據來源",
         "contact": "聯絡",
     },
 }
@@ -235,6 +247,95 @@ def info_section(item: dict, lang: str, field: str) -> str:
             f'{paragraphs(value)}</section>')
 
 
+# Optional deep-dive data is scoped strictly to product case studies; research notes
+# retain their independent, previously approved template.
+ARCH_STATES = {"implemented", "prototype", "planned"}
+EVIDENCE_STATES = {"verified", "limited", "pending"}
+
+
+def technical_rows(item: dict, key: str) -> list[dict]:
+    raw = item.get(key) or []
+    return [r for r in raw if isinstance(r, dict)] if isinstance(raw, list) else []
+
+
+def architecture(item: dict, lang: str) -> str:
+    rows = technical_rows(item, "architecture_layers")
+    cards = []
+    for idx, layer in enumerate(rows, 1):
+        name = localized(layer, "title", lang).strip()
+        description = localized(layer, "description", lang).strip()
+        if not name or not description:
+            continue
+        stage = str(layer.get("stage") or "prototype").lower()
+        if stage not in ARCH_STATES:
+            stage = "prototype"
+        status = LABELS[lang]["stage_" + stage]
+        cards.append(
+            f'<li class="case-architecture-layer">'
+            f'<span class="case-layer-no">{idx:02d}</span>'
+            f'<h3>{escape(name)}</h3><p>{escape(description)}</p>'
+            f'<span class="case-architecture-state case-architecture-state--{stage}">'
+            f'{escape(status)}</span></li>'
+        )
+    if not cards:
+        return ""
+    intro = localized(item, "architecture_note", lang).strip()
+    copy = f'<p class="case-section-intro">{escape(intro)}</p>' if intro else ""
+    return (f'<section class="case-section case-architecture" id="architecture">'
+            f'<h2>{escape(LABELS[lang]["architecture"])}</h2>{copy}'
+            f'<ol class="case-architecture-grid">{"".join(cards)}</ol></section>')
+
+
+def engineering_decisions(item: dict, lang: str) -> str:
+    rows = technical_rows(item, "engineering_decisions")
+    cards = []
+    for idx, decision in enumerate(rows, 1):
+        heading = localized(decision, "title", lang).strip()
+        rationale = localized(decision, "rationale", lang).strip()
+        if not heading or not rationale:
+            continue
+        cards.append(
+            f'<li class="case-decision">'
+            f'<span class="case-decision-no" aria-hidden="true">{idx:02d}</span>'
+            f'<div><h3>{escape(heading)}</h3><p>{escape(rationale)}</p></div></li>'
+        )
+    if not cards:
+        return ""
+    return (f'<section class="case-section" id="engineering">'
+            f'<h2>{escape(LABELS[lang]["engineering"])}</h2>'
+            f'<ol class="case-decisions">{"".join(cards)}</ol></section>')
+
+
+def verification_evidence(item: dict, lang: str) -> str:
+    rows = technical_rows(item, "verification_evidence")
+    cards = []
+    for evidence in rows:
+        heading = localized(evidence, "title", lang).strip()
+        detail = localized(evidence, "detail", lang).strip()
+        if not heading or not detail:
+            continue
+        state = str(evidence.get("status") or "pending").lower()
+        if state not in EVIDENCE_STATES:
+            state = "pending"  # Unknown statuses must not imply successful validation.
+        source = safe_href(evidence.get("source_url"))
+        source_link = (f'<a class="case-evidence-source" href="{escape(source)}" '
+                       f'target="_blank" rel="noopener noreferrer">'
+                       f'{icon("bi-box-arrow-up-right")}{escape(LABELS[lang]["source"])}</a>'
+                       if source else "")
+        cards.append(
+            f'<li class="case-evidence-item">'
+            f'<span class="case-evidence-state case-evidence-state--{state}">'
+            f'{escape(LABELS[lang]["evidence_" + state])}</span>'
+            f'<div><h3>{escape(heading)}</h3><p>{escape(detail)}</p>'
+            f'{source_link}</div></li>'
+        )
+    if not cards:
+        return ""
+    return (f'<section class="case-section" id="verification">'
+            f'<h2>{escape(LABELS[lang]["verification"])}</h2>'
+            f'<ul class="case-evidence-list">{"".join(cards)}</ul></section>')
+
+
 def phone_strip(item: dict, lang: str) -> str:
     """Show actual QA captures side by side; never invent mobile frames."""
     if item.get("media_layout") != "phone":
@@ -305,11 +406,18 @@ def details(item: dict, profile: dict, lang: str) -> str:
         f'<div class="case-status">{badge(item, lang)}'
         f'<span class="case-year">{escape(item.get("year") or "")}</span></div>'
         f'<p class="case-lead">{escape(summary)}</p>'
-        + tags(item) + resource_links(item, lang) + media
+        + tags(item) + resource_links(item, lang)
+        + (f'<a class="case-technical-jump" href="#architecture">'
+           f'{icon("bi-diagram-3")}{escape(LABELS[lang]["technical_jump"])}</a>'
+           if technical_rows(item, "architecture_layers") else "")
+        + media
         + info_section(item, lang, "role")
         + info_section(item, lang, "challenge")
         + info_section(item, lang, "approach")
+        + architecture(item, lang)
+        + engineering_decisions(item, lang)
         + info_section(item, lang, "outcome")
+        + verification_evidence(item, lang)
         + info_section(item, lang, "next_steps")
         + gallery(item, lang)
         + f'<footer class="case-footer"><a href="{escape(index_path(lang))}">'
