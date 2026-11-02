@@ -108,6 +108,27 @@ class ProductPageGeneratorTests(unittest.TestCase):
         self.assertNotIn("Unapproved Research Detail", text)
         self.assertIn("/yuhisang.lo/projects/featured-app/", text)
 
+    def test_verified_phone_layout_uses_real_gallery_images(self):
+        fixture = json.loads((self.folder / "content/works.json").read_text(encoding="utf-8"))
+        fixture[0]["media_layout"] = "phone"
+        fixture[0]["gallery"].extend([
+            {"image": "/yuhisang.lo/assets/uploads/second.png",
+             "caption_en": "Second actual QA screen"},
+            {"image": "/yuhisang.lo/assets/uploads/third.png",
+             "caption_en": "Third actual QA screen"},
+        ])
+        (self.folder / "content/works.json").write_text(json.dumps(fixture), encoding="utf-8")
+        generator.build()
+        page = self.read("projects/featured-app/index.html")
+        archive = self.read("projects/index.html")
+        self.assertIn('class="case-cover has-phone-layout"', page)
+        self.assertIn('class="case-gallery has-phone-layout"', page)
+        self.assertIn('class="project-list-cover has-phone-layout"', archive)
+        self.assertIn('class="cover-phone-strip"', archive)
+        self.assertIn("/yuhisang.lo/assets/uploads/second.png", archive)
+        self.assertIn("/yuhisang.lo/assets/uploads/third.png", archive)
+        self.assertNotIn("phone-shot", self.read("projects/archive-app/index.html"))
+
     def test_sitemap_and_safe_url_handling(self):
         generator.build()
         sitemap = self.read("sitemap.xml")
