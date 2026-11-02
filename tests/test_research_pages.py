@@ -1,6 +1,7 @@
 """Research notes: A+C layout, accuracy, bilingual routes, CMS safety and sitemap."""
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 import tempfile
@@ -170,6 +171,78 @@ class ResearchGenerationTests(unittest.TestCase):
         self.assertIn("候選集合插入", zh)
         self.assertIn("並非 Benchmark", zh)
         self.assertNotIn('href="#implementation"', proposal)
+
+    def synthetic_audit_fixture(self, *, empirical=False):
+        works = json.loads((self.root / "content/works.json").read_text(encoding="utf-8"))
+        works[0]["slug"] = "when2ask"
+        works[0]["research_repro_audit_file"] = "test-audit.json"
+        works[0]["research_repro_ci_run"] = 12345
+        works[0]["research_repro_ci_artifact"] = 98765
+        works[0]["research_repro_description_en"] = "Controlled <b>synthetic</b> replay, not model accuracy."
+        works[0]["research_repro_description_zh"] = "一筆真正執行的合成情境，不是實證模型評估。"
+        audit = {
+            "schema": "synthetic_mechanism_audit_v1", "empirical": empirical,
+            "benchmark_items_evaluated": 0, "model_calls": 0,
+            "real_tool_executions": 0, "test_outcome": "PASS",
+            "source": {"repository": "Gule7309/When2ask", "commit_sha": "a" * 40},
+            "single_decision": {"action": "ask", "raw_viability": 0.5,
+                                "normalized_share": 1.0, "executed_correctly": None},
+            "candidate_set_checks": [
+                {"condition": cond, "candidate_count": cnt,
+                 "ground_truth_compatible_candidate_present": present}
+                for cond, cnt, present in [
+                    ("natural", 1, True), ("oracle_complete", 1, True),
+                    ("forced_miss", 1, False),
+                    ("oracle_recovery_from_forced_miss", 2, True)]
+            ],
+        }
+        source_dir = self.root / "content/experiments"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        blob = json.dumps(audit).encode("utf-8")
+        (source_dir / "test-audit.json").write_bytes(blob)
+        works[0]["research_repro_audit_sha256"] = hashlib.sha256(blob).hexdigest()
+        (self.root / "content/works.json").write_text(
+            json.dumps(works), encoding="utf-8")
+        return works
+
+    def test_verified_synthetic_audit_is_bilingual_and_has_repro_links(self):
+        self.synthetic_audit_fixture()
+        self.build()
+        en = self.read("research/when2ask/index.html")
+        zh = self.read("zh/research/when2ask/index.html")
+        other = self.read("research/proposed-direction/index.html")
+        self.assertIn('href="#reproducibility"', en)
+        self.assertIn('id="reproducibility"', en)
+        self.assertIn('class="research-audit-table"', en)
+        self.assertEqual(en.count('class="research-audit-table"'), 1)
+        self.assertIn("Controlled &lt;b&gt;synthetic&lt;/b&gt;", en)
+        self.assertNotIn("<b>synthetic</b>", en)
+        self.assertIn("0", en)
+        self.assertIn("ASK", en)
+        self.assertIn("Normalized share", en)
+        self.assertIn("not calibrated correctness probability", en)
+        self.assertIn("https://github.com/Gule7309/When2ask/actions/runs/12345/artifacts/98765", en)
+        self.assertIn("https://github.com/Gule7309/When2ask/blob/" + "a"*40, en)
+        self.assertIn('href="#reproducibility"', zh)
+        self.assertIn("已執行的機制驗證", zh)
+        self.assertIn("不是實證模型評估", zh)
+        self.assertNotIn('id="reproducibility"', other)
+        self.assertIn("not a published or peer-reviewed paper", en)
+
+    def test_missing_wrong_sha_or_empirical_marked_json_never_renders(self):
+        works = self.synthetic_audit_fixture()
+        works[0]["research_repro_audit_sha256"] = "0" * 64
+        (self.root / "content/works.json").write_text(json.dumps(works), encoding="utf-8")
+        self.build()
+        self.assertNotIn('id="reproducibility"', self.read("research/when2ask/index.html"))
+        self.assertNotIn('href="#reproducibility"', self.read("research/when2ask/index.html"))
+        works = self.synthetic_audit_fixture(empirical=True)
+        self.build()
+        self.assertNotIn('id="reproducibility"', self.read("research/when2ask/index.html"))
+        works = self.synthetic_audit_fixture()
+        (self.root / "content/experiments/test-audit.json").unlink()
+        self.build()
+        self.assertNotIn('id="reproducibility"', self.read("research/when2ask/index.html"))
 
     def test_sitemap_merges_idempotently_with_product_routes(self):
         self.build()
