@@ -92,3 +92,11 @@
  .sidebar .profile-quicklink { grid-column: 1 / -1; width: fit-content; white-space: nowrap; margin-top: 12px; }
  .research-figure a:has(>img) { padding: 8px; }
 }
+
+
+/* Figure-first research archive: original explanatory diagrams, never fake empirical charts. */
+.research-index-item.has-figure{display:grid;grid-template-columns:minmax(180px,31%) minmax(0,1fr);gap:23px;align-items:start}
+.research-index-preview{display:block;aspect-ratio:1.63;border:1px solid #e1e9ef;border-radius:7px;overflow:hidden;background:#f7fafc}
+.research-index-preview img{width:100%;height:100%;object-fit:contain;display:block;padding:5px}
+@media(max-width:850px){.research-index-item.has-figure{grid-template-columns:30% minmax(0,1fr);gap:16px}}
+@media(max-width:680px){.research-index-item.has-figure{grid-template-columns:1fr;gap:16px}.research-index-preview{max-width:480px;aspect-ratio:1.9}}
