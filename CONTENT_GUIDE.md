@@ -35,6 +35,14 @@ This adds a three-screen editorial strip on the homepage and All Projects archiv
 
 **PixelFit:** The four pictures are from its own October 2026 packaged web-app QA screens, not Android device captures, and show development/test data. The private source repository stays private. Do not claim these visuals prove the app has shipped on Google Play or that the numeric values are real workouts. Additional documentation: docs/media/PROVENANCE.md.
 
+## Research reproducibility audits (source-verified; When2ask Phase 0)
+
+A synthetic experiment **is not** an empirical research result. The When2ask detail page contains an optional *Executed mechanism check* panel, anchored by the real CI artifact captured in [Evidence ledger](docs/engineering/WHEN2ASK_REPRO_AUDIT.md).
+
+In **CMS → Research and Projects → When2ask**, edit only the **English/Chinese interpretation** and original CI run/artifact IDs as needed. The numeric audit output is stored as a separate, exact-byte JSON file in `content/experiments/when2ask_synthetic_audit.json`; it is **not editable inside the CMS**. The page only renders if its SHA-256 matches the checksum in `content/works.json`, and if the evidence is typed as non-empirical synthetic evidence with zero benchmark samples, zero model calls, and zero actual tool executions.
+
+When adding a new run, first actually execute and inspect the source CI job; preserve its original JSON bytes, commit SHA, test method and scope, update the JSON filename/checksum and both language descriptions in a reviewed PR. Do **not** convert the existing synthetic check into a claimed benchmark by changing its title. To publish a later real ClarifyBench result, a separate empirical proof schema with model/dataset versions and validated outcome metrics is required.
+
 ## Verified implementation traces (optional for projects & research)
 
 Use **CMS → Research and Projects → Implementation proof / 程式碼實作證據** to connect a technical claim to *actual public source code*. Each entry needs both language descriptions, an exact excerpt, the language and a public GitHub permalink pinned to a **40-character commit SHA and line range** (for example `https://github.com/owner/repo/blob/<40-character-commit>/src/file.py#L23-L30`).

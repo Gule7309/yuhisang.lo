@@ -6,7 +6,9 @@ Only explicit, complete publication metadata permits a preprint/publication labe
 """
 from __future__ import annotations
 
+import hashlib
 import json
+import math
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -29,6 +31,20 @@ LABELS = {
         "next_steps": "Next steps", "figures": "Figures & diagrams",
         "references": "References & related work", "read": "Explore research",
         "implementation": "Implementation & reproducibility",
+        "repro": "Executed mechanism check", "repro_footnote": "Synthetic fixture only — not a benchmark or measured agent accuracy.",
+        "repro_label": "Executed synthetic replay · Not empirical",
+        "repro_cases": "Synthetic decision points", "repro_benchmark": "Benchmark items",
+        "repro_calls": "Real model / tool calls", "repro_decision": "Replay decision",
+        "repro_raw": "Raw viability", "repro_share": "Normalized share",
+        "repro_share_note": "Normalized share is relative to the generated candidate set, not calibrated correctness probability.",
+        "repro_conditions": "Candidate-set structural checks",
+        "repro_condition": "Condition", "repro_count": "Candidate count", "repro_present": "Compatible candidate",
+        "repro_yes": "Present", "repro_no": "Absent",
+        "repro_source": "Pinned source", "repro_run": "CI execution",
+        "repro_artifact": "Original CI artifact", "repro_snapshot": "Archived JSON snapshot", "repro_command": "Re-run the synthetic check",
+        "repro_condition_natural": "Natural", "repro_condition_oracle_complete": "Oracle-complete",
+        "repro_condition_forced_miss": "Forced-miss",
+        "repro_condition_oracle_recovery_from_forced_miss": "Oracle recovery",
         "code": "Research code", "paper": "Own paper",
         "notice": "Research status", "not_published": "Work in progress — not a published or peer-reviewed paper. No experimental findings are claimed beyond the documented progress.",
         "proposal": "Research proposal — a working direction, not a completed study or published paper.",
@@ -46,6 +62,20 @@ LABELS = {
         "next_steps": "下一步", "figures": "圖表與架構", "references": "參考文獻與相關研究",
         "read": "閱讀研究", "code": "研究程式碼", "paper": "本研究論文",
         "implementation": "實作證據與可重現性",
+        "repro": "已執行的機制驗證", "repro_footnote": "僅合成情境 Fixture，非 Benchmark 或 Agent 準確率量測。",
+        "repro_label": "已執行合成 Replay · 非實證研究",
+        "repro_cases": "合成決策點", "repro_benchmark": "Benchmark 樣本",
+        "repro_calls": "真實模型／工具呼叫", "repro_decision": "Replay 決策",
+        "repro_raw": "原始可行性", "repro_share": "正規化占比",
+        "repro_share_note": "正規化占比僅反映目前產生的候選集合比例，並非已校準的正確率機率。",
+        "repro_conditions": "候選集合結構檢查",
+        "repro_condition": "控制條件", "repro_count": "候選數量", "repro_present": "包含相容候選",
+        "repro_yes": "有", "repro_no": "無",
+        "repro_source": "固定版本程式", "repro_run": "CI 執行紀錄",
+        "repro_artifact": "原始 CI 結果", "repro_snapshot": "永久留存的 JSON", "repro_command": "重現合成驗證",
+        "repro_condition_natural": "Natural 原始", "repro_condition_oracle_complete": "Oracle-complete",
+        "repro_condition_forced_miss": "Forced-miss",
+        "repro_condition_oracle_recovery_from_forced_miss": "Oracle recovery",
         "notice": "研究狀態", "not_published": "研究進行中，並非已發表或經同儕審查的論文；目前不宣稱已有實驗成果。",
         "proposal": "研究提案階段，尚非完成的實證研究，也未發表論文。",
         "preprint": "作者提供的預印本，尚未經同儕審查。",
@@ -160,6 +190,129 @@ def references_markup(item: dict, lang: str) -> str:
             f'<ol class="research-references">{"".join(rows)}</ol></section>')
 
 
+
+AUDIT_NAME = re.compile(r"^[a-z0-9][a-z0-9_-]*[.]json$")
+SOURCE_SHA = re.compile(r"^[0-9a-f]{40}$")
+AUDIT_SHA = re.compile(r"^[0-9a-f]{64}$")
+AUDIT_CONDITIONS = (
+    "natural", "oracle_complete", "forced_miss",
+    "oracle_recovery_from_forced_miss",
+)
+
+
+def load_repro_audit(item: dict) -> dict | None:
+    """Only expose an exact-byte, zero-benchmark executed synthetic audit."""
+    if item.get("slug") != "when2ask" or item.get("category") != "research":
+        return None
+    filename = str(item.get("research_repro_audit_file") or "")
+    expected_sha = str(item.get("research_repro_audit_sha256") or "")
+    if not AUDIT_NAME.fullmatch(filename) or not AUDIT_SHA.fullmatch(expected_sha):
+        return None
+    path = ROOT / "content" / "experiments" / filename
+    try:
+        payload = path.read_bytes()
+        if hashlib.sha256(payload).hexdigest() != expected_sha:
+            return None
+        data = json.loads(payload)
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return None
+    if not isinstance(data, dict) or data.get("schema") != "synthetic_mechanism_audit_v1":
+        return None
+    if (data.get("empirical") is not False or data.get("benchmark_items_evaluated") != 0
+            or data.get("model_calls") != 0 or data.get("real_tool_executions") != 0
+            or data.get("test_outcome") != "PASS"):
+        return None
+    source, decision = data.get("source"), data.get("single_decision")
+    if not isinstance(source, dict) or not isinstance(decision, dict):
+        return None
+    if (source.get("repository") != "Gule7309/When2ask"
+            or not SOURCE_SHA.fullmatch(str(source.get("commit_sha") or ""))):
+        return None
+    if (decision.get("action") not in {"ask", "execute"}
+            or decision.get("executed_correctly") is not None):
+        return None
+    for key in ("raw_viability", "normalized_share"):
+        number = decision.get(key)
+        if type(number) not in {float, int} or not math.isfinite(number) or not 0 <= number <= 1:
+            return None
+    checks = data.get("candidate_set_checks")
+    if not isinstance(checks, list) or len(checks) != len(AUDIT_CONDITIONS):
+        return None
+    for entry, condition in zip(checks, AUDIT_CONDITIONS):
+        if (not isinstance(entry, dict) or entry.get("condition") != condition
+                or type(entry.get("candidate_count")) is not int
+                or entry["candidate_count"] < 0
+                or type(entry.get("ground_truth_compatible_candidate_present")) is not bool):
+            return None
+    for key in ("research_repro_ci_run", "research_repro_ci_artifact"):
+        if type(item.get(key)) is not int or item[key] <= 0:
+            return None
+    return data
+
+
+def repro_audit_markup(item: dict, lang: str, audit: dict | None = None) -> str:
+    data = audit if audit is not None else load_repro_audit(item)
+    if data is None:
+        return ""
+    l = LABELS[lang]
+    decision = data["single_decision"]
+    checks = data["candidate_set_checks"]
+    commit = data["source"]["commit_sha"]
+    run_id = item["research_repro_ci_run"]
+    artifact_id = item["research_repro_ci_artifact"]
+    source_link = f"https://github.com/Gule7309/When2ask/blob/{commit}/scripts/reproduce_synthetic_fixture.py"
+    run_link = f"https://github.com/Gule7309/When2ask/actions/runs/{run_id}"
+    artifact_link = run_link + f"/artifacts/{artifact_id}"
+    snapshot_link = f'{base.PREFIX}/content/experiments/{item["research_repro_audit_file"]}'
+    checks_html = "".join(
+        f'<tr><th scope="row">{base.escape(l["repro_condition_" + entry["condition"]])}</th>'
+        f'<td>{entry["candidate_count"]}</td>'
+        f'<td>{base.escape(l["repro_yes"] if entry["ground_truth_compatible_candidate_present"] else l["repro_no"])}</td></tr>'
+        for entry in checks
+    )
+    description = base.localized(item, "research_repro_description", lang)
+    metadata = [
+        ("repro_cases", "1"),
+        ("repro_benchmark", "0"),
+        ("repro_calls", "0"),
+    ]
+    figures = "".join(
+        f'<div class="research-audit-stat"><dt>{base.escape(l[key])}</dt>'
+        f'<dd>{base.escape(value)}</dd></div>'
+        for key, value in metadata
+    )
+    links = "".join(
+        f'<a href="{base.escape(url)}" target="_blank" rel="noopener noreferrer">'
+        f'{base.escape(l[key])}{base.icon("bi-arrow-up-right")}</a>'
+        for key, url in (("repro_source", source_link), ("repro_run", run_link),
+                         ("repro_artifact", artifact_link), ("repro_snapshot", snapshot_link))
+    )
+    command = "python scripts/reproduce_synthetic_fixture.py --output results/synthetic-audit.json"
+    return (
+        f'<section class="research-section research-audit" id="reproducibility">'
+        f'<h2>{base.escape(l["repro"])}</h2>'
+        f'<p class="research-audit-type">{base.escape(l["repro_label"])}</p>'
+        f'<p class="research-audit-description">{base.escape(description)}</p>'
+        f'<dl class="research-audit-stats">{figures}</dl>'
+        f'<div class="research-audit-decision">'
+        f'<strong>{base.escape(l["repro_decision"])}: {base.escape(decision["action"].upper())}</strong>'
+        f'<span>{base.escape(l["repro_raw"])}: {decision["raw_viability"]:.2f}</span>'
+        f'<span>{base.escape(l["repro_share"])}: {decision["normalized_share"]:.2f}</span>'
+        f'</div><p class="research-audit-note">{base.escape(l["repro_share_note"])}</p>'
+        f'<h3>{base.escape(l["repro_conditions"])}</h3>'
+        f'<div class="research-audit-table-wrap"><table class="research-audit-table">'
+        f'<thead><tr><th scope="col">{base.escape(l["repro_condition"])}</th>'
+        f'<th scope="col">{base.escape(l["repro_count"])}</th>'
+        f'<th scope="col">{base.escape(l["repro_present"])}</th></tr></thead>'
+        f'<tbody>{checks_html}</tbody></table></div>'
+        f'<p class="research-audit-note">{base.escape(l["repro_footnote"])}</p>'
+        f'<div class="research-audit-links">{links}</div>'
+        f'<p class="research-audit-command-label">{base.escape(l["repro_command"])}</p>'
+        f'<div class="research-audit-command"><code>{base.escape(command)}</code></div>'
+        f'</section>'
+    )
+
+
 def research_details(item: dict, profile: dict, lang: str) -> str:
     l = LABELS[lang]
     slug = item["slug"]
@@ -172,8 +325,13 @@ def research_details(item: dict, profile: dict, lang: str) -> str:
     ]
     figures_html = figures_markup(item, lang)
     implementation_html = base.source_traces_markup(item, lang, research=True)
+    audit = load_repro_audit(item)
+    audit_html = repro_audit_markup(item, lang, audit) if audit is not None else ""
     references_html = references_markup(item, lang)
     toc = [(id_, label) for id_, label, _ in sections]
+    if audit_html:
+        where = next((i + 1 for i, (anchor, _) in enumerate(toc) if anchor == "progress"), len(toc))
+        toc.insert(where, ("reproducibility", l["repro"]))
     if figures_html:
         toc.append(("figures", l["figures"]))
     if implementation_html:
@@ -209,7 +367,9 @@ def research_details(item: dict, profile: dict, lang: str) -> str:
         + f'{base.icon("bi-info-circle")}<div><strong>{base.escape(l["notice"])}</strong>'
         + f'<p>{base.escape(description)}</p></div></aside>'
         + actions + cover + nav_html
-        + "".join(section_markup(i, name, text) for i, name, text in sections)
+        + "".join(section_markup(i, name, text) +
+                  (audit_html if i == "progress" else "") for i, name, text in sections)
+        + (audit_html if audit_html and not any(i == "progress" for i, _, _ in sections) else "")
         + figures_html + implementation_html + references_html
         + f'<footer class="research-footer"><a href="{base.escape(archive_path(lang))}">'
         f'{base.icon("bi-arrow-left")} {base.escape(l["back"])}</a></footer>'
