@@ -225,7 +225,9 @@ collections:
               - {label: TypeScript, value: typescript}
               - {label: JavaScript, value: javascript}
               - {label: Plain text, value: text}
-          - {name: source_url, label: Pinned public GitHub source URL (commit SHA and #Lx-Ly), widget: string}
+          - name: source_url
+            label: "Pinned public GitHub source URL (commit SHA and #Lx-Ly)"
+            widget: string
       - {name: status_en, label: Status English, widget: string}
       - {name: status_zh, label: Status Chinese, widget: string}
       - name: status_type
