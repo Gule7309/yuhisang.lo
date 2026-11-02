@@ -33,7 +33,7 @@ test('homepage honors Featured and uses localized product detail links', async (
     .map((name) => [name, JSON.parse(fs.readFileSync(path.join(root,'content',name+'.json'), 'utf8'))]));
   const sandbox = {
     document, PortfolioUI,
-    URL, location:{href:'https://gule7309.github.io/yuhisang.lo/'},
+    URL, location:{href:'http://127.0.0.1:8765/yuhisang.lo/'},
     localStorage:{getItem:()=>null,setItem(){}},
     fetch: async (pathname) => ({ok:true,json:async()=>data[pathname.replace(/^content\//,'').replace(/\.json$/,'')]}),
     console,scrollTo(){}
