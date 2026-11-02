@@ -83,14 +83,33 @@ jobs:
           timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2000 --window-size=390,844 --screenshot="artifacts/uiqa/research-mobile.png" "http://127.0.0.1:8765/yuhisang.lo/zh/research/authority-aware-agents/"
           timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2000 --window-size=1280,900 --screenshot="artifacts/uiqa/trading-radar-project-desktop.png" "http://127.0.0.1:8765/yuhisang.lo/projects/trading-radar/"
           timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2000 --window-size=390,844 --screenshot="artifacts/uiqa/trading-radar-project-mobile.png" "http://127.0.0.1:8765/yuhisang.lo/zh/projects/trading-radar/"
+          timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2500 --window-size=1280,900 --screenshot="artifacts/uiqa/pixelfit-case-desktop.png" "http://127.0.0.1:8765/yuhisang.lo/projects/pixelfit/"
+          timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2500 --window-size=390,844 --screenshot="artifacts/uiqa/pixelfit-case-mobile-zh.png" "http://127.0.0.1:8765/yuhisang.lo/zh/projects/pixelfit/"
+          timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2500 --window-size=1280,900 --screenshot="artifacts/uiqa/projects-archive-desktop.png" "http://127.0.0.1:8765/yuhisang.lo/projects/"
+          timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=3500 --window-size=1280,900 --screenshot="artifacts/uiqa/homepage-projects-desktop.png" "http://127.0.0.1:8765/yuhisang.lo/#projects"
+          timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=3500 --window-size=390,844 --screenshot="artifacts/uiqa/homepage-projects-mobile.png" "http://127.0.0.1:8765/yuhisang.lo/#projects"
+          timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2500 --window-size=1280,900 --screenshot="artifacts/uiqa/pixelfit-gallery-desktop.png" "http://127.0.0.1:8765/yuhisang.lo/projects/pixelfit/#gallery"
           timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=3000 --window-size=1280,900 --screenshot="artifacts/uiqa/homepage-en.png" "http://127.0.0.1:8765/yuhisang.lo/"
           timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=3000 --window-size=1120,570 --screenshot="artifacts/uiqa/diagram-when2ask.png" "http://127.0.0.1:8765/yuhisang.lo/assets/figures/when2ask-intervention-plan.svg"
           timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=3000 --window-size=1120,520 --screenshot="artifacts/uiqa/diagram-authority-aware.png" "http://127.0.0.1:8765/yuhisang.lo/assets/figures/authority-aware-framing.svg"
+      - name: Verify true PixelFit gallery and homepage thumbnails in Chrome
+        run: |
+          npm install --prefix /tmp/portfolio-qa --no-save --no-package-lock --no-audit --no-fund playwright-core@1.56.1
+          mkdir -p /tmp/portfolio-preview
+          ln -sfn "$GITHUB_WORKSPACE" /tmp/portfolio-preview/yuhisang.lo
+          python -m http.server 8766 --bind 127.0.0.1 --directory /tmp/portfolio-preview > /tmp/portfolio-preview-qa.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          sleep 2
+          BROWSER=$(command -v google-chrome || command -v chromium || command -v chromium-browser)
+          NODE_PATH=/tmp/portfolio-qa/node_modules PORTFOLIO_PREVIEW_URL=http://127.0.0.1:8766/yuhisang.lo PORTFOLIO_BROWSER="$BROWSER" node scripts/capture_portfolio_qa.cjs
       - name: Upload optional research page previews
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: research-page-preview
-          path: artifacts/uiqa/*.png
+          path: |
+            artifacts/uiqa/*.png
+            artifacts/uiqa/*.json
           if-no-files-found: warn
           retention-days: 7

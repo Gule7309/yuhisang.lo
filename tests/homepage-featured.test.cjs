@@ -48,6 +48,15 @@ test('homepage honors Featured and uses localized product detail links', async (
   for (const project of data.works.filter(w=>w.category==='project' && !w.featured)) {
     assert.ok(!en.includes('projects/'+project.slug+'/'));
   }
+  assert.ok(en.includes('pixelfit-home-browser-preview.jpg'));
+  assert.ok(en.includes('pixelfit-workout-browser-preview.jpg'));
+  assert.ok(en.includes('pixelfit-result-browser-preview.jpg'));
+  assert.ok(en.includes('class="cover-phone-strip"'));
+  assert.ok(en.includes('loading="eager"'));
+  const pixelPart = en.slice(en.indexOf('pixelfit-home-browser-preview.jpg'), en.indexOf('Trading Radar'));
+  assert.ok(!pixelPart.includes('Project screenshots'), 'Avoid redundant thumbnail strip for phone showcase');
+  assert.ok(en.includes('has-phone-layout'));
+  assert.ok(en.includes('Real UI · browser QA'));
   assert.ok(en.includes('trading-radar-dashboard-demo.png'));
   assert.ok(en.includes('Real UI · mock data'));
   assert.ok(en.includes('Browse all projects'));
@@ -71,6 +80,7 @@ test('homepage honors Featured and uses localized product detail links', async (
   assert.ok(zh.includes('zh/projects/pixelfit/'));
   assert.ok(zh.includes('查看全部專案'));
   assert.ok(zh.includes('真實介面 · Mock 資料'));
+  assert.ok(zh.includes('實際介面 · 瀏覽器 QA'));
   const researchZh = elt('#research').innerHTML;
   assert.ok(researchZh.includes('href="zh/research/when2ask/"'));
   assert.ok(researchZh.includes('href="zh/research/"'));

@@ -24,6 +24,17 @@ The PDF at `/assets/generated-cv/Yu-Hsiang_Luo_CV.pdf` is generated on each Page
 
 To replace the automatically generated PDF with a bespoke version, open **Profile and Links → Public CV PDF**, upload a PDF, and save. Sveltia stores it under `assets/cv/`, updates the profile URL, and the site then links to your uploaded file. The generated PDF remains available but is no longer the primary CV link.
 
+## Phone screenshot showcase
+
+When an app has multiple **verified portrait screen captures**, set the project in **CMS → Research and Projects** to:
+- Cover display: **Phone screenshots / 手機介面截圖**
+- Upload a real Cover image and 2–4 genuine screenshots to the gallery, with bilingual captions
+- Keep the accurate Cover label and provenance notice, e.g. “Real UI · browser QA” rather than “Android device capture”
+
+This adds a three-screen editorial strip on the homepage and All Projects archive and arranges screenshots neatly in the project detail gallery. It does not create simulated mobile device images. The default layout stays unchanged for other works.
+
+**PixelFit:** The four pictures are from its own October 2026 packaged web-app QA screens, not Android device captures, and show development/test data. The private source repository stays private. Do not claim these visuals prove the app has shipped on Google Play or that the numeric values are real workouts. Additional documentation: docs/media/PROVENANCE.md.
+
 ## Authentic media and clear disclosures
 
 The latest phase adds **actual Trading Radar screenshots** and **source-grounded original diagrams** without implying benchmark results or production reliability.

@@ -150,3 +150,35 @@ Distinguish meaningful project stages including **原型探索中** and **持續
 - No unrelated layout/navigation changes.
 - GitHub Actions Node + Python tests, YAML validation and image-path validation pass.
 - Browser screenshot review for homepage, research and case-study pages; report any untested CMS upload/authentication states.
+
+---
+
+## Phase 5 — Verified PixelFit Development Screenshots (2026-11-02)
+
+**Target:** Featured homepage PixelFit card, All Projects archive card, PixelFit bilingual case-study. Maintain existing academic-minimalist site and A+C research detail pages. This is a system continuation, not a redesign.
+
+**Verified evidence:** Four 393px browser screenshots kept in the user's PixelFit project at codex/pixelfit-data-foundation. Development docs docs/pixelfit/ANDROID_DEVICE_QA.md, ANDROID_UX_BATCH10.md and PET_ACCOUNT_BATCH11.md state that the captures came from a packaged web preview/QA fixture. They **do not** substantiate Android native screenshot fidelity, Play release, independent users, revenue, or training results. Only these image bytes are copied into the public portfolio; source code and development credentials remain private.
+
+### Visual geometry and interactions
+
+- **Homepage**: retain original work layout, navy body text, fine separators, blue links and status badge. For phone UI only, render the first 3 genuine QA screenshots together inside the existing 1.55:1 cover card, uncropped with subtly rounded phone images. Add a small authenticity label; keep non-phone covers unchanged.
+- **Projects archive**: the same three-image strip fits inside the existing 1.6:1 cover and stacks with content at mobile widths, with no need for an invented desktop-only cover.
+- **Product detail**: full portrait preview in case-cover with an English/Chinese provenance note. Gallery shows home / workout / completion / pet preview with bilingual captions; photos retain their original proportions and are individually openable.
+- **CMS**: add optional media_layout selector: default or phone; existing image, image_alt_{lang}, image_caption_{lang}, gallery fields remain source of truth.
+- **Responsive QA**: Chrome at 1280×900 and 390×844, en and zh-Hant. No horizontal overflow, clipped image or hidden critical info; test keyboard accessible gallery links, language links and back to projects. The mobile preview should remain readable without a device mockup overlay.
+
+### Editorial claims / states
+
+- The screenshots depict **actual PixelFit application UI rendered in a browser preview**, with QA/demo inputs, **not Android device photos**. They may not show the exact newest release build.
+- Status label remains **internal testing** as previously documented; no claim of public release, real human workout statistics or production reliability.
+- If optional images are absent for Tavi / GPTL etc., do not synthesize or imply captures; retain typographic fallback.
+- No link to the PixelFit private source repository and no credential or private config import.
+- Reference design remains https://ming053l.github.io/ with Clarity/Lil'Log applied only to Research. PixelFit's own screenshots are the sole authoritative visual evidence of that app.
+
+### Acceptance
+
+1. Source files byte-preserved, no visible PII or secrets, covered by scripts/validate_media.py.
+2. Homepage/archives use the three actual screenshot previews only when media layout is phone.
+3. Case-study cover and gallery use all four real screen captures, with accurate provenance and alt text.
+4. Existing product/research navigation, status labels, bilingual routing and SEO are unchanged.
+5. CI Node/Python tests and actual desktop/mobile browser screenshot review pass. Do not claim native Android UX was tested.

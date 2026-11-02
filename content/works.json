@@ -241,8 +241,29 @@
       "Product Engineering",
       "Fitness"
     ],
-    "image": "",
-    "gallery": [],
+    "image": "/yuhisang.lo/assets/projects/pixelfit-home-browser-preview.jpg",
+    "gallery": [
+      {
+        "image": "/yuhisang.lo/assets/projects/pixelfit-home-browser-preview.jpg",
+        "caption_en": "Workout home — actual PixelFit browser QA screen, with a sample routine and pet.",
+        "caption_zh": "訓練首頁：實際 PixelFit 瀏覽器 QA 畫面，使用示範菜單與寵物。"
+      },
+      {
+        "image": "/yuhisang.lo/assets/projects/pixelfit-workout-browser-preview.jpg",
+        "caption_en": "Active session — editable weights and repetitions with test input values, not personal performance measurements.",
+        "caption_zh": "訓練進行中：可編輯重量與次數，數值為 QA 測試輸入，並非真實個人成績。"
+      },
+      {
+        "image": "/yuhisang.lo/assets/projects/pixelfit-result-browser-preview.jpg",
+        "caption_en": "Workout completion — sample finished-set count and duration shown in the browser QA preview.",
+        "caption_zh": "訓練結算：瀏覽器 QA 預覽中的範例完成組數與訓練時間。"
+      },
+      {
+        "image": "/yuhisang.lo/assets/projects/pixelfit-companion-browser-preview.jpg",
+        "caption_en": "Companion growth — real PixelFit UI using a synthetic development tester; progress is not real-user retention data.",
+        "caption_zh": "寵物成長：實際 PixelFit 介面搭配虛構開發用測試帳號，進度不代表真實使用者留存。"
+      }
+    ],
     "github": "",
     "demo": "",
     "paper": "",
@@ -260,7 +281,14 @@
     "outcome_en": "An internal-testing build is installed on a phone. No public launch, revenue, or user-growth results are claimed.",
     "outcome_zh": "已有安裝在手機上的內部測試版本；尚未宣稱公開上架、營收或使用者成長成果。",
     "next_steps_en": "Validate internal test feedback, improve core reliability and decide which features belong in a first public release.",
-    "next_steps_zh": "整理內測回饋、改善核心可靠性，並確認第一個公開版本所需的功能與品質門檻。"
+    "next_steps_zh": "整理內測回饋、改善核心可靠性，並確認第一個公開版本所需的功能與品質門檻。",
+    "media_layout": "phone",
+    "media_label_en": "Real UI · browser QA",
+    "media_label_zh": "實際介面 · 瀏覽器 QA",
+    "image_alt_en": "PixelFit workout home with the upper-body routine, an original blue pixel pet, and the start training button.",
+    "image_alt_zh": "PixelFit 訓練首頁，顯示上半身菜單、原創藍色像素寵物及開始訓練按鈕。",
+    "image_caption_en": "Actual PixelFit UI from an October 2026 packaged web browser QA preview (393px). Workout numbers and progress are demonstration/test data. These are not native Android device screenshots or evidence of a public Play release.",
+    "image_caption_zh": "2026 年 10 月從 PixelFit 封裝網頁的 393px 瀏覽器 QA 預覽取得的實際介面；訓練數字與進度是示範／測試資料。並非 Android 真機截圖，也不代表已公開上架 Google Play。"
   },
   {
     "slug": "tavi",
