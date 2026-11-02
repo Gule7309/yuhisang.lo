@@ -72,7 +72,9 @@ try{
       assert.ok(page.url().endsWith('/#research'));
       await page.evaluate(()=>scrollTo(0,0));
       await toggle.click();
-      await page.locator('#about').click({position:{x:10,y:10}});
+      // The document content begins below the sticky header: click the safe
+      // outer viewport gutter, rather than a point obscured by the header.
+      await page.mouse.click(7,viewport.height-20);
       assert.equal(await toggle.getAttribute('aria-expanded'),'false',
         'Pointer outside closes menu');
     } else {
