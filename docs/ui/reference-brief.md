@@ -247,3 +247,34 @@ A researcher or technical recruiter should be able to connect a project/research
 - Keyboard: native anchors, clear focus, research TOC link to source trace; source opens a new tab with `noopener noreferrer`.
 - CI: Python static generators + security tests, CMS YAML, Node existing tests, exact URL and snippet boundary checks, no page-level overflow on 1280/390 screenshots. Playwright should actually scroll to source trace before capture; for mobile, prove the last card can be viewed.
 - Do not calculate unverified benchmarks or infer research improvements from the existence of executable code. Do not claim authenticated CMS upload or live source verification after publication.
+
+---
+
+## Phase 8 — Executed synthetic reproducibility proof for When2ask (2026-11-02)
+
+**Mode: system continuation** of the user-approved academic minimalist site / A+C research notes. Scope is **only** `/research/when2ask/` and `/zh/research/when2ask/`. No homepage restyle, no backend deployment, no third-party imagery or fabricated empirical graphs.
+
+### Authoritative sources
+
+- Original site theme / reference: https://ming053l.github.io/, implemented existing site tokens.
+- Current approved research narrative / figures: https://shikun.io/projects/clarity, https://lilianweng.github.io/posts/2023-06-23-agent/ (editorial hierarchy only; no copying).
+- Real **executed** [When2ask Phase-0 synthetic CI run](https://github.com/Gule7309/When2ask/actions/runs/41459465082), originating from source commit `ab0cd26da17ff63d300080811500fe87fe0f95a6`. Downloaded artifact `synthetic-mechanism-audit.json` has 2572 bytes and SHA-256 `cf50484680e63bd7c845653451c2019e9ae45b8c87cc31bbcd9a492b11428dd8`. This data is **one synthetic replay, not empirical research**. Source work currently tracked in [Draft PR #1](https://github.com/Gule7309/When2ask/pull/1).
+
+### Layout, typography and states
+
+- Add optional research section `id="reproducibility"` **after Current Progress** and before the paper limitations/next steps (or after the progress section only), connected to existing research TOC. Preserve existing disclosure that this is work in progress.
+- Section follows existing 20px h2, 1px fine border, no colored summary callout. A small neutral status line: **Executed synthetic replay · Not a benchmark / 已執行合成情境 · 非 Benchmark**.
+- Minimal metadata in a 3-column (desktop) / stacked (390px) row: **1 synthetic decision point**, **0 benchmark samples**, **0 model/tool execution**. These are denominators and evidence type, **not performance KPIs**.
+- Single decision record: `ASK`, raw viability 0.5, normalized share 1.0 (explicitly not calibrated model confidence). Four rows of Natural, Oracle-complete, Forced-miss, Oracle-recovery with compatible-candidate presence Yes/No and set sizes 1/1/1/2, **not a result bar chart or statistical effect size**.
+- A plain caveat and source command, with accessible text link to the pinned source revision and actual GitHub CI artifact. Source record is snapshotted in repository data under `content/experiments/` as the exact bytes of CI JSON so evidence survives 30-day artifact retention.
+- Long hashes/links wrap or stay inside an independently scrolling code line; no page-level x-overflow.
+- Bilingual optional CMS fields control **interpretation only**, not numerical raw audit values, to avoid accidental changing of evidence. If the snapshot is missing, modified without SHA update, malformed, or claims empirical results for this synthetic schema, **omit the whole section and TOC link**; never display guessed metrics.
+- Keep research WIP publication and original-paper credit. Do not alter When2ask source repo or source PR as part of portfolio generation.
+
+### Acceptance
+
+- Build from exact audited JSON, verify SHA-256, schema, zero-model/zero-benchmark safety requirements, condition list and non-null test result; do not invent model accuracy/HCWE.
+- Escape all user-editable comments and reference URLs; source links are pinned to public When2ask commit and actual CI run/artifact.
+- Python EN/zh generator tests include valid/invalid hash, malformed content, unsafe URI, missing file, research TOC and no effect on Authority-Aware notes.
+- CI Playwright actual desktop 1280×900 and mobile 390×844, English and Traditional Chinese, scroll to evidence, verify 4 rows and no overflow; capture PNG/JSON inspection artifacts.
+- Screen reader manual check and authenticated CMS edit remain NOT TESTED until performed; new portfolio PR remains Draft for review.
