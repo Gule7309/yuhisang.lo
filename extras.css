@@ -93,14 +93,14 @@
 .site-status-links a{color:#1c518f}
 .language button[aria-pressed="true"]{background:#edf3f9;color:#1c518f}
 @media(max-width:680px){
-  html{scroll-padding-top:82px}
-  header{height:62px}
-  .top{position:relative;min-height:62px;height:62px;flex-wrap:nowrap;align-items:center;padding:0 15px;gap:8px}
-  .logo{flex:1;min-width:0;font-size:16px;overflow:hidden;text-overflow:ellipsis}
-  .nav-toggle{display:inline-flex;order:2;flex:none}
-  .language{order:3;flex:none;gap:1px;padding-left:0;border-left:0}
-  .language button{min-width:36px;min-height:40px;padding:6px 5px}
-  .primary-navigation{
+  html.homepage-root{scroll-padding-top:82px}
+  .home-page header{height:62px}
+  .home-page .top{position:relative;min-height:62px;height:62px;flex-wrap:nowrap;align-items:center;padding:0 15px;gap:8px}
+  .home-page .logo{flex:1;min-width:0;font-size:16px;overflow:hidden;text-overflow:ellipsis}
+  .home-page .nav-toggle{display:inline-flex;order:2;flex:none}
+  .home-page .language{order:3;flex:none;gap:1px;padding-left:0;border-left:0}
+  .home-page .language button{min-width:36px;min-height:40px;padding:6px 5px}
+  .home-page .primary-navigation{
     position:absolute;top:calc(100% + 7px);left:15px;right:15px;z-index:45;
     display:grid;grid-template-columns:1fr;order:4;flex:none;width:auto;height:auto;
     max-height:calc(100dvh - 90px);overflow-y:auto;overflow-x:hidden;
@@ -110,9 +110,9 @@
     visibility:hidden;opacity:0;pointer-events:none;transform:translateY(-5px);
     scrollbar-width:thin;
   }
-  .primary-navigation[data-open="true"]{visibility:visible;opacity:1;pointer-events:auto;transform:translateY(0)}
-  .primary-navigation a{font-size:13px;color:#34516b;padding:11px 12px;min-height:43px;display:flex;align-items:center;border-radius:5px}
-  .primary-navigation a:hover,.primary-navigation a:focus-visible{background:#f2f6f9;color:#164975;text-decoration:none}
-  section{scroll-margin-top:82px}
+  .home-page .primary-navigation[data-open="true"]{visibility:visible;opacity:1;pointer-events:auto;transform:translateY(0)}
+  .home-page .primary-navigation a{font-size:13px;color:#34516b;padding:11px 12px;min-height:43px;display:flex;align-items:center;border-radius:5px}
+  .home-page .primary-navigation a:hover,.home-page .primary-navigation a:focus-visible{background:#f2f6f9;color:#164975;text-decoration:none}
+  .home-page section{scroll-margin-top:82px}
 }
 @media(prefers-reduced-motion:reduce){.nav-toggle .bi,.primary-navigation{transition:none}}
