@@ -112,6 +112,7 @@ function renderWorks(category) {
     const preview = previewMedia(w);
     const hasImage = Boolean(preview.image);
     const isDiagram = /\.svg(?:[?#]|$)/i.test(preview.image);
+    const mediaLabel = hasImage && tr(w, 'media_label') ? '<span class="media-proof-label">' + esc(tr(w, 'media_label')) + '</span>' : '';
     const cover = hasImage ? renderImage(preview.image, preview.alt, '') :
       '<small>GULE LAB / ' + esc(category) + '</small>' +
       '<strong>' + esc(String(w.slug || '').replace(/-/g, ' ').split(' ').slice(0, 3).join(' ')) + '</strong>';
@@ -123,7 +124,7 @@ function renderWorks(category) {
       anchor(w.video_link, labels[language].video, '', 'bi-play-circle')
     ].filter(Boolean).join('');
     return '<article class="work"><div class="cover' + (hasImage ? ' has-image' : '') + (isDiagram ? ' has-diagram' : '') + '">' +
-      cover + '</div><div><span class="badge status-badge status-badge--' + esc(statusVariant) + '">' +
+      cover + mediaLabel + '</div><div><span class="badge status-badge status-badge--' + esc(statusVariant) + '">' +
       icon(PortfolioUI.statusIcon(statusVariant)) + '<span>' + esc(tr(w, 'status')) +
       '</span></span><span class="year">' + esc(w.year || '') + '</span><h3>' +
       (detailPath ? '<a class="case-title-link" href="' + esc(detailPath) + '">' + esc(tr(w, 'title')) + '</a>' : esc(tr(w, 'title'))) +
