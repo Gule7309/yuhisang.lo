@@ -75,9 +75,21 @@ const cases = [
         const filePrefix=item.slug+'-'+item.locale+'-'+item.viewport.width;
         await architecture.screenshot({path:path.join(OUT,filePrefix+'-architecture.png'),animations:'disabled'});
         await evidence.screenshot({path:path.join(OUT,filePrefix+'-evidence.png'),animations:'disabled'});
+        // Chrome can defer painting the bottom of an offscreen, tall element screenshot.
+        // Also scroll to and inspect the final layer as a real viewport interaction.
+        const lastLayer=architecture.locator('li.case-architecture-layer').last();
+        await lastLayer.scrollIntoViewIfNeeded();
+        assert.ok(await lastLayer.isVisible(),'Final architecture layer not visible');
+        const lastText=await lastLayer.locator('p').textContent();
+        assert.ok(lastText && lastText.trim().length>15,'Final layer copy is missing');
+        const lastBounds=await lastLayer.boundingBox();
+        assert.ok(lastBounds && lastBounds.y>=-1 && lastBounds.y+lastBounds.height<=item.viewport.height+1,
+          'Final architecture card should fit when scrolled: '+JSON.stringify({route,lastBounds}));
+        if(item.viewport.width<=390)
+          await lastLayer.screenshot({path:path.join(OUT,filePrefix+'-last-layer.png'),animations:'disabled'});
         results.push({route,locale:expectedLocale,architectureLayers:4,decisions:3,
           evidenceItems:3,sourceLinks:sourceUrls.length,overflow:dims.document-dims.viewport,
-          gridColumns:dims.columns,keyboardJump:true});
+          gridColumns:dims.columns,keyboardJump:true,lastLayerChecked:true});
       }finally{await page.close()}
     }
     const tavi=await browser.newPage({viewport:{width:1280,height:900}});
