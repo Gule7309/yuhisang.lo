@@ -41,7 +41,7 @@ LABELS = {
         "repro_condition": "Condition", "repro_count": "Candidate count", "repro_present": "Compatible candidate",
         "repro_yes": "Present", "repro_no": "Absent",
         "repro_source": "Pinned source", "repro_run": "CI execution",
-        "repro_artifact": "Original JSON artifact", "repro_command": "Re-run the synthetic check",
+        "repro_artifact": "Original CI artifact", "repro_snapshot": "Archived JSON snapshot", "repro_command": "Re-run the synthetic check",
         "repro_condition_natural": "Natural", "repro_condition_oracle_complete": "Oracle-complete",
         "repro_condition_forced_miss": "Forced-miss",
         "repro_condition_oracle_recovery_from_forced_miss": "Oracle recovery",
@@ -72,7 +72,7 @@ LABELS = {
         "repro_condition": "控制條件", "repro_count": "候選數量", "repro_present": "包含相容候選",
         "repro_yes": "有", "repro_no": "無",
         "repro_source": "固定版本程式", "repro_run": "CI 執行紀錄",
-        "repro_artifact": "原始 JSON 結果", "repro_command": "重現合成驗證",
+        "repro_artifact": "原始 CI 結果", "repro_snapshot": "永久留存的 JSON", "repro_command": "重現合成驗證",
         "repro_condition_natural": "Natural 原始", "repro_condition_oracle_complete": "Oracle-complete",
         "repro_condition_forced_miss": "Forced-miss",
         "repro_condition_oracle_recovery_from_forced_miss": "Oracle recovery",
@@ -263,6 +263,7 @@ def repro_audit_markup(item: dict, lang: str, audit: dict | None = None) -> str:
     source_link = f"https://github.com/Gule7309/When2ask/blob/{commit}/scripts/reproduce_synthetic_fixture.py"
     run_link = f"https://github.com/Gule7309/When2ask/actions/runs/{run_id}"
     artifact_link = run_link + f"/artifacts/{artifact_id}"
+    snapshot_link = f'{base.PREFIX}/content/experiments/{item["research_repro_audit_file"]}'
     checks_html = "".join(
         f'<tr><th scope="row">{base.escape(l["repro_condition_" + entry["condition"]])}</th>'
         f'<td>{entry["candidate_count"]}</td>'
@@ -284,7 +285,7 @@ def repro_audit_markup(item: dict, lang: str, audit: dict | None = None) -> str:
         f'<a href="{base.escape(url)}" target="_blank" rel="noopener noreferrer">'
         f'{base.escape(l[key])}{base.icon("bi-arrow-up-right")}</a>'
         for key, url in (("repro_source", source_link), ("repro_run", run_link),
-                         ("repro_artifact", artifact_link))
+                         ("repro_artifact", artifact_link), ("repro_snapshot", snapshot_link))
     )
     command = "python scripts/reproduce_synthetic_fixture.py --output results/synthetic-audit.json"
     return (
