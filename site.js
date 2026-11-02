@@ -49,7 +49,13 @@ const url = (raw) => {
   if (!value) return '';
   try {
     const parsed = new URL(value, location.href);
-    return ['https:', 'mailto:'].includes(parsed.protocol) ? parsed.href : '';
+    if (['https:', 'mailto:'].includes(parsed.protocol)) return parsed.href;
+    // Only allow same-origin local portfolio assets during HTTP preview/QA.
+    // Never allow insecure external HTTP images or other protocols.
+    const origin = new URL(location.href).origin;
+    if (parsed.protocol === 'http:' && parsed.origin === origin &&
+        parsed.pathname.startsWith('/yuhisang.lo/assets/')) return parsed.href;
+    return '';
   } catch (_) { return ''; }
 };
 // Shared icons are auto-selected from the platform, label, or URL.
