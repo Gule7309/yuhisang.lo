@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Generate compact CMS-derived homepage index
+        run: node scripts/build_homepage_data.cjs
       - name: JavaScript tests
         run: node --test tests/*.test.cjs
       - uses: actions/setup-python@v5
