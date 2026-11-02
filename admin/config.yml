@@ -179,6 +179,21 @@ collections:
       - {name: research_evaluation_zh, label: Research — 評估規劃中文, widget: text, required: false}
       - {name: research_progress_en, label: Research — Current Progress English, widget: text, required: false}
       - {name: research_progress_zh, label: Research — 目前進度中文, widget: text, required: false}
+      - name: research_repro_audit_file
+        label: "Verified synthetic audit JSON filename (When2ask only)"
+        widget: string
+        required: false
+        hint: Refer to an audited file in content/experiments. Do not upload a new run without independently checking its exact JSON bytes.
+      - name: research_repro_audit_sha256
+        label: "Exact audit JSON SHA-256"
+        widget: string
+        required: false
+        hint: 64 hexadecimal digits. An invalid checksum hides the entire evidence section. Values inside the raw audit cannot be edited through CMS.
+      - {name: research_repro_ci_run, label: "Original GitHub Actions run ID", widget: number, value_type: int, required: false}
+      - {name: research_repro_ci_artifact, label: "Original GitHub Actions artifact ID", widget: number, value_type: int, required: false}
+      - {name: research_repro_description_en, label: "Audit interpretation English (not benchmark accuracy)", widget: text, required: false}
+      - {name: research_repro_description_zh, label: "驗證說明中文（不得宣稱 Benchmark 成效）", widget: text, required: false}
+
       - {name: research_limitations_en, label: Research — Limitations English, widget: text, required: false}
       - {name: research_limitations_zh, label: Research — 研究限制中文, widget: text, required: false}
       - {name: research_next_steps_en, label: Research — Next Steps English, widget: text, required: false}
