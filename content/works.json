@@ -67,7 +67,9 @@
         "note_en": "Official benchmark repository of the original authors",
         "note_zh": "原研究作者公開的 Benchmark Repository"
       }
-    ]
+    ],
+    "media_label_en": "Conceptual diagram",
+    "media_label_zh": "研究概念示意"
   },
   {
     "slug": "authority-aware-agents",
@@ -130,7 +132,9 @@
         "note_en": "Related prior work on clarification and structured uncertainty",
         "note_zh": "與澄清決策及結構化不確定性相關的先前研究"
       }
-    ]
+    ],
+    "media_label_en": "Conceptual diagram",
+    "media_label_zh": "研究概念示意"
   },
   {
     "slug": "trading-radar",
@@ -186,7 +190,9 @@
     "next_steps_en": "Integrate research outputs with traceable evidence, explicit risk checks and an evaluable thesis-tracking workflow.",
     "next_steps_zh": "持續整合可追溯的研究證據、明確的風險檢查，以及能評估的投資論點追蹤流程。",
     "image_caption_en": "Actual Trading Radar frontend screenshot captured against its development mock API (November 2026). Candidate figures are labeled demo data, not live research results or investment performance.",
-    "image_caption_zh": "2026 年 11 月從 Trading Radar 實際前端搭配開發用 Mock API 擷取；候選股票與數值屬示範資料，並非即時研究結果或投資績效。"
+    "image_caption_zh": "2026 年 11 月從 Trading Radar 實際前端搭配開發用 Mock API 擷取；候選股票與數值屬示範資料，並非即時研究結果或投資績效。",
+    "media_label_en": "Real UI · mock data",
+    "media_label_zh": "真實介面 · Mock 資料"
   },
   {
     "slug": "vr-dementia",
