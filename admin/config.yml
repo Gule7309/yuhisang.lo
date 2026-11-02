@@ -108,6 +108,56 @@ collections:
       - {name: outcome_zh, label: Case Study — 進度與成果 (中文), widget: text, required: false}
       - {name: next_steps_en, label: Case Study — Next steps (English), widget: text, required: false}
       - {name: next_steps_zh, label: Case Study — 下一步 (中文), widget: text, required: false}
+      - {name: architecture_note_en, label: Architecture context (English; describe conceptual limits), widget: text, required: false}
+      - {name: architecture_note_zh, label: 架構說明 (中文；註明系統與驗證界線), widget: text, required: false}
+      - name: architecture_layers
+        label: Case Study — System layers / 系統分層
+        widget: list
+        required: false
+        hint: Show 2–5 verified high-level components. Do not claim a conceptual diagram is a measured production topology. Project category only.
+        fields:
+          - {name: title_en, label: Layer title English, widget: string}
+          - {name: title_zh, label: 分層名稱中文, widget: string}
+          - {name: description_en, label: Short explanation English, widget: text}
+          - {name: description_zh, label: 簡短說明中文, widget: text}
+          - name: stage
+            label: Verified scope / 已核實階段
+            widget: select
+            default: prototype
+            options:
+              - {label: Implemented / 已實作, value: implemented}
+              - {label: Prototype / 原型, value: prototype}
+              - {label: Planned / 規劃中, value: planned}
+      - name: engineering_decisions
+        label: Case Study — Engineering decisions / 工程取捨
+        widget: list
+        required: false
+        hint: Explain the real constraint and design choice without unsupported speed or business claims.
+        fields:
+          - {name: title_en, label: Decision English, widget: string}
+          - {name: title_zh, label: 決策中文, widget: string}
+          - {name: rationale_en, label: Engineering rationale English, widget: text}
+          - {name: rationale_zh, label: 工程原因中文, widget: text}
+      - name: verification_evidence
+        label: Case Study — Tests and limitations / 驗證與限制
+        widget: list
+        required: false
+        hint: State actual checked scope. Use public evidence links only; never paste private accounts, keys or unpublished claims.
+        fields:
+          - {name: title_en, label: Test/limitation English, widget: string}
+          - {name: title_zh, label: 測試或限制中文, widget: string}
+          - {name: detail_en, label: Details English, widget: text}
+          - {name: detail_zh, label: 詳細說明中文, widget: text}
+          - name: status
+            label: Evidence status / 證據狀態
+            widget: select
+            default: pending
+            options:
+              - {label: Tested (specific scope) / 已完成特定測試, value: verified}
+              - {label: Limited evidence / 證據有限, value: limited}
+              - {label: Not yet validated / 尚未驗證, value: pending}
+          - {name: source_url, label: Public source URL (HTTPS only; optional), widget: string, required: false}
+
       - name: publication_status
         label: Research publication status / 研究發表狀態
         widget: select
