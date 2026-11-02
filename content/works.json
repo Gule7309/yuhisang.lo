@@ -194,7 +194,85 @@
     "media_label_en": "Real UI · mock data",
     "media_label_zh": "真實介面 · Mock 資料",
     "image_alt_en": "Trading Radar's real desktop research dashboard showing stock candidates, filters and financial figures from the mock demonstration dataset.",
-    "image_alt_zh": "Trading Radar 真正的桌面研究工作台，包含候選股票、篩選控制和 Mock 示範資料中的財務數據。"
+    "image_alt_zh": "Trading Radar 真正的桌面研究工作台，包含候選股票、篩選控制和 Mock 示範資料中的財務數據。",
+    "architecture_note_en": "Selected components of a modular team prototype. The screenshots use a mock backend; a separately documented limited live research run does not establish ongoing production operation.",
+    "architecture_note_zh": "以下為團隊模組化原型的重要分層。本站截圖使用 Mock 後端；另有單次有限的真實研究串接紀錄，但不代表已持續正式營運。",
+    "architecture_layers": [
+      {
+        "title_en": "Taiwan official-data layer",
+        "title_zh": "台股官方資料層",
+        "description_en": "A Python CLI and SQLite datasets assemble dated market, institutional and fundamentals inputs.",
+        "description_zh": "以 Python CLI 與 SQLite 整理有資料日期的行情、法人及基本面資料。",
+        "stage": "implemented"
+      },
+      {
+        "title_en": "Screening contract",
+        "title_zh": "候選篩選資料契約",
+        "description_en": "Screened candidates carry source snapshots, evidence references, risk flags and explicit data dates.",
+        "description_zh": "候選集合保留來源快照、Evidence、風險標記及明確的資料日期。",
+        "stage": "implemented"
+      },
+      {
+        "title_en": "Agent / evidence module",
+        "title_zh": "Agent／Evidence 模組",
+        "description_en": "A separate backend workstream handles research, evidence verification and publication gating; integration is still prototype-scoped.",
+        "description_zh": "獨立後端模組處理研究、證據查核與發布門檻；整合仍屬原型範圍。",
+        "stage": "prototype"
+      },
+      {
+        "title_en": "React research workbench",
+        "title_zh": "React 研究工作台",
+        "description_en": "Compare candidates, inspect risks/sources, record feedback and review thesis versions through an API.",
+        "description_zh": "透過 API 比較候選股、查看風險與來源、回饋偏好並檢視論點版本。",
+        "stage": "implemented"
+      }
+    ],
+    "engineering_decisions": [
+      {
+        "title_en": "Preserve data dates instead of implying freshness",
+        "title_zh": "保留資料日期，不將舊資料當成即時行情",
+        "rationale_en": "Candidate payloads retain dataset dates, snapshot identifiers and evidence links. The demo explicitly separates screened candidates from published research and refuses to treat stale data as a fresh run.",
+        "rationale_zh": "候選資料保留資料期別、快照識別與來源線索。示範系統區分已篩選候選股與可發布研究，並避免將舊快照誤當最新資料。"
+      },
+      {
+        "title_en": "Separate research confidence from front-end display",
+        "title_zh": "將研究可信度判斷與前端展示分離",
+        "rationale_en": "The Agent/Evidence workstream owns verification and publication eligibility; the React UI renders returned states, source links, limitations and errors instead of inventing a recommendation or silently upgrading insufficient evidence.",
+        "rationale_zh": "Agent／Evidence 模組負責驗證與可發布條件；React 介面顯示後端狀態、來源與限制，不自行捏造推薦或將證據不足顯示為已通過。"
+      },
+      {
+        "title_en": "Treat investor research as an iterative feedback workflow",
+        "title_zh": "將研究視為可追蹤的回饋循環",
+        "rationale_en": "Search, compare, save/skip feedback, versioned thesis tracking and notifications provide a reviewable loop. Mock integration checks exercise this behavior; automated live recheck and investment impact remain open.",
+        "rationale_zh": "搜尋、比較、收藏／略過回饋、版本化論點與通知形成可回顧流程。Mock 整合測試已覆蓋部分行為，自動真實重查及投資效果仍待驗證。"
+      }
+    ],
+    "verification_evidence": [
+      {
+        "title_en": "Frontend and mock-API workflow",
+        "title_zh": "前端與 Mock API 操作流程",
+        "detail_en": "The public validation log records TypeScript/build checks, unit and mock integration tests, responsive layouts and accessibility scans for specific UI states. Screenshots are actual React UI but display development demo data.",
+        "detail_zh": "公開驗收文件記錄 TypeScript／建置、單元與 Mock 整合測試，以及特定畫面的響應式與無障礙掃描。截圖來自實際 React 前端，但顯示的是開發用示範資料。",
+        "status": "verified",
+        "source_url": "https://github.com/Gule7309/trading_radar/blob/main/docs/FRONTEND_VALIDATION.md"
+      },
+      {
+        "title_en": "Bounded live agent integration",
+        "title_zh": "範圍有限的真實 Agent 串接",
+        "detail_en": "A documented October 14 live test researched two candidates and exposed a publication/evidence split; one official-source directory URL returned 404. This is one integration check, not a repeatable accuracy, return or reliability benchmark.",
+        "detail_zh": "10 月 14 日的單次真實串接紀錄研究兩檔候選，並區分可發布與證據不足；其中一個官方來源目錄網址回傳 404。此為有限整合驗收，不是準確率、報酬或可靠度的重複性基準測試。",
+        "status": "limited",
+        "source_url": "https://github.com/Gule7309/trading_radar/blob/main/docs/LIVE_DEMO_SETUP.md"
+      },
+      {
+        "title_en": "Automation and investor outcomes",
+        "title_zh": "自動化與投資成效",
+        "detail_en": "Automatic data refresh, live single-stock recheck, broader grounded-source accuracy, investor user studies and financial returns remain unvalidated. Mock scenario changes do not establish real market performance.",
+        "detail_zh": "自動資料更新、真實單股重查、大規模來源查證正確率、投資人測試與投資報酬仍未驗證；Mock 情境變化不能視為真實市場表現。",
+        "status": "pending",
+        "source_url": "https://github.com/Gule7309/trading_radar/blob/main/docs/FRONTEND_VALIDATION.md"
+      }
+    ]
   },
   {
     "slug": "vr-dementia",
@@ -288,7 +366,82 @@
     "image_alt_en": "PixelFit workout home with the upper-body routine, an original blue pixel pet, and the start training button.",
     "image_alt_zh": "PixelFit 訓練首頁，顯示上半身菜單、原創藍色像素寵物及開始訓練按鈕。",
     "image_caption_en": "Actual PixelFit UI from an October 2026 packaged web browser QA preview (393px). Workout numbers and progress are demonstration/test data. These are not native Android device screenshots or evidence of a public Play release.",
-    "image_caption_zh": "2026 年 10 月從 PixelFit 封裝網頁的 393px 瀏覽器 QA 預覽取得的實際介面；訓練數字與進度是示範／測試資料。並非 Android 真機截圖，也不代表已公開上架 Google Play。"
+    "image_caption_zh": "2026 年 10 月從 PixelFit 封裝網頁的 393px 瀏覽器 QA 預覽取得的實際介面；訓練數字與進度是示範／測試資料。並非 Android 真機截圖，也不代表已公開上架 Google Play。",
+    "architecture_note_en": "A selected view of the internal-testing beta design. The browser screenshots and isolated test results are not a measured Android performance or production-reliability claim.",
+    "architecture_note_zh": "以下為內部測試 Beta 的主要技術分層；瀏覽器截圖及隔離環境測試，不能視為 Android 效能或正式營運可靠性的驗證。",
+    "architecture_layers": [
+      {
+        "title_en": "React / Capacitor UI",
+        "title_zh": "React／Capacitor 操作介面",
+        "description_en": "Workout sets, rest flow, session completion and companion screens; Android preview packaged separately.",
+        "description_zh": "實作訓練組數、休息流程、結算與寵物畫面；Android Preview 另行封裝。",
+        "stage": "implemented"
+      },
+      {
+        "title_en": "Local session & IndexedDB",
+        "title_zh": "本機訓練狀態與 IndexedDB",
+        "description_en": "Versioned drafts, saved logs and an outbox; edits can render before background saves, while finalization waits for durable storage.",
+        "description_zh": "利用草稿版本、訓練紀錄與 Outbox 管理狀態；編輯先更新畫面，結算仍等待可靠保存。",
+        "stage": "implemented"
+      },
+      {
+        "title_en": "Isolated beta cloud",
+        "title_zh": "隔離的 Beta 雲端",
+        "description_en": "Separate authentication, Firestore rules and authenticated callable functions for beta accounts and sessions.",
+        "description_zh": "Beta 帳號、訓練與資料存取透過獨立 Auth、Firestore Rules 與驗證身分的 Callable Functions。",
+        "stage": "implemented"
+      },
+      {
+        "title_en": "Server-owned settlement",
+        "title_zh": "伺服端權威結算",
+        "description_en": "Validated workout submissions and daily receipts gate companion growth; retries must not create duplicate rewards.",
+        "description_zh": "伺服端檢查提交資料與每日收據後決定寵物成長；重試不應重複發獎。",
+        "stage": "implemented"
+      }
+    ],
+    "engineering_decisions": [
+      {
+        "title_en": "Keep editing responsive without sacrificing durable saves",
+        "title_zh": "即時回應與可靠保存並行",
+        "rationale_en": "Weight, repetition and set edits update visible session state before asynchronous IndexedDB writes; the queue coalesces newer revisions. Exiting or completing a workout still waits for a reliable checkpoint. A 100 ms interaction goal was specified, but device latency is not reported as measured.",
+        "rationale_zh": "重量、次數和組數先更新畫面，再由佇列合併寫入最新的 IndexedDB 版本；離開或完成訓練仍需等待可靠保存。100 毫秒是設計目標，並非已量測的真機成績。"
+      },
+      {
+        "title_en": "Make workout completion and companion rewards idempotent",
+        "title_zh": "避免訓練結算與寵物獎勵重複",
+        "rationale_en": "Session identifiers, immutable submission hashes and server-side daily receipts separate a successful local save from an authorized growth award. Emulator tests cover duplicate submissions, concurrent retries and once-per-day logic, not large-scale production traffic.",
+        "rationale_zh": "以訓練識別、固定提交雜湊與伺服端每日收據，區分本機保存與真正發放成長獎勵。隔離測試涵蓋重複提交、並行重試與每日去重，尚未代表正式流量驗證。"
+      },
+      {
+        "title_en": "Isolate the beta instead of silently migrating older data",
+        "title_zh": "將 Beta 與舊版資料隔離，避免無聲遷移",
+        "rationale_en": "The beta uses a separate cloud environment, origin and permission boundary. Release preparation includes package/rollback checks; older user records are not silently migrated, and public rollout is not asserted.",
+        "rationale_zh": "Beta 使用獨立的雲端環境、Origin 與資料權限；發布前需檢查套件及復原方案，不自動搬移舊版資料，也不宣稱已正式公開上架。"
+      }
+    ],
+    "verification_evidence": [
+      {
+        "title_en": "Local-first and receipt regression coverage",
+        "title_zh": "本機保存與收據邏輯的回歸測試",
+        "detail_en": "Development records document tests of revision conflicts, save retries, concurrent workout completion and single-day reward receipts in controlled environments; those are software checks rather than live-device endurance metrics.",
+        "detail_zh": "開發紀錄包含版本衝突、保存重試、並行結束與單日獎勵收據的隔離測試；這些是軟體驗證，不是真機長時間穩定度數據。",
+        "status": "verified"
+      },
+      {
+        "title_en": "Android preview and screenshot provenance",
+        "title_zh": "Android 預覽版與畫面來源",
+        "detail_en": "An Android preview was installed and launched during development. The displayed 393px UI captures were made in a packaged browser QA preview; haptics, system UI, background lifecycle and sharing need separate device checks.",
+        "detail_zh": "開發期間曾安裝並啟動 Android Preview；本站 393px 圖片則來自封裝網頁的瀏覽器 QA。震動、系統列、背景生命週期與分享功能仍需獨立實機驗證。",
+        "status": "limited"
+      },
+      {
+        "title_en": "Public release, measured latency and real-user outcomes",
+        "title_zh": "公開發布、效能量測與真實用戶成效",
+        "detail_en": "Public Play release, production retention, measured p50/p95 device latency and revenue have not been validated. The current portfolio stage is internal testing only.",
+        "detail_zh": "尚未驗證正式 Play 公開上架、實際留存、真機 p50／p95 延遲或營收；本站僅標示內部測試中。",
+        "status": "pending"
+      }
+    ]
   },
   {
     "slug": "tavi",
