@@ -2,6 +2,7 @@
 // Browser-verified proof that a page displays a signed synthetic record only.
 const {chromium} = require('playwright-core');
 const fs=require('node:fs');
+const {createHash}=require('node:crypto');
 const path=require('node:path');
 const assert=require('node:assert/strict');
 const BASE=process.env.PORTFOLIO_PREVIEW_URL || 'http://127.0.0.1:8769/yuhisang.lo';
@@ -37,10 +38,17 @@ fs.mkdirSync(OUT,{recursive:true});
     assert.equal(await section.locator('.research-audit-stat').count(),3);
     const links=await section.locator('.research-audit-links a').evaluateAll(list=>
      list.map(link=>({href:link.href,rel:link.rel,target:link.target})));
-    assert.equal(links.length,3);
-    assert.ok(links.every(link=>link.href.startsWith('https://github.com/Gule7309/When2ask/')
+    assert.equal(links.length,4);
+    assert.ok(links.slice(0,3).every(link=>link.href.startsWith('https://github.com/Gule7309/When2ask/')
        && link.target==='_blank' && link.rel.includes('noopener') && link.rel.includes('noreferrer')));
     assert.ok(links.some(link=>link.href.includes('/actions/runs/41459465082/artifacts/13147204648')));
+    const snapshotPath='/content/experiments/when2ask_synthetic_audit.json';
+    assert.ok(links.some(link=>link.href.endsWith('/yuhisang.lo'+snapshotPath)));
+    const snapshot=await page.request.get(BASE+snapshotPath);
+    assert.equal(snapshot.status(),200,'Immutable site snapshot must serve as public JSON');
+    const saved=await snapshot.body();
+    assert.equal(createHash('sha256').update(saved).digest('hex'),
+       'cf50484680e63bd7c845653451c2019e9ae45b8c87cc31bbcd9a492b11428dd8');
     assert.ok(links.some(link=>link.href.includes('/blob/ab0cd26da17ff63d300080811500fe87fe0f95a6/')));
     assert.equal(await page.locator('.research-disclosure--in_progress').count(),1,
                  'Synthetic replay must not upgrade a research note to a publication');
@@ -66,7 +74,7 @@ fs.mkdirSync(OUT,{recursive:true});
     await footer.scrollIntoViewIfNeeded();
     assert.ok(await footer.isVisible());
     await footer.screenshot({path:path.join(OUT,prefix+'-source-links.png'),animations:'disabled'});
-    checked.push({route,width:variant.width,sourceLinks:3,conditions:4,
+    checked.push({route,width:variant.width,sourceLinks:4,conditions:4,
                   documentOverflow:dims.document-dims.viewport,
                   keyboardJump:true,publication:'work_in_progress'});
    }finally{await page.close()}
