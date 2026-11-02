@@ -61,3 +61,10 @@
 .archive-more{margin-top:18px;font-size:12.5px;font-weight:650}
 .archive-more a{display:inline-flex;align-items:center;gap:8px;color:#1c518f}
 .archive-more .bi{font-size:13px}
+
+
+/* Research diagrams are original schematics, not cropped pseudo-screenshots. */
+.cover.has-diagram{background:#f8fafc;border-color:#e3ebf2;padding:8px}
+.cover.has-diagram img{width:100%;height:100%;object-fit:contain;background:white;border-radius:3px}
+.case-cover figcaption{margin:10px 14px 13px;color:#60778c;font-size:11.5px;line-height:1.7}
+.case-cover figcaption .bi{font-size:13px;margin-right:5px}
