@@ -20,6 +20,7 @@ A bilingual, academic-minimalist personal website for Yu-Hsiang (Gule) Luo, with
 - Bilingual research notes with a Clarity + Lil'Log-inspired layout, collapsible TOC, truthful publication state, authentic figures and references
 - Static research routes: `/research/`, `/research/when2ask/`, and corresponding `/zh/research/` pages
 - Static product case studies: `/projects/`, `/projects/pixelfit/`, and corresponding `/zh/projects/` pages
+- Optional evidence-led technical case-study sections: architecture layers, engineering trade-offs, scoped test results and known limitations, all bilingual and CMS-managed
 - Research and products are generated from CMS JSON by two Python scripts on deployment, with sitemap and canonical/hreflang tags
 
 ## Editing the website
