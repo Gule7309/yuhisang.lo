@@ -35,6 +35,17 @@ This adds a three-screen editorial strip on the homepage and All Projects archiv
 
 **PixelFit:** The four pictures are from its own October 2026 packaged web-app QA screens, not Android device captures, and show development/test data. The private source repository stays private. Do not claim these visuals prove the app has shipped on Google Play or that the numeric values are real workouts. Additional documentation: docs/media/PROVENANCE.md.
 
+## Verified implementation traces (optional for projects & research)
+
+Use **CMS → Research and Projects → Implementation proof / 程式碼實作證據** to connect a technical claim to *actual public source code*. Each entry needs both language descriptions, an exact excerpt, the language and a public GitHub permalink pinned to a **40-character commit SHA and line range** (for example `https://github.com/owner/repo/blob/<40-character-commit>/src/file.py#L23-L30`).
+
+- Paste **1–14 consecutive source lines exactly**, including whitespace and comments, matching the selected `#Lx-Ly` range. There is a 1300-character excerpt budget. The site escapes code safely and shows a directly clickable source link.
+- Source must be public and allowed to quote. Do **not** copy PixelFit's private code, unapproved collaborator code, credentials, private repository URLs, personal financial data, or production keys. Publishing the CMS record writes that source directly into public `content/works.json`.
+- Explain what the snippet **proves and does not prove**. An implementation does not establish benchmark quality, investment returns, production reliability, or academic paper acceptance.
+- The renderer omits invalid/unpinned URLs, too-long excerpts and mismatched line counts without inventing a link; records with no valid snippets show no empty section.
+- When2ask's independent mechanism reconstruction still has `work_in_progress` publication status. Trading Radar is a **team repository**; snippets illustrate team system design rather than sole individual ownership.
+- Source audit and exact locked revisions: [docs/engineering/SOURCE_TRACE_AUDIT.md](docs/engineering/SOURCE_TRACE_AUDIT.md).
+
 ## Engineering case-study sections (optional)
 
 In **/admin/ → Research and Projects**, projects can include a technical deep dive without changing their original case-study layout:
