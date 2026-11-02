@@ -192,7 +192,9 @@
     "image_caption_en": "Actual Trading Radar frontend screenshot captured against its development mock API (November 2026). Candidate figures are labeled demo data, not live research results or investment performance.",
     "image_caption_zh": "2026 年 11 月從 Trading Radar 實際前端搭配開發用 Mock API 擷取；候選股票與數值屬示範資料，並非即時研究結果或投資績效。",
     "media_label_en": "Real UI · mock data",
-    "media_label_zh": "真實介面 · Mock 資料"
+    "media_label_zh": "真實介面 · Mock 資料",
+    "image_alt_en": "Trading Radar's real desktop research dashboard showing stock candidates, filters and financial figures from the mock demonstration dataset.",
+    "image_alt_zh": "Trading Radar 真正的桌面研究工作台，包含候選股票、篩選控制和 Mock 示範資料中的財務數據。"
   },
   {
     "slug": "vr-dementia",
