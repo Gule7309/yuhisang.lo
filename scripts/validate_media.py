@@ -44,8 +44,14 @@ def validate_one(value: str) -> None:
         raise ValueError(f"Unsupported local image extension: {path.name}")
     if path.stat().st_size > 5 * 1024 * 1024:
         raise ValueError(f"Image above 5MB site budget: {path.name}")
-    if path.suffix.lower() == ".png" and path.read_bytes()[:8] != b"\x89PNG\r\n\x1a\n":
+    header = path.open("rb").read(16)
+    suffix = path.suffix.lower()
+    if suffix == ".png" and header[:8] != b"\x89PNG\r\n\x1a\n":
         raise ValueError(f"Invalid PNG signature: {path.name}")
+    if suffix in {".jpg", ".jpeg"} and not header.startswith(b"\xff\xd8\xff"):
+        raise ValueError(f"Invalid JPEG signature: {path.name}")
+    if suffix == ".webp" and not (header.startswith(b"RIFF") and header[8:12] == b"WEBP"):
+        raise ValueError(f"Invalid WebP signature: {path.name}")
     if path.suffix.lower() == ".svg":
         tree = ET.parse(path)
         if tree.getroot().tag != "{http://www.w3.org/2000/svg}svg":
@@ -75,9 +81,9 @@ def validate() -> int:
             if value:
                 validate_one(value)
                 count += 1
-        if item.get("slug") == "trading-radar" and item.get("image"):
+        if item.get("slug") in {"trading-radar", "pixelfit"} and item.get("image"):
             if not item.get("image_caption_en") or not item.get("image_caption_zh"):
-                raise ValueError("Trading Radar mock screenshot requires bilingual provenance captions")
+                raise ValueError(f"{item.get('slug')} screenshot requires bilingual provenance captions")
     print(f"Validated {count} published work image references.")
     return count
 
