@@ -12,16 +12,26 @@ test('homepage honors Featured and uses localized product detail links', async (
   const handlers = new Map();
   const navNames = ['about', 'research', 'projects', 'experience', 'education', 'news', 'writing', 'achievements', 'contact'];
   const navs = navNames.map((name) => ({dataset: {i:name}, textContent:'',hidden:false}));
+  let focused = '';
   function elt(key) {
-    if (!elements.has(key)) elements.set(key, {
-      innerHTML:'', hidden:false, textContent:'', classList:{toggle(){}},
-      addEventListener(event, callback){handlers.set(key + ':' + event, callback);}
-    });
+    if (!elements.has(key)) {
+      const attrs = new Map();
+      elements.set(key, {
+        innerHTML:'', hidden:false, textContent:'', classList:{toggle(){}},
+        setAttribute(name, value){attrs.set(name, value);},
+        getAttribute(name){return attrs.get(name) || null;},
+        removeAttribute(name){attrs.delete(name);},
+        contains(target){return target===this;},
+        focus(){focused=key;},
+        addEventListener(event, callback){handlers.set(key + ':' + event, callback);}
+      });
+    }
     return elements.get(key);
   }
   const document = {
     documentElement: {lang:'en'},
     title: '',
+    addEventListener(event, callback){handlers.set('document:' + event, callback);},
     querySelector(selector) {
       const navMatch = selector.match(/^nav a\[data-i="([^"]+)"\]$/);
       if (navMatch) return navs.find(n=>n.dataset.i===navMatch[1]) || null;
@@ -29,7 +39,7 @@ test('homepage honors Featured and uses localized product detail links', async (
     },
     querySelectorAll(selector) {return selector === 'nav a' ? navs : [];}
   };
-  const data = Object.fromEntries(['profile','works','news','writing','achievements','personal']
+  const data = Object.fromEntries(['profile','works','homepage-works','news','writing','achievements','personal']
     .map((name) => [name, JSON.parse(fs.readFileSync(path.join(root,'content',name+'.json'), 'utf8'))]));
   const sandbox = {
     document, PortfolioUI,
@@ -86,4 +96,28 @@ test('homepage honors Featured and uses localized product detail links', async (
   assert.ok(researchZh.includes('href="zh/research/"'));
   assert.ok(researchZh.includes('查看全部研究'));
   assert.equal(document.documentElement.lang,'zh-Hant');
+  assert.equal(elt('#english').getAttribute('aria-pressed'),'false');
+  assert.equal(elt('#chinese').getAttribute('aria-pressed'),'true');
+  assert.equal(elt('#nav-toggle-label').textContent, '選單');
+  assert.equal(elt('#skip-link').textContent, '跳至主要內容');
+  assert.equal(elt('#primary-navigation').getAttribute('aria-label'),'頁面章節導覽');
+  assert.equal(elt('#site-status').hidden,true);
+  assert.ok(handlers.has('#nav-toggle:click'));
+  handlers.get('#nav-toggle:click')();
+  assert.equal(elt('#nav-toggle').getAttribute('aria-expanded'),'true');
+  assert.equal(elt('#primary-navigation').getAttribute('data-open'),'true');
+  handlers.get('document:keydown')({key:'Escape'});
+  assert.equal(elt('#nav-toggle').getAttribute('aria-expanded'),'false');
+  assert.equal(focused,'#nav-toggle');
+  handlers.get('#nav-toggle:click')();
+  handlers.get('#primary-navigation:click')({target:{closest:()=>({href:'#research'})}});
+  assert.equal(elt('#primary-navigation').getAttribute('data-open'),null);
+  handlers.get('#nav-toggle:click')();
+  handlers.get('document:pointerdown')({target:{}});
+  assert.equal(elt('#nav-toggle').getAttribute('aria-expanded'),'false');
+  handlers.get('#english:click')();
+  assert.equal(elt('#nav-toggle-label').textContent,'Sections');
+  assert.equal(elt('#english').getAttribute('aria-pressed'),'true');
+  assert.equal(elt('#chinese').getAttribute('aria-pressed'),'false');
+  assert.equal(elt('#up').getAttribute('aria-label'),'Back to top');
 });
