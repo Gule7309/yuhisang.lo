@@ -37,6 +37,9 @@ class ProductPageGeneratorTests(unittest.TestCase):
                 "status_type": "testing", "published": True, "featured": True,
                 "year": "2026", "order": 2,
                 "challenge_en": "<script>unsafe</script>", "role_en": "Builder",
+                "image": "/yuhisang.lo/assets/uploads/real-demo.png",
+                "image_caption_en": "Actual frontend with mock research data, not live results.",
+                "image_caption_zh": "實際前端使用模擬研究資料，並非即時研究結果。",
                 "gallery": [{"image": "/yuhisang.lo/assets/uploads/example.png",
                              "caption_en": "First screen"}],
                 "github": "javascript:alert(1)",
@@ -88,11 +91,14 @@ class ProductPageGeneratorTests(unittest.TestCase):
         self.assertIn('hreflang="zh-Hant"', text)
         self.assertIn('class="badge status-badge status-badge--testing"', text)
         self.assertIn('First screen', text)
+        self.assertIn("Actual frontend with mock research data", text)
+        self.assertIn('class="case-cover"', text)
         self.assertNotIn("javascript:alert", text)
         self.assertIn("https://gule7309.github.io/yuhisang.lo/projects/featured-app/", text)
         zh = self.read("zh/projects/featured-app/index.html")
         self.assertIn("公開專案摘要", zh)
         self.assertIn("內部測試中", zh)
+        self.assertIn("實際前端使用模擬研究資料", zh)
 
     def test_index_contains_all_published_products_not_research(self):
         generator.build()
