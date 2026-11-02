@@ -57,6 +57,9 @@ fs.mkdirSync(OUT,{recursive:true});
     await first.scrollIntoViewIfNeeded();
     await first.screenshot({path:path.join(OUT,prefix+'-stats.png'),animations:'disabled'});
     const table=section.locator('.research-audit-table-wrap');
+    const tableDims=await table.evaluate(el=>({width:el.clientWidth,scrollWidth:el.scrollWidth}));
+    assert.ok(tableDims.scrollWidth<=tableDims.width+1,
+      'Audit comparison headings should not clip on narrow viewports: '+JSON.stringify({route,tableDims}));
     await table.scrollIntoViewIfNeeded();
     await table.screenshot({path:path.join(OUT,prefix+'-conditions.png'),animations:'disabled'});
     const footer=section.locator('.research-audit-links');
