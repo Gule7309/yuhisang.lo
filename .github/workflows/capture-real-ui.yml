@@ -18,11 +18,32 @@ jobs:
           ref: main
           path: trading-radar
           persist-credentials: false
+      - name: Checkout public Trading Radar mock API branch
+        uses: actions/checkout@v4
+        with:
+          repository: Gule7309/trading_radar
+          ref: feat/b-agent-mvp
+          path: trading-radar-backend
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Install frontend from lockfile
-        run: npm ci --prefix trading-radar/apps/web --no-audit --no-fund
+      - name: Install Chinese fonts and frontend/backend dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npm ci --prefix trading-radar/apps/web --no-audit --no-fund
+          npm install --prefix trading-radar-backend --no-audit --no-fund
+      - name: Start public development mock backend (no live credentials)
+        run: |
+          cd trading-radar-backend
+          npm run api:mock > /tmp/trading-radar-mock.log 2>&1 &
+          echo $! > /tmp/trading-radar-mock.pid
+          for i in $(seq 1 50); do
+            if curl -f -s http://127.0.0.1:8787/health > /dev/null; then break; fi
+            sleep 2
+          done
+          curl -f http://127.0.0.1:8787/health
       - name: Start actual app in development fixture mode
         run: |
           cd trading-radar/apps/web
