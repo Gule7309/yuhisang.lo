@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - feature/featured-product-pages-20261030
+      - feature/authentic-portfolio-media-20261102
 permissions:
   contents: read
 jobs:
@@ -30,6 +31,8 @@ jobs:
           python -m py_compile scripts/build_project_pages.py scripts/build_research_pages.py
           python scripts/build_project_pages.py
           python scripts/build_research_pages.py
+      - name: Check local screenshots, research SVG figures and media sources
+        run: python scripts/validate_media.py
       - name: Run product and research generator tests
         run: python -m unittest discover -s tests -p 'test_*.py' -v
       - name: Check generated localized routes
@@ -78,6 +81,8 @@ jobs:
           sleep 2
           timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2000 --window-size=1280,900 --screenshot="artifacts/uiqa/research-desktop.png" "http://127.0.0.1:8765/yuhisang.lo/research/when2ask/"
           timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2000 --window-size=390,844 --screenshot="artifacts/uiqa/research-mobile.png" "http://127.0.0.1:8765/yuhisang.lo/zh/research/authority-aware-agents/"
+          timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2000 --window-size=1280,900 --screenshot="artifacts/uiqa/trading-radar-project-desktop.png" "http://127.0.0.1:8765/yuhisang.lo/projects/trading-radar/"
+          timeout 45 "$BROWSER" --headless --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars --virtual-time-budget=2000 --window-size=390,844 --screenshot="artifacts/uiqa/trading-radar-project-mobile.png" "http://127.0.0.1:8765/yuhisang.lo/zh/projects/trading-radar/"
       - name: Upload optional research page previews
         if: always()
         uses: actions/upload-artifact@v4
