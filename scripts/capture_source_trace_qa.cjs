@@ -24,7 +24,7 @@ try{
  for(const test of scenarios){
   const page=await browser.newPage({viewport:{width:test.width,height:test.height},
    deviceScaleFactor:1,reducedMotion:'reduce'});
-  const route='/' + (test.locale==='zh'?'zh/':'') +test.kind+'/' +test.slug+'/';
+  const route='/' + (test.locale==='zh'?'zh/':'') +(test.kind==='project'?'projects':'research')+'/' +test.slug+'/';
   try{
    await page.goto(BASE+route,{waitUntil:'domcontentloaded',timeout:30000});
    assert.equal(await page.locator('html').getAttribute('lang'),
