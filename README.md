@@ -9,6 +9,8 @@ A bilingual, academic-minimalist personal website for Yu-Hsiang (Gule) Luo, with
 ## Features
 
 - English / Traditional Chinese, responsive academic researcher layout
+- Accessible mobile **Sections / 選單** navigation, keyboard Escape/focus support and localized language-button states
+- Lightweight homepage previews automatically derived from full CMS works data on each GitHub Pages build (never edited separately)
 - About, Research, Projects, Experience, Education and News
 - Writing & Research Notes (expandable bilingual essays)
 - Awards & Credentials with optional evidence links
