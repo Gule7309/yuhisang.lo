@@ -241,25 +241,25 @@
       "Product Engineering",
       "Fitness"
     ],
-    "image": "/yuhisang.lo/assets/projects/pixelfit-home-browser-preview.png",
+    "image": "/yuhisang.lo/assets/projects/pixelfit-home-browser-preview.jpg",
     "gallery": [
       {
-        "image": "/yuhisang.lo/assets/projects/pixelfit-home-browser-preview.png",
+        "image": "/yuhisang.lo/assets/projects/pixelfit-home-browser-preview.jpg",
         "caption_en": "Workout home — actual PixelFit browser QA screen, with a sample routine and pet.",
         "caption_zh": "訓練首頁：實際 PixelFit 瀏覽器 QA 畫面，使用示範菜單與寵物。"
       },
       {
-        "image": "/yuhisang.lo/assets/projects/pixelfit-workout-browser-preview.png",
+        "image": "/yuhisang.lo/assets/projects/pixelfit-workout-browser-preview.jpg",
         "caption_en": "Active session — editable weights and repetitions with test input values, not personal performance measurements.",
         "caption_zh": "訓練進行中：可編輯重量與次數，數值為 QA 測試輸入，並非真實個人成績。"
       },
       {
-        "image": "/yuhisang.lo/assets/projects/pixelfit-result-browser-preview.png",
+        "image": "/yuhisang.lo/assets/projects/pixelfit-result-browser-preview.jpg",
         "caption_en": "Workout completion — sample finished-set count and duration shown in the browser QA preview.",
         "caption_zh": "訓練結算：瀏覽器 QA 預覽中的範例完成組數與訓練時間。"
       },
       {
-        "image": "/yuhisang.lo/assets/projects/pixelfit-companion-browser-preview.png",
+        "image": "/yuhisang.lo/assets/projects/pixelfit-companion-browser-preview.jpg",
         "caption_en": "Companion growth — real PixelFit UI using a synthetic development tester; progress is not real-user retention data.",
         "caption_zh": "寵物成長：實際 PixelFit 介面搭配虛構開發用測試帳號，進度不代表真實使用者留存。"
       }
