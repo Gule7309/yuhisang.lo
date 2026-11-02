@@ -177,6 +177,8 @@ collections:
       - {name: year, label: Year, widget: string}
       - {name: tags, label: Tags, widget: list, required: false}
       - {name: image, label: Cover image (authentic screenshots or original diagrams only), widget: image, required: false}
+      - {name: image_alt_en, label: Cover alt text English, widget: string, required: false}
+      - {name: image_alt_zh, label: 封面圖替代文字 (中文), widget: string, required: false}
       - {name: image_caption_en, label: Cover image context / source (English), widget: text, required: false}
       - {name: image_caption_zh, label: 封面圖片的來源與使用情境 (中文), widget: text, required: false}
       - {name: media_label_en, label: Cover label English (e.g. Real UI · mock data), widget: string, required: false}
