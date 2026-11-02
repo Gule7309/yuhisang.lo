@@ -235,6 +235,22 @@ def info_section(item: dict, lang: str, field: str) -> str:
             f'{paragraphs(value)}</section>')
 
 
+def phone_strip(item: dict, lang: str) -> str:
+    """Show actual QA captures side by side; never invent mobile frames."""
+    if item.get("media_layout") != "phone":
+        return ""
+    figures = []
+    for photo in (item.get("gallery") or [])[:3]:
+        if not isinstance(photo, dict):
+            continue
+        image = safe_href(photo.get("image"), allow_local=True)
+        if not image:
+            continue
+        alt = localized(photo, "caption", lang) or localized(item, "title", lang)
+        figures.append(f'<img src="{escape(image)}" alt="{escape(alt)}" loading="lazy">')
+    return '<span class="cover-phone-strip">' + "".join(figures) + '</span>' if len(figures) > 1 else ""
+
+
 def gallery(item: dict, lang: str) -> str:
     photos = item.get("gallery") or []
     output = []
@@ -253,7 +269,7 @@ def gallery(item: dict, lang: str) -> str:
     if not output:
         return ""
     return (f'<section class="case-section" id="gallery"><h2>{escape(LABELS[lang]["gallery"])}</h2>'
-            f'<div class="case-gallery">{"".join(output)}</div></section>')
+            f'<div class="case-gallery{" has-phone-layout" if item.get("media_layout") == "phone" else ""}">{"".join(output)}</div></section>')
 
 
 def resource_links(item: dict, lang: str) -> str:
@@ -279,7 +295,7 @@ def details(item: dict, profile: dict, lang: str) -> str:
     caption_html = (f'<figcaption>{icon("bi-info-circle")} {escape(caption)}</figcaption>'
                     if caption else "")
     image_alt = localized(item, "image_alt", lang) or title
-    media = (f'<figure class="case-cover"><img src="{escape(safe_img)}"'
+    media = (f'<figure class="case-cover{" has-phone-layout" if item.get("media_layout") == "phone" else ""}"><img src="{escape(safe_img)}"'
              f' alt="{escape(image_alt)}" loading="eager">{caption_html}</figure>') if safe_img else ""
     main = (
         f'<a class="case-back" href="{escape(index_path(lang))}">'
@@ -312,10 +328,12 @@ def listing(works: list[dict], profile: dict, lang: str) -> str:
         label = localized(item, "title", lang)
         url = paths(item["slug"])[lang]
         image = safe_href(item.get("image"), allow_local=True)
-        cover = (f'<img src="{escape(image)}" alt="" loading="lazy">' if image else
+        strip = phone_strip(item, lang)
+        cover = (strip if strip else
+                 f'<img src="{escape(image)}" alt="" loading="lazy">' if image else
                  f'<span class="case-placeholder">{escape(item["slug"].replace("-", " ").title())}</span>')
         items.append(
-            f'<article class="project-list-item"><a class="project-list-cover" href="{escape(url)}">'
+            f'<article class="project-list-item"><a class="project-list-cover{" has-phone-layout" if strip else ""}" href="{escape(url)}">'
             f'{cover}</a><div><div class="case-status">{badge(item,lang)}'
             f'<span class="case-year">{escape(item.get("year") or "")}</span></div>'
             f'<h2><a href="{escape(url)}">{escape(label)}</a></h2>'
