@@ -126,6 +126,10 @@ class ResearchGenerationTests(unittest.TestCase):
         self.assertIn('src="/yuhisang.lo/assets/uploads/schema.png"', page)
         self.assertIn('alt="Candidate set illustration"', page)
         self.assertIn("https://aclanthology.org/2026.findings-acl.2028/", page)
+        self.assertIn('property="og:image"', page)
+        archive = self.read("research/index.html")
+        self.assertIn('class="research-index-preview"', archive)
+        self.assertIn('src="/yuhisang.lo/assets/uploads/schema.png"', archive)
 
     def test_zh_and_hreflang_are_correct(self):
         self.build()

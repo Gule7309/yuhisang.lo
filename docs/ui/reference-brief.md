@@ -106,3 +106,47 @@ Distinguish meaningful project stages including **原型探索中** and **持續
 **Acceptance:** Two research entries with truthful content; separate research archive; research homepage links; no change to product routes; escaping, URL whitelist, canonical/hreflang, sitemap; Python/Node tests; CMS YAML validation and PR workflow checks. Confirm full desktop/mobile appearance against A+C before merging — screenshots currently required.
 
 **Out of scope:** Inventing publication records or experiment figures, claiming benchmark performance, adding server/database/analytics, public release without owner approval.
+
+---
+
+## Phase 4 — Authentic media, evidence and provenance (2026-11-02)
+
+**Target:** Homepage Featured Research / Products, two approved A+C Research pages, and Trading Radar Case Study. No other pages, release permissions or visual identity change. This is an **evolution** of the current academic-minimalist design, not a replacement style.
+
+### Evidence and references
+
+- Existing Portfolio and [Chia-Ming Lee](https://ming053l.github.io/) establish the left author sidebar, white page, quiet dark-blue typography and restrained media cards.
+- [Clarity](https://shikun.io/projects/clarity) informs the spacious research figure layout; [Lil'Log](https://lilianweng.github.io/posts/2023-06-23-agent/) informs narrative and captions.
+- **Actual Trading Radar UI** captured from the user-owned public repository at frontend commit `985351296d4d0c1225121be03e31aa115f003769` with a separately run **public mock backend** at commit `a8cd0261455c178159765d691d9b35d3e57e51f2`. Browser screenshots, not generated depictions.
+- [When2ask Experiment Plan](https://github.com/Gule7309/When2ask/blob/main/docs/experiment_plan.md) grounds original planned-condition diagram. Authority-Aware diagram is explicitly a proposed research framing, not a tested model.
+- Full media provenance: [docs/media/PROVENANCE.md](../media/PROVENANCE.md).
+
+### Design constraints
+
+| Component | Behavior | Fidelity target |
+| --- | --- | --- |
+| Homepage research thumbnail | Show first real research figure when no explicit cover exists; contain rather than crop diagram | Existing 34%/66% media/text row, slim border |
+| Homepage Trading Radar | Actual 1440×960 screen capture, bottom-left restrained `Real UI · mock data` label | Existing rounded photo container, subdued palette |
+| Research archive | Figure on left, text and status on right; stack on mobile | Same existing sidebar and text hierarchy |
+| A+C research detail | Existing source-linked figure and caption; no inferred or fake benchmark plots | Existing diagram section and in-page TOC |
+| Product case study | Cover image plus bilingual disclosure explaining mock data; actual desktop/mobile screenshot gallery | Existing semantic `figure`, `figcaption`, image contain |
+| CMS | Optional per-work short media label and complete bilingual cover description; screenshot gallery remains editable | Existing content JSON, no new database |
+
+### Screenshot and output expectations
+
+- English: 1280×900 Project Case Study, When2ask research note.
+- Traditional Chinese: 390×844 Project Case Study, Authority-Aware research note.
+- Fixture content: current `content/works.json` with real frontend mock screenshot, original SVG diagrams.
+- All image paths are checked by `scripts/validate_media.py`. No broken assets, fabricated UI, fake metrics or accidental release of private screenshots.
+- The screenshots prove actual UI rendering with development **mock data**, not live market ingestion, model quality, investing results or production deployment.
+- PixelFit, Tavi, GPTL and VR Dementia images are deferred until genuine rights-cleared captures are available.
+- QA may capture local Chrome renders but must not claim pixel-perfect equivalence to third-party inspirations.
+
+### Acceptance gates
+
+- Media assets have truthful source and type labels.
+- Native desktop/mobile images render without horizontal clipping or broken links.
+- CMS-driven images remain optional; empty galleries omit gracefully.
+- No unrelated layout/navigation changes.
+- GitHub Actions Node + Python tests, YAML validation and image-path validation pass.
+- Browser screenshot review for homepage, research and case-study pages; report any untested CMS upload/authentication states.

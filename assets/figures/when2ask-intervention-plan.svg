@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 570" role="img" aria-labelledby="title desc">
+<title id="title">When2ask: candidate-set interventions — conceptual research plan</title>
+<desc id="desc">Three matched candidate-set conditions: Natural uses a generated candidate set, Oracle-complete inserts a ground-truth-compatible candidate if missing, and Forced-miss removes compatible candidates. All are evaluated with consistent downstream decision logic. No experimental result is shown.</desc>
+<defs>
+<style>
+  .bg{fill:#fcfdfd}.h{font:700 27px Inter,Arial,sans-serif;fill:#20364c;letter-spacing:-.7px}
+  .sub{font:15px Inter,Arial,sans-serif;fill:#647a8d}
+  .lab{font:700 15px Inter,Arial,sans-serif;fill:#24415b}
+  .meta{font:12px Inter,Arial,sans-serif;fill:#74889a}
+  .small{font:12.5px Inter,Arial,sans-serif;fill:#405970}
+  .chip{font:700 12.5px Inter,Arial,sans-serif;fill:#385d79}
+  .match{font:700 12.5px Inter,Arial,sans-serif;fill:#116354}
+  .warning{font:700 12.5px Inter,Arial,sans-serif;fill:#986219}
+  .a{fill:#fff;stroke:#dce6ed;stroke-width:1.5}
+  .line{stroke:#96adbf;stroke-width:1.5;fill:none;stroke-linecap:round}
+</style>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#96adbf"/></marker>
+</defs>
+<rect class="bg" width="1120" height="570" rx="17"/>
+<text x="40" y="56" class="h">When2ask · Candidate-set intervention</text>
+<text x="40" y="85" class="sub">Matched conditions proposed for testing structured uncertainty under missing intent</text>
+<line x1="40" y1="111" x2="1080" y2="111" stroke="#e3eaf0"/>
+<text x="246" y="137" class="meta">CANDIDATE SET</text>
+<text x="808" y="137" class="meta">FIXED DECISION &amp; EVALUATION</text>
+
+<rect class="a" x="40" y="154" width="1040" height="107" rx="12"/>
+<rect x="40" y="154" width="7" height="107" rx="3.5" fill="#6e94b4"/>
+<text x="70" y="190" class="lab">1  Natural</text>
+<text x="70" y="213" class="small">Model-generated</text>
+<text x="70" y="232" class="meta">No intervention</text>
+<rect x="246" y="180" width="116" height="43" rx="8" fill="#eef4f9" stroke="#d8e4ef"/>
+<text x="271" y="206" class="chip">Option A</text>
+<rect x="374" y="180" width="116" height="43" rx="8" fill="#eef4f9" stroke="#d8e4ef"/>
+<text x="400" y="206" class="chip">Option B</text>
+<rect x="502" y="180" width="116" height="43" rx="8" fill="#f3f5f7" stroke="#e3e8ed"/>
+<text x="530" y="206" class="chip">Option C</text>
+<path class="line" d="M647 202 H761" marker-end="url(#arrow)"/>
+<rect x="787" y="176" width="259" height="53" rx="9" fill="#f5f8fa" stroke="#e1e9f0"/>
+<text x="809" y="199" class="lab">Clarification vs. execution</text>
+<text x="809" y="216" class="meta">Trace decision &amp; uncertainty</text>
+
+<rect class="a" x="40" y="276" width="1040" height="107" rx="12"/>
+<rect x="40" y="276" width="7" height="107" rx="3.5" fill="#4d9b84"/>
+<text x="70" y="312" class="lab">2  Oracle-complete</text>
+<text x="70" y="335" class="small">Compatible option inserted</text>
+<text x="70" y="354" class="meta">Diagnostic condition</text>
+<rect x="246" y="302" width="116" height="43" rx="8" fill="#eef4f9" stroke="#d8e4ef"/>
+<text x="271" y="328" class="chip">Option A</text>
+<rect x="374" y="302" width="116" height="43" rx="8" fill="#eef4f9" stroke="#d8e4ef"/>
+<text x="400" y="328" class="chip">Option B</text>
+<rect x="502" y="302" width="136" height="43" rx="8" fill="#e8f7f0" stroke="#b9dec9"/>
+<text x="521" y="328" class="match">Compatible</text>
+<path class="line" d="M647 324 H761" marker-end="url(#arrow)"/>
+<rect x="787" y="298" width="259" height="53" rx="9" fill="#f5f8fa" stroke="#e1e9f0"/>
+<text x="809" y="321" class="lab">Same downstream logic</text>
+<text x="809" y="338" class="meta">Compare planned metrics</text>
+
+<rect class="a" x="40" y="398" width="1040" height="107" rx="12"/>
+<rect x="40" y="398" width="7" height="107" rx="3.5" fill="#c49a4b"/>
+<text x="70" y="434" class="lab">3  Forced-miss</text>
+<text x="70" y="457" class="small">Compatible option removed</text>
+<text x="70" y="476" class="meta">Candidate omission test</text>
+<rect x="246" y="424" width="116" height="43" rx="8" fill="#eef4f9" stroke="#d8e4ef"/>
+<text x="271" y="450" class="chip">Option A</text>
+<rect x="374" y="424" width="116" height="43" rx="8" fill="#eef4f9" stroke="#d8e4ef"/>
+<text x="400" y="450" class="chip">Option B</text>
+<rect x="502" y="424" width="136" height="43" rx="8" fill="#fff5e5" stroke="#ebd3a6" stroke-dasharray="4 3"/>
+<text x="533" y="450" class="warning">Decoy</text>
+<path class="line" d="M647 446 H761" marker-end="url(#arrow)"/>
+<rect x="787" y="420" width="259" height="53" rx="9" fill="#f5f8fa" stroke="#e1e9f0"/>
+<text x="809" y="443" class="lab">Same downstream logic</text>
+<text x="809" y="460" class="meta">Assess high-confidence errors</text>
+<line x1="40" y1="526" x2="1080" y2="526" stroke="#e3eaf0"/>
+<text x="40" y="549" class="meta">CONCEPTUAL EXPERIMENT DESIGN  ·  Not benchmark results or a reproduced figure from the original paper</text>
+</svg>

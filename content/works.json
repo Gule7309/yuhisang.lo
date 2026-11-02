@@ -42,7 +42,16 @@
     "research_limitations_zh": "目前尚未完整重現 SAGE-Agent 的多輪互動流程，也未實作原方法具回應分布權重的完整 EVPI。部分原論文參數未明確提供，且與公開程式碼設定存在差異。Smoke Test 使用的閾值只是敏感度設定，並非宣稱已找回原論文參數。",
     "research_next_steps_en": "Run the candidate-recall smoke test and audit traces; apply matched candidate-set interventions; measure HCWE and calibration by candidate presence. Explore an open-world uncertainty fix only after the diagnostic hypotheses are tested.",
     "research_next_steps_zh": "執行候選召回 Smoke Test 並人工檢查 Trace；進行三種候選集合干預；按候選是否存在分析 HCWE 與校準。只有在診斷假設得到檢驗後，才考慮設計開放世界不確定性修正方法。",
-    "research_figures": [],
+    "research_figures": [
+      {
+        "image": "/yuhisang.lo/assets/figures/when2ask-intervention-plan.svg",
+        "alt_en": "Illustrative diagram of the three planned candidate-set conditions: Natural, Oracle-complete and Forced-miss. Each keeps the downstream decision logic fixed.",
+        "alt_zh": "規劃中的候選集合對照實驗示意圖：Natural、Oracle-complete 與 Forced-miss 三種條件使用相同後續決策流程。",
+        "caption_en": "Original conceptual diagram based on the When2ask experiment plan. These are proposed interventions, not measured results or a figure from Suri et al.",
+        "caption_zh": "依 When2ask 實驗計畫整理的原創概念示意圖，僅展示預定的干預條件，並非實驗結果或 Suri 等人論文的原圖。",
+        "source_url": "https://github.com/Gule7309/When2ask/blob/main/docs/experiment_plan.md"
+      }
+    ],
     "research_references": [
       {
         "title_en": "Suri et al. (2026), Structured Uncertainty guided Clarification for LLM Agents",
@@ -58,7 +67,9 @@
         "note_en": "Official benchmark repository of the original authors",
         "note_zh": "原研究作者公開的 Benchmark Repository"
       }
-    ]
+    ],
+    "media_label_en": "Conceptual diagram",
+    "media_label_zh": "研究概念示意"
   },
   {
     "slug": "authority-aware-agents",
@@ -103,7 +114,16 @@
     "research_limitations_zh": "動作後果模型、授權分類、Benchmark 範圍及使用者自主權的可操作定義仍待明確化。研究方向也可能隨文獻整理及指導教授回饋而修正。",
     "research_next_steps_en": "Refine the research question with supervisor feedback, build a literature map and annotated task taxonomy, select public baselines, and define pilot studies before making performance claims.",
     "research_next_steps_zh": "與指導教授討論並收斂研究問題、建立文獻圖譜與任務標註分類，選擇公開基準方法，先設計 Pilot Study，再討論實證結果。",
-    "research_figures": [],
+    "research_figures": [
+      {
+        "image": "/yuhisang.lo/assets/figures/authority-aware-framing.svg",
+        "alt_en": "Conceptual research framework separating uncertain intent, authorization scope, and action consequences before exploring clarify, confirm, execute and abstain decisions.",
+        "alt_zh": "概念研究框架，區分意圖不確定性、授權範圍、動作後果，以及澄清、確認、執行或不執行等決策。",
+        "caption_en": "Original research-framing illustration. This is a proposed problem structure, not a validated model, algorithm, or empirical result.",
+        "caption_zh": "原創研究構想圖；這是待研究的問題架構，並非已驗證的模型、演算法或實驗成果。",
+        "source_url": ""
+      }
+    ],
     "research_references": [
       {
         "title_en": "Suri et al. (2026), Structured Uncertainty guided Clarification for LLM Agents",
@@ -112,7 +132,9 @@
         "note_en": "Related prior work on clarification and structured uncertainty",
         "note_zh": "與澄清決策及結構化不確定性相關的先前研究"
       }
-    ]
+    ],
+    "media_label_en": "Conceptual diagram",
+    "media_label_zh": "研究概念示意"
   },
   {
     "slug": "trading-radar",
@@ -131,14 +153,30 @@
       "Agent Systems",
       "Evidence Verification"
     ],
-    "image": "",
+    "image": "/yuhisang.lo/assets/projects/trading-radar-dashboard-demo.png",
     "github": "https://github.com/Gule7309/trading_radar",
     "demo": "",
     "paper": "",
     "featured": true,
     "published": true,
     "order": 10,
-    "gallery": [],
+    "gallery": [
+      {
+        "image": "/yuhisang.lo/assets/projects/trading-radar-dashboard-demo.png",
+        "caption_en": "Real React interface — desktop candidate screener, with explicitly labeled mock data.",
+        "caption_zh": "實際 React 介面：桌面版選股研究，資料為明確標示的 Mock 範例。"
+      },
+      {
+        "image": "/yuhisang.lo/assets/projects/trading-radar-dashboard-mobile-demo.png",
+        "caption_en": "Real responsive mobile layout running the same mock demonstration environment.",
+        "caption_zh": "同一套 Mock 示範環境下實際執行的手機響應式版面。"
+      },
+      {
+        "image": "/yuhisang.lo/assets/projects/trading-radar-detail-ui-test.png",
+        "caption_en": "Real development-only UI stress-test screen with test fixtures — not a genuine stock-research outcome.",
+        "caption_zh": "實際開發用 UI 壓力測試畫面，內容是測試替身，並非真正的個股研究結論。"
+      }
+    ],
     "video_link": "",
     "status_type": "prototype",
     "role_en": "Agent and evidence-oriented research workflow design",
@@ -150,7 +188,13 @@
     "outcome_en": "The repository documents a research workbench and implementation scope. Neither investment performance nor production reliability is claimed.",
     "outcome_zh": "Repository 已整理研究工作台與實作範圍；尚未宣稱投資績效或正式營運可靠性。",
     "next_steps_en": "Integrate research outputs with traceable evidence, explicit risk checks and an evaluable thesis-tracking workflow.",
-    "next_steps_zh": "持續整合可追溯的研究證據、明確的風險檢查，以及能評估的投資論點追蹤流程。"
+    "next_steps_zh": "持續整合可追溯的研究證據、明確的風險檢查，以及能評估的投資論點追蹤流程。",
+    "image_caption_en": "Actual Trading Radar frontend screenshot captured against its development mock API (November 2026). Candidate figures are labeled demo data, not live research results or investment performance.",
+    "image_caption_zh": "2026 年 11 月從 Trading Radar 實際前端搭配開發用 Mock API 擷取；候選股票與數值屬示範資料，並非即時研究結果或投資績效。",
+    "media_label_en": "Real UI · mock data",
+    "media_label_zh": "真實介面 · Mock 資料",
+    "image_alt_en": "Trading Radar's real desktop research dashboard showing stock candidates, filters and financial figures from the mock demonstration dataset.",
+    "image_alt_zh": "Trading Radar 真正的桌面研究工作台，包含候選股票、篩選控制和 Mock 示範資料中的財務數據。"
   },
   {
     "slug": "vr-dementia",

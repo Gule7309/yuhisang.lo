@@ -24,6 +24,18 @@ The PDF at `/assets/generated-cv/Yu-Hsiang_Luo_CV.pdf` is generated on each Page
 
 To replace the automatically generated PDF with a bespoke version, open **Profile and Links → Public CV PDF**, upload a PDF, and save. Sveltia stores it under `assets/cv/`, updates the profile URL, and the site then links to your uploaded file. The generated PDF remains available but is no longer the primary CV link.
 
+## Authentic media and clear disclosures
+
+The latest phase adds **actual Trading Radar screenshots** and **source-grounded original diagrams** without implying benchmark results or production reliability.
+
+- For each work under **Research and Projects**, set **Cover image**, optional **Cover label** (English and Chinese), and **Cover image context/source** (English and Chinese).
+- If the screenshot uses test or mock data, explicitly say so in the label and both captions. **Trading Radar's screenshot is from a running React app + public mock API**; it is not live research data.
+- **Gallery** stores extra authentic screenshots, each with bilingual captions. One screenshot may be reused as a cover and a gallery image.
+- Research **Verified Figures** may include original diagrams. Label planned experimental designs as *conceptual* / *planned*, not measured findings. Provide a verifiable source for any externally derived diagram.
+- If a work has no cover, the homepage can automatically display its **first available real figure/screenshot**. When no media exists, a typographic fallback remains; do not create fake app UI just to fill the space.
+- CI runs `scripts/validate_media.py` to ensure all local screenshots/diagrams exist, have valid formats, fit the size budget and are safe to publish. An HTTPS external image cannot be verified by this script, so review those links manually.
+- The complete media ledger with source commit SHAs, rights and skipped content is in [docs/media/PROVENANCE.md](docs/media/PROVENANCE.md).
+
 ## Project screenshots / demos
 
 For each entry under **Research and Projects**:

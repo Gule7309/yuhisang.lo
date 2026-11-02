@@ -49,7 +49,13 @@ const url = (raw) => {
   if (!value) return '';
   try {
     const parsed = new URL(value, location.href);
-    return ['https:', 'mailto:'].includes(parsed.protocol) ? parsed.href : '';
+    if (['https:', 'mailto:'].includes(parsed.protocol)) return parsed.href;
+    // Only allow same-origin local portfolio assets during HTTP preview/QA.
+    // Never allow insecure external HTTP images or other protocols.
+    const origin = new URL(location.href).origin;
+    if (parsed.protocol === 'http:' && parsed.origin === origin &&
+        parsed.pathname.startsWith('/yuhisang.lo/assets/')) return parsed.href;
+    return '';
   } catch (_) { return ''; }
 };
 // Shared icons are auto-selected from the platform, label, or URL.
@@ -89,6 +95,13 @@ function renderGallery(item) {
         ' title="' + esc(caption) + '">' + renderImage(g.image, caption, '') + '</a>';
     }).join('') + '</div>';
 }
+// The first genuine figure/screenshot can serve as a cover when no explicit cover was uploaded.
+function previewMedia(work) {
+  if (url(work.image)) return { image: work.image, alt: tr(work, 'image_alt') || tr(work, 'title') };
+  const choices = work.category === 'research' ? work.research_figures : work.gallery;
+  const first = Array.isArray(choices) ? choices.find(item => item && url(item.image)) : null;
+  return first ? { image: first.image, alt: tr(first, 'alt') || tr(first, 'caption') || tr(work, 'title') } : { image: '', alt: '' };
+}
 let database = null;
 function renderWorks(category) {
   const items = (database.works || []).filter((w) =>
@@ -102,8 +115,11 @@ function renderWorks(category) {
     const ownPaper = category !== 'research' ||
       (w.publication_status === 'preprint' && Boolean(w.paper)) ||
       (w.publication_status === 'peer_reviewed' && Boolean(w.paper) && Boolean(w.publication_venue));
-    const hasImage = Boolean(url(w.image));
-    const cover = hasImage ? renderImage(w.image, tr(w, 'title'), '') :
+    const preview = previewMedia(w);
+    const hasImage = Boolean(preview.image);
+    const isDiagram = /\.svg(?:[?#]|$)/i.test(preview.image);
+    const mediaLabel = hasImage && tr(w, 'media_label') ? '<span class="media-proof-label">' + esc(tr(w, 'media_label')) + '</span>' : '';
+    const cover = hasImage ? renderImage(preview.image, preview.alt, '') :
       '<small>GULE LAB / ' + esc(category) + '</small>' +
       '<strong>' + esc(String(w.slug || '').replace(/-/g, ' ').split(' ').slice(0, 3).join(' ')) + '</strong>';
     const links = [
@@ -113,8 +129,8 @@ function renderWorks(category) {
       ownPaper ? anchor(w.paper, labels[language].paper, '', 'bi-file-earmark-text') : '',
       anchor(w.video_link, labels[language].video, '', 'bi-play-circle')
     ].filter(Boolean).join('');
-    return '<article class="work"><div class="cover' + (hasImage ? ' has-image' : '') + '">' +
-      cover + '</div><div><span class="badge status-badge status-badge--' + esc(statusVariant) + '">' +
+    return '<article class="work"><div class="cover' + (hasImage ? ' has-image' : '') + (isDiagram ? ' has-diagram' : '') + '">' +
+      cover + mediaLabel + '</div><div><span class="badge status-badge status-badge--' + esc(statusVariant) + '">' +
       icon(PortfolioUI.statusIcon(statusVariant)) + '<span>' + esc(tr(w, 'status')) +
       '</span></span><span class="year">' + esc(w.year || '') + '</span><h3>' +
       (detailPath ? '<a class="case-title-link" href="' + esc(detailPath) + '">' + esc(tr(w, 'title')) + '</a>' : esc(tr(w, 'title'))) +

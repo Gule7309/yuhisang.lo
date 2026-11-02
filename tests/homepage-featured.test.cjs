@@ -33,7 +33,7 @@ test('homepage honors Featured and uses localized product detail links', async (
     .map((name) => [name, JSON.parse(fs.readFileSync(path.join(root,'content',name+'.json'), 'utf8'))]));
   const sandbox = {
     document, PortfolioUI,
-    URL, location:{href:'https://gule7309.github.io/yuhisang.lo/'},
+    URL, location:{href:'http://127.0.0.1:8765/yuhisang.lo/'},
     localStorage:{getItem:()=>null,setItem(){}},
     fetch: async (pathname) => ({ok:true,json:async()=>data[pathname.replace(/^content\//,'').replace(/\.json$/,'')]}),
     console,scrollTo(){}
@@ -48,10 +48,15 @@ test('homepage honors Featured and uses localized product detail links', async (
   for (const project of data.works.filter(w=>w.category==='project' && !w.featured)) {
     assert.ok(!en.includes('projects/'+project.slug+'/'));
   }
+  assert.ok(en.includes('trading-radar-dashboard-demo.png'));
+  assert.ok(en.includes('Real UI · mock data'));
   assert.ok(en.includes('Browse all projects'));
   assert.ok(en.includes('href="projects/"'));
   const researchEn = elt('#research').innerHTML;
   assert.ok(researchEn.includes('When2ask'));
+  assert.ok(researchEn.includes('when2ask-intervention-plan.svg'));
+  assert.ok(researchEn.includes('authority-aware-framing.svg'));
+  assert.ok(researchEn.includes('Conceptual diagram'));
   assert.ok(researchEn.includes('href="research/when2ask/"'));
   assert.ok(researchEn.includes('href="research/authority-aware-agents/"'));
   assert.ok(researchEn.includes('href="research/"'));
@@ -65,6 +70,7 @@ test('homepage honors Featured and uses localized product detail links', async (
   assert.ok(zh.includes('href="zh/projects/"'));
   assert.ok(zh.includes('zh/projects/pixelfit/'));
   assert.ok(zh.includes('查看全部專案'));
+  assert.ok(zh.includes('真實介面 · Mock 資料'));
   const researchZh = elt('#research').innerHTML;
   assert.ok(researchZh.includes('href="zh/research/when2ask/"'));
   assert.ok(researchZh.includes('href="zh/research/"'));

@@ -70,11 +70,23 @@ def note_path(slug: str, lang: str) -> str:
     return archive_path(lang) + slug + "/"
 
 
+def research_preview(item: dict | None) -> str:
+    """Use a verified, existing figure as an index/OG preview without duplicating it in the body."""
+    if not item:
+        return ""
+    if base.safe_href(item.get("image"), allow_local=True):
+        return str(item["image"])
+    for fig in item.get("research_figures") or []:
+        if isinstance(fig, dict) and base.safe_href(fig.get("image"), allow_local=True):
+            return str(fig["image"])
+    return ""
+
+
 def meta_head(title: str, summary: str, item: dict | None, slug: str, lang: str) -> str:
     path = archive_path(lang) if item is None else note_path(slug, lang)
     en = archive_path("en") if item is None else note_path(slug, "en")
     zh = archive_path("zh") if item is None else note_path(slug, "zh")
-    image = item.get("image", "") if item is not None else ""
+    image = research_preview(item) if item is not None else ""
     header = base.head(title, summary, "https://gule7309.github.io" + path, en, zh, image)
     return header + f'<link rel="stylesheet" href="{base.PREFIX}/research-pages.css">'
 
@@ -209,9 +221,17 @@ def research_index(items: list[dict], profile: dict, lang: str) -> str:
         title = base.localized(item, "title", lang)
         summary = base.localized(item, "summary", lang)
         path = note_path(item["slug"], lang)
-        statement, _, _ = publication_info(item, lang)
+        preview = base.safe_href(research_preview(item), allow_local=True)
+        has_media = bool(preview)
+        figure = next((g for g in (item.get("research_figures") or [])
+                       if isinstance(g, dict) and g.get("image") == research_preview(item)), {})
+        alt = base.localized(figure, "alt", lang) or title
+        thumb = (f'<a href="{base.escape(path)}" class="research-index-preview">'
+                 f'<img src="{base.escape(preview)}" alt="{base.escape(alt)}" loading="lazy">'
+                 f'</a>') if preview else ""
         rendered.append(
-            f'<article class="research-index-item"><div class="research-index-main">'
+            f'<article class="research-index-item{" has-figure" if has_media else ""}">'
+            f'{thumb}<div class="research-index-main">'
             f'<div class="research-index-meta">{base.badge(item, lang)}'
             f'<span>{base.escape(item.get("year", ""))}</span></div>'
             f'<h2><a href="{base.escape(path)}">{base.escape(title)}</a></h2>'
