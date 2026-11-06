@@ -16,6 +16,13 @@ Date: 2026-11-06 (Asia/Taipei)
 - **PASS**: New homepage browser scenarios EN/zh and 1280 / 390 / 320 widths, mobile navigation focus/ESC/outside click, missing profile recovery, functional research/projects links and payload size checks. Refer to the run's `research-page-preview` artifact for screenshots and test JSON.
 - **Regression scope**: Does not alter CMS research/project source content or either archive generator.
 
+## Task 11A-01: failure-state integration hardening
+- Fixed: changing EN/中文 after a failed homepage profile fetch now updates the error message, document language, accessible nav labels, and language-specific Research / Projects recovery links.
+- Added real Chromium failure-state assertions for English→Chinese→English; verified through the latest successful complete CI run.
+- Latest CI also passed the existing Phase 10 archive and project detail/browser regressions.
+- Evidence: the run's `research-page-preview` artifact contains `home-loading-error.png`, `home-loading-error-zh.png` and screenshot/JSON outputs for 1280/390/320 widths.
+- **Merge decision:** no blocking automated test failure, suitable for owner visual review; screenshots were generated and automatically checked, but not manually inspected against a user-approved screenshot in this session.
+
 ## Pending
 - Manual visual review of CI screenshots; no pixel reference approved for exact match.
 - Manual screen-reader testing and authenticated CMS editorial testing.
