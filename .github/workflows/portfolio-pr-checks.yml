@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Generate compact CMS-derived homepage index
+        run: node scripts/build_homepage_data.cjs
       - name: JavaScript tests
         run: node --test tests/*.test.cjs
       - uses: actions/setup-python@v5
@@ -134,6 +136,16 @@ jobs:
           sleep 2
           BROWSER=$(command -v google-chrome || command -v chromium || command -v chromium-browser)
           NODE_PATH=/tmp/portfolio-qa/node_modules PORTFOLIO_PREVIEW_URL=http://127.0.0.1:8769/yuhisang.lo PORTFOLIO_BROWSER="$BROWSER" node scripts/capture_phase10_qa.cjs
+      - name: Validate bilingual homepage nav, loading states and payload in Chromium
+        run: |
+          mkdir -p /tmp/portfolio-preview
+          ln -sfn "$GITHUB_WORKSPACE" /tmp/portfolio-preview/yuhisang.lo
+          python -m http.server 8770 --bind 127.0.0.1 --directory /tmp/portfolio-preview > /tmp/portfolio-home-qa.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          sleep 2
+          BROWSER=$(command -v google-chrome || command -v chromium || command -v chromium-browser)
+          NODE_PATH=/tmp/portfolio-qa/node_modules PORTFOLIO_PREVIEW_URL=http://127.0.0.1:8770/yuhisang.lo PORTFOLIO_BROWSER="$BROWSER" node scripts/capture_homepage_ux_qa.cjs
       - name: Upload optional research page previews
         if: always()
         uses: actions/upload-artifact@v4
