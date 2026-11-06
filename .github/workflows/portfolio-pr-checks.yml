@@ -123,6 +123,17 @@ jobs:
           sleep 2
           BROWSER=$(command -v google-chrome || command -v chromium || command -v chromium-browser)
           NODE_PATH=/tmp/portfolio-qa/node_modules PORTFOLIO_PREVIEW_URL=http://127.0.0.1:8768/yuhisang.lo PORTFOLIO_BROWSER="$BROWSER" node scripts/capture_source_trace_qa.cjs
+
+      - name: Verify Phase 10 bilingual archives and keyboard filters in Chromium
+        run: |
+          mkdir -p /tmp/portfolio-preview
+          ln -sfn "$GITHUB_WORKSPACE" /tmp/portfolio-preview/yuhisang.lo
+          python -m http.server 8769 --bind 127.0.0.1 --directory /tmp/portfolio-preview > /tmp/portfolio-archive-qa.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          sleep 2
+          BROWSER=$(command -v google-chrome || command -v chromium || command -v chromium-browser)
+          NODE_PATH=/tmp/portfolio-qa/node_modules PORTFOLIO_PREVIEW_URL=http://127.0.0.1:8769/yuhisang.lo PORTFOLIO_BROWSER="$BROWSER" node scripts/capture_phase10_qa.cjs
       - name: Upload optional research page previews
         if: always()
         uses: actions/upload-artifact@v4
