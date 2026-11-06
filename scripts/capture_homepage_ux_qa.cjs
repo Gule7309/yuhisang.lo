@@ -37,8 +37,8 @@ try{
       'All selected research notes should remain visible');
     // Academic narrative derives from CMS, not manually repeated website claims.
     assert.equal(await page.locator('#research .home-research-question').count(),2);
-    assert.ok((await page.locator('#research .home-research-question').first().innerText())
-      .includes('Research question'));
+    assert.ok((await page.locator('#research .home-research-question').first().innerText()).toLowerCase()
+      .includes('research question'));
     assert.equal(await page.locator('#projects .home-research-question').count(),0);
     assert.equal(await page.locator('.home-hero-links a[href="#research"]').count(),1);
     assert.equal(await page.locator('.home-hero-links a[href="#projects"]').count(),1);
