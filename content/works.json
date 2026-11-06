@@ -98,7 +98,13 @@
         "code": "    if not 0.0 <= tau_exec <= 1.0:\n        raise ValueError(\"tau_exec must be between 0 and 1\")\n    best = best_belief(beliefs)\n    action = (\n        PreQuestionAction.EXECUTE\n        if best.viability >= tau_exec\n        else PreQuestionAction.NEEDS_QUESTION_SCORING\n    )\n    return PreQuestionDecision(action=action, best=best, tau_exec=tau_exec)",
         "source_url": "https://github.com/Gule7309/When2ask/blob/320fd61fcae47a566948feaeee48a44efda15567/src/when2ask/decision.py#L33-L41"
       }
-    ]
+    ],
+    "research_repro_audit_file": "when2ask_synthetic_audit.json",
+    "research_repro_audit_sha256": "cf50484680e63bd7c845653451c2019e9ae45b8c87cc31bbcd9a492b11428dd8",
+    "research_repro_ci_run": 41459465082,
+    "research_repro_ci_artifact": 13147204648,
+    "research_repro_description_en": "This is a real GitHub Actions run of a one-item synthetic replay. It verifies that the reconstructed SAGE decision and candidate-set manipulation functions produce the expected structural states. No live LLM, ClarifyBench example, downstream intervention rerun, actual tool execution or empirical accuracy measurement is involved.",
+    "research_repro_description_zh": "這是 GitHub Actions 真正執行的一筆合成情境 Replay，僅驗證 SAGE 重建決策與候選集合干預函式的基本狀態是否符合預期。沒有呼叫真實 LLM、沒有使用 ClarifyBench 樣本，也未在干預後重跑完整決策或執行工具，因此不代表任何實證準確率結果。"
   },
   {
     "slug": "authority-aware-agents",
