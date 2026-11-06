@@ -100,3 +100,18 @@
 .research-index-preview img{width:100%;height:100%;object-fit:contain;display:block;padding:5px}
 @media(max-width:850px){.research-index-item.has-figure{grid-template-columns:30% minmax(0,1fr);gap:16px}}
 @media(max-width:680px){.research-index-item.has-figure{grid-template-columns:1fr;gap:16px}.research-index-preview{max-width:480px;aspect-ratio:1.9}}
+
+
+/* Phase 10: editorial hierarchy only on the research archive. */
+.research-content .archive-count{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#7b8c9d;margin:21px 0 3px}
+.research-index-item .archive-summary{margin-bottom:15px}
+.archive-question{border-left:2px solid #c9dbe9;padding:1px 0 2px 13px;margin:12px 0 13px}
+.archive-question>span,.archive-method strong,.archive-stage-label{display:block;font-size:10px;font-weight:750;letter-spacing:.055em;text-transform:uppercase;color:#71869a;margin-bottom:5px}
+.research-index-item .archive-question p{margin:0;color:#274158;font-size:13px;line-height:1.75;font-weight:600}
+.research-index-item .archive-method{font-size:12px;line-height:1.8;color:#596f83;max-width:690px;white-space:pre-line;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;margin:12px 0}
+.archive-stage-label{margin-top:16px}
+.research-archive-stage{display:block;color:#62758a;font-size:11.5px;line-height:1.7;max-width:680px}
+.research-index-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px}
+.research-index-actions .archive-source{color:#58758e;font-weight:550}
+.research-index-item[hidden]{display:none!important}
+@media(max-width:680px){.archive-question{padding-left:10px}.research-index-actions{gap:12px}}

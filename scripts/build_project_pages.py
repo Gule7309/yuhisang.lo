@@ -520,11 +520,29 @@ def details(item: dict, profile: dict, lang: str) -> str:
                  main, path["en"], path["zh"])
 
 
+def archive_group(item: dict) -> str:
+    """Deterministic browsing labels derived from existing CMS tags, never invented evidence."""
+    labels = " ".join(str(tag).lower() for tag in item.get("tags", []) if isinstance(tag, str))
+    if "agent" in labels or "evidence verification" in labels:
+        return "agent"
+    if any(term in labels for term in ("product design", "fitness", "maps", "community",
+                                       "expo", "react native", "android")):
+        return "product"
+    return "engineering"
+
+
 def listing(works: list[dict], profile: dict, lang: str) -> str:
     path = index_path(lang)
     alternate = {"en": index_path("en"), "zh": index_path("zh")}
     title = LABELS[lang]["projects"]
+    filter_labels = (
+        {"all": "All", "agent": "Agent systems", "product": "Products & UX",
+         "engineering": "Engineering"} if lang == "en" else
+        {"all": "全部", "agent": "Agent 系統", "product": "產品與體驗",
+         "engineering": "工程實作"}
+    )
     items = []
+    counts = {key: 0 for key in filter_labels}
     for item in sorted(works, key=lambda x: (x.get("order", 50), x["slug"])):
         label = localized(item, "title", lang)
         url = paths(item["slug"])[lang]
@@ -533,26 +551,46 @@ def listing(works: list[dict], profile: dict, lang: str) -> str:
         cover = (strip if strip else
                  f'<img src="{escape(image)}" alt="" loading="lazy">' if image else
                  f'<span class="case-placeholder">{escape(item["slug"].replace("-", " ").title())}</span>')
+        group = archive_group(item)
+        counts["all"] += 1
+        counts[group] += 1
         items.append(
-            f'<article class="project-list-item"><a class="project-list-cover{" has-phone-layout" if strip else ""}" href="{escape(url)}">'
+            f'<article class="project-list-item" data-archive-group="{group}">'
+            f'<a class="project-list-cover{" has-phone-layout" if strip else ""}" href="{escape(url)}">'
             f'{cover}</a><div><div class="case-status">{badge(item,lang)}'
             f'<span class="case-year">{escape(item.get("year") or "")}</span></div>'
             f'<h2><a href="{escape(url)}">{escape(label)}</a></h2>'
             f'<p>{escape(localized(item,"summary",lang))}</p>'
+            f'<div class="archive-project-meta">{escape(filter_labels[group])}</div>'
             f'<a class="case-more" href="{escape(url)}">'
             f'{escape("Read case study" if lang == "en" else "閱讀專案詳情")} {icon("bi-arrow-up-right")}'
             f'</a></div></article>'
         )
+    filter_buttons = "".join(
+        f'<button type="button" data-archive-filter="{key}" aria-pressed="{"true" if key == "all" else "false"}">'
+        f'{escape(label)} <span aria-hidden="true">{counts[key]}</span></button>'
+        for key, label in filter_labels.items() if counts[key] or key == "all"
+    )
+    filter_bar = (
+        f'<div class="archive-filters" data-archive-controls hidden role="group" '
+        f'aria-label="{escape("Filter projects" if lang == "en" else "專案篩選")}">'
+        f'{filter_buttons}</div>'
+    ) if items else ""
+    empty = escape("No projects in this category." if lang == "en" else "此分類目前沒有專案。")
     main = (f'<a class="case-back" href="{PREFIX}/#projects">{icon("bi-arrow-left")}'
             f' {escape("Home" if lang == "en" else "首頁")}</a>'
             f'<p class="eyebrow">{escape(LABELS[lang]["featured"])}</p>'
             f'<h1 class="case-title">{escape(title)}</h1>'
             f'<p class="case-lead">{escape(LABELS[lang]["intro"])}</p>'
+            + filter_bar
+            + (f'<p class="archive-filter-empty" role="status" hidden>{empty}</p>' if items else "")
             + ("".join(items) if items else f'<p>{escape(LABELS[lang]["empty"])}</p>'))
     canonical = "https://gule7309.github.io" + path
-    return shell(profile, lang, head(title, LABELS[lang]["intro"], canonical,
+    page = shell(profile, lang, head(title, LABELS[lang]["intro"], canonical,
                                      alternate["en"], alternate["zh"]),
                  main, alternate["en"], alternate["zh"])
+    return page.replace('</body>', f'<script defer src="{PREFIX}/archive-filters.js"></script></body>')
+
 
 
 def save(relpath: str, content: str) -> None:
