@@ -1,0 +1,75 @@
+{
+  "benchmark_dataset": null,
+  "benchmark_items_evaluated": 0,
+  "candidate_set_checks": [
+    {
+      "candidate_count": 1,
+      "condition": "natural",
+      "ground_truth_compatible_candidate_present": true
+    },
+    {
+      "candidate_count": 1,
+      "condition": "oracle_complete",
+      "ground_truth_compatible_candidate_present": true
+    },
+    {
+      "candidate_count": 1,
+      "condition": "forced_miss",
+      "ground_truth_compatible_candidate_present": false
+    },
+    {
+      "candidate_count": 2,
+      "condition": "oracle_recovery_from_forced_miss",
+      "ground_truth_compatible_candidate_present": true
+    }
+  ],
+  "empirical": false,
+  "intervention_control_notes": {
+    "decoy_unknown_pattern_matched": false,
+    "forced_miss_decoy": "Same tool and argument count; known B2 differs from synthetic ground truth B1.",
+    "ground_truth_used_in_model_prompt": false,
+    "oracle_recovery_candidate_count_matched": false
+  },
+  "limitations": [
+    "No LLM call, benchmark sample, user simulator, or tool execution was performed.",
+    "Candidate-set compatibility is not equivalent to task success.",
+    "Interventions were not followed by a new model inference or full SAGE turn.",
+    "The one-example setup cannot estimate accuracy, calibration, HCWE, or causal effect.",
+    "Full response-weighted EVPI is not implemented in this reconstruction."
+  ],
+  "model_calls": 0,
+  "parameters": {
+    "alpha": 0.1,
+    "epsilon": 0.0001,
+    "generation": "fixed_synthetic_replay",
+    "lambda_cost": 0.5,
+    "max_steps": 3,
+    "n_candidates": 1,
+    "question_score_method": "optimistic_perfect_resolution_v1",
+    "tau_exec": 0.8,
+    "temperature": 0.5
+  },
+  "real_tool_executions": 0,
+  "schema": "synthetic_mechanism_audit_v1",
+  "scope": "single_synthetic_decision_point_plumbing_only",
+  "single_decision": {
+    "action": "ask",
+    "executed_correctly": null,
+    "ground_truth_candidate_present": true,
+    "normalized_share": 1.0,
+    "questions_generated": 1,
+    "raw_viability": 0.5,
+    "reason": "question_selected",
+    "sample_id": "synthetic-booking:request-0",
+    "synthetic_response_count": 2
+  },
+  "source": {
+    "commit_sha": "ab0cd26da17ff63d300080811500fe87fe0f95a6",
+    "input_path": "examples/sage_step.json",
+    "input_sha256": "a40cac1b99396e96d1c382c76d59634da848c38dedf236654aeae709048b03ab",
+    "replay_path": "examples/sage_responses.json",
+    "replay_sha256": "f8a514a715175f4329057ec78e271764a1e5248d0b7c4d4e32e652f76256a976",
+    "repository": "Gule7309/When2ask"
+  },
+  "test_outcome": "PASS"
+}
