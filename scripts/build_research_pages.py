@@ -220,37 +220,57 @@ def research_details(item: dict, profile: dict, lang: str) -> str:
 
 
 def research_index(items: list[dict], profile: dict, lang: str) -> str:
+    """Editorial research archive: make the question, stage and evidence discoverable."""
     l = LABELS[lang]
+    question_label = "Research question" if lang == "en" else "研究問題"
+    method_label = "Approach" if lang == "en" else "研究方法"
+    stage_label = "Research stage" if lang == "en" else "研究階段"
+    count_label = "research directions" if lang == "en" else "項研究方向"
     rendered = []
     for item in sorted(items, key=lambda x: (x.get("order", 50), x["slug"])):
         title = base.localized(item, "title", lang)
         summary = base.localized(item, "summary", lang)
+        question = base.localized(item, "research_question", lang).strip()
+        approach = base.localized(item, "research_approach", lang).strip()
         path = note_path(item["slug"], lang)
         preview = base.safe_href(research_preview(item), allow_local=True)
-        has_media = bool(preview)
         figure = next((g for g in (item.get("research_figures") or [])
                        if isinstance(g, dict) and g.get("image") == research_preview(item)), {})
         alt = base.localized(figure, "alt", lang) or title
         thumb = (f'<a href="{base.escape(path)}" class="research-index-preview">'
                  f'<img src="{base.escape(preview)}" alt="{base.escape(alt)}" loading="lazy">'
                  f'</a>') if preview else ""
+        publication_caption, publication_kind, has_paper = publication_info(item, lang)
+        stage = (f'<span class="research-archive-stage research-archive-stage--{publication_kind}">'
+                 f'{base.escape(publication_caption)}</span>')
+        method = (f'<p class="archive-method"><strong>{base.escape(method_label)}</strong>'
+                  f'{base.escape(approach.splitlines()[0])}</p>') if approach else ""
+        question_html = (f'<div class="archive-question"><span>{base.escape(question_label)}</span>'
+                         f'<p>{base.escape(question)}</p></div>') if question else ""
+        source = base.link(item.get("github"), l["code"], "archive-source", "bi-github")
+        paper = base.link(item.get("paper"), l["paper"], "archive-source", "bi-file-earmark-text") if has_paper else ""
         rendered.append(
-            f'<article class="research-index-item{" has-figure" if has_media else ""}">'
+            f'<article class="research-index-item{" has-figure" if preview else ""}">'
             f'{thumb}<div class="research-index-main">'
             f'<div class="research-index-meta">{base.badge(item, lang)}'
             f'<span>{base.escape(item.get("year", ""))}</span></div>'
             f'<h2><a href="{base.escape(path)}">{base.escape(title)}</a></h2>'
-            f'<p>{base.escape(summary)}</p>'
+            f'<p class="archive-summary">{base.escape(summary)}</p>'
+            f'{question_html}{method}'
+            f'<div class="archive-stage-label">{base.escape(stage_label)}</div>{stage}'
             f'<div class="research-index-actions"><a href="{base.escape(path)}">'
-            f'{base.escape(l["read"])} {base.icon("bi-arrow-up-right")}</a></div></div></article>'
+            f'{base.escape(l["read"])} {base.icon("bi-arrow-up-right")}</a>'
+            f'{source}{paper}</div></div></article>'
         )
+    count = f'{len(rendered)} {count_label}'
     main = (
         f'<a class="case-back" href="{base.PREFIX}/#research">{base.icon("bi-arrow-left")} '
         f'{base.escape(l["home"])}</a>'
         f'<p class="eyebrow">{base.escape(l["eyebrow"])}</p>'
         f'<h1 class="research-title">{base.escape(l["index"])}</h1>'
         f'<p class="research-lead">{base.escape(l["index_intro"])}</p>'
-        + "".join(rendered)
+        f'<p class="archive-count">{base.escape(count)}</p>'
+        + ("".join(rendered) if rendered else f'<p>{base.escape("No research notes yet." if lang == "en" else "目前尚無研究筆記。")}</p>')
     )
     return base.shell(profile, lang, meta_head(l["index"], l["index_intro"], None, "", lang),
                       main, archive_path("en"), archive_path("zh"),
