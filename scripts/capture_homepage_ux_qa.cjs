@@ -35,6 +35,13 @@ try{
       'All featured projects should remain visible');
     assert.equal(await page.locator('#research article.work').count(),2,
       'All selected research notes should remain visible');
+    // Academic narrative derives from CMS, not manually repeated website claims.
+    assert.equal(await page.locator('#research .home-research-question').count(),2);
+    assert.ok((await page.locator('#research .home-research-question').first().innerText()).toLowerCase()
+      .includes('research question'));
+    assert.equal(await page.locator('#projects .home-research-question').count(),0);
+    assert.equal(await page.locator('.home-hero-links a[href="#research"]').count(),1);
+    assert.equal(await page.locator('.home-hero-links a[href="#projects"]').count(),1);
     assert.ok(requests.some(p=>p.includes('/content/homepage-works.json')));
     assert.ok(!requests.some(p=>p.includes('/content/works.json')),
       'Full 40KB works.json must not be fetched by homepage');
@@ -86,6 +93,9 @@ try{
     assert.equal(await page.locator('#nav-toggle-label').textContent(),'選單');
     assert.equal(await page.locator('#skip-link').textContent(),'跳至主要內容');
     assert.equal(await page.locator('#up').getAttribute('aria-label'),'回到頁首');
+    assert.ok((await page.locator('#research .home-research-question').first().innerText())
+      .includes('研究問題'));
+    assert.ok((await page.locator('.home-research-area').innerText()).includes('以人為中心'));
     if(isMobile) {
       await toggle.click();
       assert.equal(await nav.locator('a[href="#projects"]').textContent(),'精選專案');

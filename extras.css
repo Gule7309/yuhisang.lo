@@ -116,3 +116,14 @@
   .home-page section{scroll-margin-top:82px}
 }
 @media(prefers-reduced-motion:reduce){.nav-toggle .bi,.primary-navigation{transition:none}}
+
+/* Phase 12: editorial academic narrative without extra data requests. */
+.home-page .home-research-area{font-size:10.5px;font-weight:750;letter-spacing:.11em;text-transform:uppercase;color:#4f7392}
+.home-hero-links{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;margin:20px 0 6px!important;height:auto!important;max-height:none!important;overflow:visible!important}
+.home-hero-links a{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#315f84;text-decoration:none}
+.home-hero-links a:hover{text-decoration:underline}
+.home-hero-links a:focus-visible{outline:2px solid #276ca1;outline-offset:3px}
+.home-research-question{margin:14px 0;padding:9px 0 8px 13px;border-left:2px solid #cbdae6;background:transparent}
+.home-research-question>span{display:block;font-size:10px;font-weight:750;letter-spacing:.075em;text-transform:uppercase;color:#718599;margin-bottom:5px}
+.home-research-question p{font-size:12.6px;line-height:1.77;color:#27445a;font-weight:600;margin:0;overflow-wrap:anywhere}
+@media(max-width:680px){.home-hero-links{gap:10px 16px;margin:16px 0 4px!important}.home-research-question{padding-left:11px;margin:11px 0}}

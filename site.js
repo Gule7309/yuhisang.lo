@@ -19,6 +19,8 @@ const labels = {
     contactNote: 'Interested in research, engineering, or collaboration? Find me here.',
     cv: 'Curriculum Vitae', demo: 'Demo', repository: 'GitHub',
     caseStudy: 'Case study', allProjects: 'Browse all projects',
+    researchQuestion: 'Research question', heroArea: 'Human-Centered AI · Trustworthy Agents',
+    heroResearch: 'Explore research', heroProjects: 'View engineering',
     researchDetail: 'Research overview', allResearch: 'Browse all research',
     paper: 'Paper', video: 'Video', resource: 'Related resource', photoAlt: 'Project screenshot',
     menu: 'Sections', menuOpen: 'Open sections', menuClose: 'Close sections',
@@ -38,6 +40,8 @@ const labels = {
     contactNote: '歡迎交流研究、工程與產品開發。',
     cv: '英文履歷', demo: 'Demo', repository: 'GitHub',
     caseStudy: '專案詳情', allProjects: '查看全部專案',
+    researchQuestion: '研究問題', heroArea: '以人為中心的 AI · 可信任代理系統',
+    heroResearch: '探索研究', heroProjects: '工程作品',
     researchDetail: '研究詳情', allResearch: '查看全部研究',
     paper: '論文', video: '影片', resource: '相關資料', photoAlt: '專案截圖',
     menu: '選單', menuOpen: '開啟章節選單', menuClose: '關閉章節選單',
@@ -142,13 +146,17 @@ function renderWorks(category) {
       ownPaper ? anchor(w.paper, labels[language].paper, '', 'bi-file-earmark-text') : '',
       anchor(w.video_link, labels[language].video, '', 'bi-play-circle')
     ].filter(Boolean).join('');
+    const question = category === 'research' ? tr(w, 'research_question').trim() : '';
+    const questionMarkup = question
+      ? '<div class="home-research-question"><span>' + esc(labels[language].researchQuestion) +
+        '</span><p>' + esc(question) + '</p></div>' : '';
     return '<article class="work"><div class="cover' + (hasImage ? ' has-image' : '') + (isDiagram ? ' has-diagram' : '') + (hasPhoneStrip ? ' has-phone-layout' : '') + '">' +
       cover + mediaLabel + '</div><div><span class="badge status-badge status-badge--' + esc(statusVariant) + '">' +
       icon(PortfolioUI.statusIcon(statusVariant)) + '<span>' + esc(tr(w, 'status')) +
       '</span></span><span class="year">' + esc(w.year || '') + '</span><h3>' +
       (detailPath ? '<a class="case-title-link" href="' + esc(detailPath) + '">' + esc(tr(w, 'title')) + '</a>' : esc(tr(w, 'title'))) +
       '</h3><div class="subtitle">' + esc(tr(w, 'subtitle')) +
-      '</div><p class="summary">' + esc(tr(w, 'summary')) + '</p>' + tags(w.tags) +
+      '</div><p class="summary">' + esc(tr(w, 'summary')) + '</p>' + questionMarkup + tags(w.tags) +
       (links ? '<div class="links work-extra-links">' + links + '</div>' : '') +
       (hasPhoneStrip ? '' : renderGallery(w)) + '</div></article>';
   }).join('');
@@ -248,10 +256,14 @@ function render() {
     esc(tr(p, 'role')) + '<br>' + esc(tr(p, 'affiliation')) + '</p>' +
     '<p class="side-message">' + esc(tr(p, 'headline')) + '</p>' +
     '<div class="socials">' + email + social + '</div>' + cv;
-  $('#about').innerHTML = '<p class="eyebrow">' + esc(t.intro) + '</p>' +
+  $('#about').innerHTML = '<p class="eyebrow home-research-area">' + esc(t.heroArea) + '</p>' +
     '<h1>' + esc(tr(p, 'headline')) + '</h1>' +
     '<div class="bio">' + tr(p, 'about').split(/\n\s*\n/g).map((x) =>
       '<p>' + esc(x) + '</p>').join('') + '</div>' + tags(p.interests) +
+    '<nav class="home-hero-links" aria-label="' + esc(t.navName) + '">' +
+    '<a href="#research">' + esc(t.heroResearch) + ' ' + icon('bi-arrow-down-right') + '</a>' +
+    '<a href="#projects">' + esc(t.heroProjects) + ' ' + icon('bi-arrow-down-right') + '</a>' +
+    '</nav>' +
     (p.cv_url ? '<div class="links" style="margin-top:23px">' +
       anchor(p.cv_url, t.cv + ' ↗', 'cv-link', 'bi-file-earmark-pdf') + '</div>' : '');
   section('research', '<p class="hint">' + t.researchNote + '</p>' + renderWorks('research') + '<p class="archive-more"><a href="' + (language === 'zh' ? 'zh/research/' : 'research/') + '">' + esc(t.allResearch) + ' <i class="bi bi-arrow-right" aria-hidden="true"></i></a></p>');
