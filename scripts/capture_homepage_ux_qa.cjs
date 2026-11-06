@@ -123,6 +123,19 @@ try{
    assert.equal(await notice.locator('a[href="research/"]').count(),1);
    assert.equal(await notice.locator('a[href="projects/"]').count(),1);
    await page.screenshot({path:path.join(OUT,'home-loading-error.png'),animations:'disabled'});
+   // Recovery UI must remain localized after failure, without reloading broken data.
+   await page.locator('#chinese').click();
+   assert.equal(await page.locator('html').getAttribute('lang'),'zh-Hant');
+   assert.equal(await page.locator('#chinese').getAttribute('aria-pressed'),'true');
+   assert.ok((await notice.innerText()).includes('內容暫時無法載入'));
+   assert.equal(await notice.locator('a[href="zh/research/"]').count(),1);
+   assert.equal(await notice.locator('a[href="zh/projects/"]').count(),1);
+   assert.equal(await page.locator('#skip-link').textContent(),'跳至主要內容');
+   await page.screenshot({path:path.join(OUT,'home-loading-error-zh.png'),animations:'disabled'});
+   await page.locator('#english').click();
+   assert.ok((await notice.innerText()).includes('Content unavailable'));
+   assert.equal(await notice.locator('a[href="research/"]').count(),1);
+   assert.equal(await notice.locator('a[href="projects/"]').count(),1);
  }finally{await context.close()}
 }finally{await browser.close()}
 const report={result:'PASS',payloadBytes:sizes,scenarios:summary,
