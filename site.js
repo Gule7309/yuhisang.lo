@@ -297,15 +297,32 @@ Promise.all([
   render();
 }).catch((error) => {
   console.error(error);
+  renderFailure();
+});
+function renderFailure() {
   const t = labels[language];
+  document.documentElement.lang = language === 'zh' ? 'zh-Hant' : 'en';
+  $('#english').classList.toggle('selected', language === 'en');
+  $('#chinese').classList.toggle('selected', language === 'zh');
+  $('#english').setAttribute('aria-pressed', String(language === 'en'));
+  $('#chinese').setAttribute('aria-pressed', String(language === 'zh'));
+  document.querySelectorAll('nav a').forEach((a) => {
+    if (a.dataset.i && t[a.dataset.i]) a.textContent = t[a.dataset.i];
+  });
+  $('#primary-navigation').setAttribute('aria-label', t.navName);
+  $('#nav-toggle-label').textContent = t.menu;
+  $('#nav-toggle').setAttribute('aria-label', t.menuOpen);
+  $('#skip-link').textContent = t.skip;
+  $('#up').setAttribute('aria-label', t.backToTop);
   const status = $('#site-status');
   status.hidden = false;
   status.setAttribute('role', 'alert');
   status.innerHTML = '<strong>' + esc(t.errorTitle) + '</strong><p>' +
     esc(t.errorMessage) + '</p><div class="site-status-links">' +
-    '<a href="research/">' + esc(t.allResearch) + '</a>' +
-    '<a href="projects/">' + esc(t.allProjects) + '</a></div>';
-});
+    '<a href="' + (language === 'zh' ? 'zh/research/' : 'research/') + '">' + esc(t.allResearch) + '</a>' +
+    '<a href="' + (language === 'zh' ? 'zh/projects/' : 'projects/') + '">' + esc(t.allProjects) + '</a></div>';
+}
+
 const navToggle = $('#nav-toggle');
 const navMenu = $('#primary-navigation');
 function closeNav(returnFocus = false) {
@@ -345,6 +362,7 @@ function setLanguage(next) {
   try { localStorage.setItem('gule-language', next); } catch (_) {}
   closeNav();
   if (database) render();
+  else if ($('#site-status').getAttribute('role') === 'alert') renderFailure();
 }
 $('#english').addEventListener('click', () => setLanguage('en'));
 $('#chinese').addEventListener('click', () => setLanguage('zh'));
