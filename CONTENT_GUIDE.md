@@ -18,6 +18,19 @@ The website is intentionally academic and selective: real, public evidence matte
 
 Sveltia CMS uses a repository-limited GitHub token with **Contents: Read and write**. Keep the token private. Every save commits the changed JSON file to `main` and triggers GitHub Pages deployment. A new `published:false` entry is hidden from the website, but **NOT** from this public GitHub repo; keep confidential material outside this repo.
 
+## Content Review — published JSON inspection (read-only)
+
+Open **[Content Review](/yuhisang.lo/admin/review.html)** from the portfolio site after saving. It reads the current public `content/works.json` and provides:
+
+- Side-by-side workflow for selecting an item and inspecting either Chinese or English title/summary, plus a live-page link **only when `published: true`**.
+- Search, project/research type filter and Published/Hidden filter.
+- Checklist of essential bilingual title/subtitle/summary fields, slug format, optional bilingual research questions, and missing paper URL/venue when a publication state demands them.
+- An explicit disclaimer that publication status and claims require **human verification**; checks are structural, not evidence validation.
+
+**Important limitations:** This tool reads *committed public JSON*, not unsaved changes inside the Sveltia editor. It neither previews unpublished changes nor saves, publishes, or rolls back content. There is no reliable custom unsaved-change interception implemented for Sveltia CMS. To avoid losing work, finish editing and use the CMS's own Save/publish action before navigating away. After saving, refresh Content Review and inspect the public website. A save to `main` may publish immediately; `published:false` is not private because the repository is public.
+
+Recommended manual flow: **Edit in CMS → check English and Chinese fields → confirm publication flag and public evidence → Save → inspect Content Review → inspect actual site**. For a draft requiring confidentiality, do not put the content in this public repository at all.
+
 ## CV (automatically generated)
 
 The PDF at `/assets/generated-cv/Yu-Hsiang_Luo_CV.pdf` is generated on each Pages deployment by `scripts/generate_cv.py`. It uses **public** data from `profile.json`, `works.json`, and `achievements.json` (English fields only). No personal phone, home address, private employer documents, or experimental results are used.
