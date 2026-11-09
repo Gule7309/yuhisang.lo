@@ -288,7 +288,6 @@ def research_index(items: list[dict], profile: dict, lang: str) -> str:
         f'<p class="eyebrow">{base.escape(l["eyebrow"])}</p>'
         f'<h1 class="research-title">{base.escape(l["index"])}</h1>'
         f'<p class="research-lead">{base.escape(l["index_intro"])}</p>'
-        f'<p class="archive-count">{base.escape(count)}</p>'
         + search_bar
         + (f'<p class="archive-result-count" data-archive-result-count '
            f'data-all-label="{base.escape(count_label)}" role="status" aria-live="polite">'
