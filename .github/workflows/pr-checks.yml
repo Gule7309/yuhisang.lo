@@ -1,0 +1,31 @@
+name: Portfolio PR validation
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install 'reportlab>=4.2,<5' 'PyYAML>=6,<7'
+      - name: Validate CMS editor JavaScript
+        run: |
+          node --check admin/editor-preview.js
+          node --test tests/*.test.cjs
+      - name: Generate and validate portfolio pages
+        run: |
+          node scripts/build_homepage_data.cjs
+          python scripts/generate_cv.py
+          python scripts/build_project_pages.py
+          python scripts/build_research_pages.py
+          python scripts/validate_media.py
+          python -m unittest discover -s tests -p 'test_*.py' -v
