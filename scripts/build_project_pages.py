@@ -552,10 +552,16 @@ def listing(works: list[dict], profile: dict, lang: str) -> str:
                  f'<img src="{escape(image)}" alt="" loading="lazy">' if image else
                  f'<span class="case-placeholder">{escape(item["slug"].replace("-", " ").title())}</span>')
         group = archive_group(item)
+        search_text = " ".join(str(value) for value in [
+            localized(item, "title", lang), localized(item, "summary", lang),
+            " ".join(str(t) for t in (item.get("tags") or []) if isinstance(t, str)),
+            localized(item, "status", lang), item.get("year") or ""
+        ])
         counts["all"] += 1
         counts[group] += 1
         items.append(
-            f'<article class="project-list-item" data-archive-group="{group}">'
+            f'<article class="project-list-item" data-archive-item data-archive-group="{group}" '
+            f'data-archive-search="{escape(search_text)}">'
             f'<a class="project-list-cover{" has-phone-layout" if strip else ""}" href="{escape(url)}">'
             f'{cover}</a><div><div class="case-status">{badge(item,lang)}'
             f'<span class="case-year">{escape(item.get("year") or "")}</span></div>'
@@ -576,20 +582,36 @@ def listing(works: list[dict], profile: dict, lang: str) -> str:
         f'aria-label="{escape("Filter projects" if lang == "en" else "專案篩選")}">'
         f'{filter_buttons}</div>'
     ) if items else ""
-    empty = escape("No projects in this category." if lang == "en" else "此分類目前沒有專案。")
+    empty = escape("No matching projects. Try another keyword or category." if lang == "en"
+                   else "找不到符合條件的專案，請嘗試其他關鍵字或分類。")
+    search_label = "Search projects" if lang == "en" else "搜尋專案"
+    clear_label = "Clear search" if lang == "en" else "清除搜尋"
+    result_label = "projects" if lang == "en" else "個專案"
+    search_bar = (
+        f'<div class="archive-search" data-archive-search-controls hidden>'
+        f'<label for="archive-search-input">{escape(search_label)}</label>'
+        f'<div class="archive-search-row"><input type="search" id="archive-search-input" '
+        f'data-archive-search autocomplete="off" maxlength="160" '
+        f'placeholder="{escape(search_label)}">'
+        f'<button type="button" data-archive-clear hidden>{escape(clear_label)}</button></div>'
+        f'</div>'
+    ) if items else ""
     main = (f'<a class="case-back" href="{PREFIX}/#projects">{icon("bi-arrow-left")}'
             f' {escape("Home" if lang == "en" else "首頁")}</a>'
             f'<p class="eyebrow">{escape(LABELS[lang]["featured"])}</p>'
             f'<h1 class="case-title">{escape(title)}</h1>'
             f'<p class="case-lead">{escape(LABELS[lang]["intro"])}</p>'
-            + filter_bar
+            + search_bar + filter_bar
+            + (f'<p class="archive-result-count" data-archive-result-count '
+               f'data-all-label="{escape(result_label)}" role="status" aria-live="polite">'
+               f'{len(items)} {escape(result_label)}</p>' if items else "")
             + (f'<p class="archive-filter-empty" role="status" hidden>{empty}</p>' if items else "")
             + ("".join(items) if items else f'<p>{escape(LABELS[lang]["empty"])}</p>'))
     canonical = "https://gule7309.github.io" + path
     page = shell(profile, lang, head(title, LABELS[lang]["intro"], canonical,
                                      alternate["en"], alternate["zh"]),
                  main, alternate["en"], alternate["zh"])
-    return page.replace('</body>', f'<script defer src="{PREFIX}/archive-filters.js"></script></body>')
+    return page.replace('</body>', f'<script defer src="{PREFIX}/archive-search.js"></script></body>')
 
 
 
