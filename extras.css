@@ -190,3 +190,34 @@
     transform: none !important;
   }
 }
+
+
+/* Phase 13 follow-up: an editorial accent grows along the existing heading rule.
+   No extra markup, layout shift, or motion on touch/reduced-motion devices. */
+.home-page .content > section > h2 {
+  position: relative;
+}
+.home-page .content > section > h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 68px;
+  height: 2px;
+  background: #6688a7;
+  transform: scaleX(.42);
+  transform-origin: left center;
+  transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
+  pointer-events: none;
+}
+@media (hover:hover) and (pointer:fine) {
+  .home-page .content > section:hover > h2::after,
+  .home-page .content > section:focus-within > h2::after {
+    transform: scaleX(1);
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .home-page .content > section > h2::after {
+    transition: none;
+  }
+}
