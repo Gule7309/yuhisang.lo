@@ -18,6 +18,14 @@ The website is intentionally academic and selective: real, public evidence matte
 
 Sveltia CMS uses a repository-limited GitHub token with **Contents: Read and write**. Keep the token private. Every save commits the changed JSON file to `main` and triggers GitHub Pages deployment. A new `published:false` entry is hidden from the website, but **NOT** from this public GitHub repo; keep confidential material outside this repo.
 
+## Sveltia CMS live editing preview (Phase 15)
+
+The **Research and Projects** editor now registers a custom bilingual preview pane using the official Sveltia CMS `registerPreviewTemplate('works', ...)` API. This preview is driven by **the current entry in the editor**, including changes not yet saved. It shows English and 中文 title, subtitle, summary and optional research questions side by side, along with a checklist for mandatory fields and missing own-paper URL/venue information. The preview is visually approximate: for final media, routing and full page styling, confirm the actual website after publishing.
+
+Important: The preview **does not save**, publish, validate academic claims or create private drafts. CMS still uses the current GitHub simple workflow: Save writes to public `main`, and GitHub Pages may deploy. Even `published:false` content remains accessible in the public repository. Do not enter confidential evidence or private drafts.
+
+Sveltia already controls its editor dirty/save state. We do not intercept the Save button or install an unverified global `beforeunload` handler. Use the CMS's built-in controls, check both languages in preview, and save only after confirming the publication flag.
+
 ## CV (automatically generated)
 
 The PDF at `/assets/generated-cv/Yu-Hsiang_Luo_CV.pdf` is generated on each Pages deployment by `scripts/generate_cv.py`. It uses **public** data from `profile.json`, `works.json`, and `achievements.json` (English fields only). No personal phone, home address, private employer documents, or experimental results are used.
