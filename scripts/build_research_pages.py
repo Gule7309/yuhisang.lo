@@ -233,6 +233,11 @@ def research_index(items: list[dict], profile: dict, lang: str) -> str:
         question = base.localized(item, "research_question", lang).strip()
         approach = base.localized(item, "research_approach", lang).strip()
         path = note_path(item["slug"], lang)
+        search_text = " ".join(str(value) for value in [
+            title, summary, question, approach, base.localized(item, "status", lang),
+            " ".join(t for t in (item.get("tags") or []) if isinstance(t, str)),
+            item.get("year") or ""
+        ])
         preview = base.safe_href(research_preview(item), allow_local=True)
         figure = next((g for g in (item.get("research_figures") or [])
                        if isinstance(g, dict) and g.get("image") == research_preview(item)), {})
@@ -250,7 +255,8 @@ def research_index(items: list[dict], profile: dict, lang: str) -> str:
         source = base.link(item.get("github"), l["code"], "archive-source", "bi-github")
         paper = base.link(item.get("paper"), l["paper"], "archive-source", "bi-file-earmark-text") if has_paper else ""
         rendered.append(
-            f'<article class="research-index-item{" has-figure" if preview else ""}">'
+            f'<article class="research-index-item{" has-figure" if preview else ""}" '
+            f'data-archive-item data-archive-search="{base.escape(search_text)}">'
             f'{thumb}<div class="research-index-main">'
             f'<div class="research-index-meta">{base.badge(item, lang)}'
             f'<span>{base.escape(item.get("year", ""))}</span></div>'
@@ -263,6 +269,19 @@ def research_index(items: list[dict], profile: dict, lang: str) -> str:
             f'{source}{paper}</div></div></article>'
         )
     count = f'{len(rendered)} {count_label}'
+    search_label = "Search research" if lang == "en" else "搜尋研究"
+    clear_label = "Clear search" if lang == "en" else "清除搜尋"
+    empty_label = ("No matching research. Try another keyword." if lang == "en"
+                   else "沒有符合搜尋條件的研究，請嘗試其他關鍵字。")
+    search_bar = (
+        f'<div class="archive-search" data-archive-search-controls hidden>'
+        f'<label for="archive-search-input">{base.escape(search_label)}</label>'
+        f'<div class="archive-search-row"><input type="search" id="archive-search-input" '
+        f'data-archive-search autocomplete="off" maxlength="160" '
+        f'placeholder="{base.escape(search_label)}">'
+        f'<button type="button" data-archive-clear hidden>{base.escape(clear_label)}</button>'
+        f'</div></div>'
+    ) if rendered else ""
     main = (
         f'<a class="case-back" href="{base.PREFIX}/#research">{base.icon("bi-arrow-left")} '
         f'{base.escape(l["home"])}</a>'
@@ -270,11 +289,18 @@ def research_index(items: list[dict], profile: dict, lang: str) -> str:
         f'<h1 class="research-title">{base.escape(l["index"])}</h1>'
         f'<p class="research-lead">{base.escape(l["index_intro"])}</p>'
         f'<p class="archive-count">{base.escape(count)}</p>'
+        + search_bar
+        + (f'<p class="archive-result-count" data-archive-result-count '
+           f'data-all-label="{base.escape(count_label)}" role="status" aria-live="polite">'
+           f'{base.escape(count)}</p>' if rendered else "")
+        + (f'<p class="archive-filter-empty" role="status" hidden>'
+           f'{base.escape(empty_label)}</p>' if rendered else "")
         + ("".join(rendered) if rendered else f'<p>{base.escape("No research notes yet." if lang == "en" else "目前尚無研究筆記。")}</p>')
     )
-    return base.shell(profile, lang, meta_head(l["index"], l["index_intro"], None, "", lang),
+    page = base.shell(profile, lang, meta_head(l["index"], l["index_intro"], None, "", lang),
                       main, archive_path("en"), archive_path("zh"),
                       active="research", main_class="project-content research-content")
+    return page.replace('</body>', f'<script defer src="{base.PREFIX}/archive-search.js"></script></body>')
 
 
 def save(path: str, text: str) -> None:
