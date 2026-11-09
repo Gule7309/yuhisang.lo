@@ -116,3 +116,77 @@
   .home-page section{scroll-margin-top:82px}
 }
 @media(prefers-reduced-motion:reduce){.nav-toggle .bi,.primary-navigation{transition:none}}
+
+
+/* Phase 13: quiet editorial icon rhythm and micro-interactions.
+   Keep meaningful labels visible; icons remain supplementary. */
+:root {
+  --editorial-motion-fast: 160ms;
+  --editorial-motion-ease: cubic-bezier(.22, 1, .36, 1);
+}
+.socials a .bi,
+.contactlinks a .bi,
+.cv-link .bi,
+.profile-quicklink .bi,
+.archive-more a .bi,
+.section-link .bi,
+.work-extra-links a .bi {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 1.15em;
+  width: 1.15em;
+  line-height: 1;
+  text-align: center;
+  vertical-align: -0.08em;
+}
+.socials a,
+.contactlinks a,
+.cv-link,
+.profile-quicklink,
+.archive-more a,
+.section-link,
+.work-extra-links a {
+  transition: color var(--editorial-motion-fast) ease,
+              background-color var(--editorial-motion-fast) ease,
+              border-color var(--editorial-motion-fast) ease;
+}
+.socials a .bi,
+.contactlinks a .bi,
+.cv-link .bi,
+.profile-quicklink .bi,
+.archive-more a .bi,
+.section-link .bi,
+.work-extra-links a .bi {
+  transition: transform var(--editorial-motion-fast) var(--editorial-motion-ease);
+}
+@media (hover:hover) and (pointer:fine) {
+  .socials a:hover .bi,
+  .contactlinks a:hover .bi,
+  .cv-link:hover .bi,
+  .profile-quicklink:hover .bi,
+  .archive-more a:hover .bi,
+  .section-link:hover .bi,
+  .work-extra-links a:hover .bi {
+    transform: translate(2px, -1px);
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .socials a,
+  .contactlinks a,
+  .cv-link,
+  .profile-quicklink,
+  .archive-more a,
+  .section-link,
+  .work-extra-links a,
+  .socials a .bi,
+  .contactlinks a .bi,
+  .cv-link .bi,
+  .profile-quicklink .bi,
+  .archive-more a .bi,
+  .section-link .bi,
+  .work-extra-links a .bi {
+    transition: none !important;
+    transform: none !important;
+  }
+}
