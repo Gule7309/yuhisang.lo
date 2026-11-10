@@ -24,6 +24,7 @@ jobs:
       - name: Generate and validate portfolio pages
         run: |
           node scripts/build_homepage_data.cjs
+          node scripts/prerender_homepage.cjs
           python scripts/generate_cv.py
           python scripts/build_project_pages.py
           python scripts/build_research_pages.py

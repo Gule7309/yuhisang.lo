@@ -23,6 +23,8 @@ jobs:
           node-version: '22'
       - name: Generate compact CMS-derived homepage index
         run: node scripts/build_homepage_data.cjs
+      - name: Pre-render static English homepage to avoid async layout shifts
+        run: node scripts/prerender_homepage.cjs
       - name: Test UI states and icons
         run: node --test tests/*.test.cjs
       - uses: actions/configure-pages@v5
