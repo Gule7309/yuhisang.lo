@@ -22,7 +22,7 @@ def local_image(raw: object, root: Path = ROOT) -> Path | None:
     if not rel.startswith("assets/"):
         return None
     candidate = (root / rel).resolve()
-    if not candidate.is_relative_to(root.resolve()) or not candidate.is_file():
+    if not candidate.is_relative_to((root / 'assets').resolve()) or not candidate.is_file():
         return None
     return candidate
 
