@@ -11,7 +11,6 @@ const PortfolioUI=require('../ui-utils.js');
 const ROOT=path.resolve(__dirname,'..');
 const SECTION_IDS=['about','research','projects','experience','education','news','writing','achievements','personal','contact'];
 const read=name=>JSON.parse(fs.readFileSync(path.join(ROOT,'content',name+'.json'),'utf8'));
-const escapeRe=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 function replaceRegion(html,id,value) {
   const start='<!-- prerender:'+id+':start -->',end='<!-- prerender:'+id+':end -->';
   const a=html.indexOf(start),b=html.indexOf(end);
@@ -77,7 +76,7 @@ async function build(template,source) {
     const updated=opening.replace(/ hidden(?=>)/g,'').replace(/>$/,node.hidden?' hidden>':'>');
     output=output.slice(0,index)+updated+output.slice(end+1);
   }
-  output=replaceRegion(output,'footer',el('#footer').textContent);
+  output=replaceRegion(output,'footer',el('#footer').textContent.replace(/[&<>]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch])));
   output=output.replace(/(<div id="site-status"[^>]*)(>)/,'$1 hidden$2');
   return output;
 }
