@@ -88,7 +88,7 @@ function renderImage(raw, alt, className, loading = 'lazy') {
   if (!src) return '';
   const priority = loading === 'eager' ? 'eager' : 'lazy';
   return '<img' + (className ? ' class="' + esc(className) + '"' : '') +
-    ' src="' + esc(src) + '" alt="' + esc(alt) + '" loading="' + priority + '" decoding="async">';
+    ' src="' + esc(src) + '" alt="' + esc(alt) + '" loading="' + priority + '" decoding="async" fetchpriority="low">';
 }
 function renderGallery(item) {
   const files = Array.isArray(item.gallery) ? item.gallery : [];
@@ -131,7 +131,7 @@ function renderWorks(category) {
     const mediaLabel = hasImage && tr(w, 'media_label') ? '<span class="media-proof-label">' + esc(tr(w, 'media_label')) + '</span>' : '';
     const cover = hasPhoneStrip
       ? '<div class="cover-phone-strip">' + phoneShots.map(g =>
-          renderImage(g.image, tr(g, 'caption') || tr(w, 'title'), 'phone-shot', 'eager')).join('') + '</div>'
+          renderImage(g.image, tr(g, 'caption') || tr(w, 'title'), 'phone-shot')).join('') + '</div>'
       : hasImage ? renderImage(preview.image, preview.alt, '') :
         '<small>GULE LAB / ' + esc(category) + '</small>' +
         '<strong>' + esc(String(w.slug || '').replace(/-/g, ' ').split(' ').slice(0, 3).join(' ')) + '</strong>';
@@ -243,7 +243,7 @@ function render() {
   const email = p.email ? anchor('mailto:' + p.email, 'Email', 'social-link', 'bi-envelope') : '';
   const cv = p.cv_url ? anchor(p.cv_url, t.cv + ' ↗', 'profile-quicklink', 'bi-file-earmark-pdf') : '';
   $('#profile').innerHTML =
-    '<img class="avatar" src="' + esc(url(p.avatar)) + '" alt="' + esc(tr(p, 'name')) + '">' +
+    '<img class="avatar" src="' + esc(url(p.avatar)) + '" alt="' + esc(tr(p, 'name')) + '" width="136" height="136" decoding="async" loading="eager" fetchpriority="high">' +
     '<h2>' + esc(p.short_name) + '</h2><p class="role">' +
     esc(tr(p, 'role')) + '<br>' + esc(tr(p, 'affiliation')) + '</p>' +
     '<p class="side-message">' + esc(tr(p, 'headline')) + '</p>' +
