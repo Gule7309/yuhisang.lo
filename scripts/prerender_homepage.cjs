@@ -77,7 +77,8 @@ async function build(template,source) {
     output=output.slice(0,index)+updated+output.slice(end+1);
   }
   output=replaceRegion(output,'footer',el('#footer').textContent.replace(/[&<>]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch])));
-  output=output.replace(/(<div id="site-status"[^>]*)(>)/,'$1 hidden$2');
+  output=output.replace(/(<div id="site-status"[^>]*)(>)/,
+    (match,prefix,close)=>prefix.includes(' hidden')?match:prefix+' hidden'+close);
   return output;
 }
 async function main(){
