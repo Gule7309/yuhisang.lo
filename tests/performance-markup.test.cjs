@@ -16,9 +16,12 @@ test('detail pages keep hero eagerly loaded with high priority',()=>{
  for(const file of ['scripts/build_project_pages.py','scripts/build_research_pages.py'])
    assert.match(read(file),/loading="eager" fetchpriority="high" decoding="async"/);
 });
-test('Lighthouse measurement remains opt-in and does not fabricate field INP',()=>{
+test('Lighthouse checks deploys and workflow changes without claiming field INP',()=>{
  const workflow=read('.github/workflows/lighthouse.yml');
  assert.match(workflow,/workflow_dispatch/);
  assert.match(workflow,/lighthouse@12/);
- assert(!workflow.includes('pull_request:'));
+ assert.match(workflow,/workflow_run:/);
+ assert.match(workflow,/pull_request:/);
+ assert.match(workflow,/'.github\/workflows\/lighthouse.yml'/);
+ assert.match(workflow,/github.event.workflow_run.conclusion == 'success'/);
 });
