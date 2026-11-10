@@ -31,10 +31,40 @@ class ArchivePhase10Tests(unittest.TestCase):
         self.assertIn('data-archive-filter="all" aria-pressed="true"', en)
         self.assertIn('data-archive-group="agent"', en)
         self.assertIn('data-archive-group="product"', en)
-        self.assertIn("archive-filters.js", en)
+        self.assertIn("archive-search.js", en)
         self.assertIn("Agent systems", en)
         self.assertIn("Agent 系統", zh)
         self.assertIn('data-archive-controls hidden', en)
+
+    def test_search_controls_keep_archive_content_accessible_without_js(self):
+        projects = [{
+            "slug": "agent-demo", "title_en": "Agent demo", "title_zh": "代理展示",
+            "summary_en": "Trustworthy AI research", "summary_zh": "可信任 AI 研究",
+            "tags": ["Agent Systems"], "year": "2026"
+        }]
+        for lang, search_text in [("en", "Search projects"), ("zh", "搜尋專案")]:
+            html = project.listing(projects, PROFILE, lang)
+            self.assertIn(search_text, html)
+            self.assertIn('data-archive-search-controls hidden', html)
+            self.assertIn('data-archive-search="', html)
+            self.assertIn('data-archive-item', html)
+            self.assertIn('archive-search.js', html)
+            self.assertIn('2026', html)
+            self.assertIn('agent-demo', html)
+
+        research_items = [{
+            "slug": "research-demo", "title_en": "Safe agents",
+            "title_zh": "安全代理", "summary_en": "Clarification behavior",
+            "summary_zh": "釐清行為", "research_question_en": "When to ask?",
+            "research_question_zh": "何時提問？", "tags": ["HCI"]
+        }]
+        for lang, search_text in [("en", "Search research"), ("zh", "搜尋研究")]:
+            html = research.research_index(research_items, PROFILE, lang)
+            self.assertIn(search_text, html)
+            self.assertIn('data-archive-search-controls hidden', html)
+            self.assertIn('data-archive-item', html)
+            self.assertIn('archive-search.js', html)
+            self.assertIn('data-archive-result-count', html)
 
     def test_research_question_and_nonpublication_disclosure(self):
         works = [{
