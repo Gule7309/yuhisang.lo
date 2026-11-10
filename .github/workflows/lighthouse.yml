@@ -1,6 +1,9 @@
 name: Lighthouse performance baseline
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/lighthouse.yml'
   workflow_run:
     workflows: ["Publish portfolio"]
     types: [completed]
@@ -8,7 +11,7 @@ permissions:
   contents: read
 jobs:
   lighthouse:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,11 +23,15 @@ jobs:
           CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
           test -n "$CHROME"
           echo "CHROME_PATH=$CHROME" >> "$GITHUB_ENV"
+      - name: Check headless Chrome startup
+        run: |
+          "$CHROME_PATH" --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --disable-extensions --dump-dom about:blank > /tmp/chrome-smoke.html
+          grep -qi '<html' /tmp/chrome-smoke.html
       - name: Measure live homepage (mobile and desktop)
         run: |
           mkdir -p lighthouse-reports
-          npx --yes lighthouse@12 https://gule7309.github.io/yuhisang.lo/ --chrome-flags="--headless --no-sandbox" --only-categories=performance --output=json --output-path=lighthouse-reports/mobile.json --quiet
-          npx --yes lighthouse@12 https://gule7309.github.io/yuhisang.lo/ --preset=desktop --chrome-flags="--headless --no-sandbox" --only-categories=performance --output=json --output-path=lighthouse-reports/desktop.json --quiet
+          npx --yes lighthouse@12 https://gule7309.github.io/yuhisang.lo/ --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu" --only-categories=performance --output=json --output-path=lighthouse-reports/mobile.json --quiet
+          npx --yes lighthouse@12 https://gule7309.github.io/yuhisang.lo/ --preset=desktop --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu" --only-categories=performance --output=json --output-path=lighthouse-reports/desktop.json --quiet
           node scripts/summarize_lighthouse.cjs lighthouse-reports/mobile.json lighthouse-reports/desktop.json | tee lighthouse-reports/summary.txt
           cat lighthouse-reports/summary.txt >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
