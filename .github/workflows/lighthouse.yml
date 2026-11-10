@@ -1,0 +1,30 @@
+name: On-demand Lighthouse baseline
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify Chrome installation
+        run: |
+          command -v google-chrome || command -v chromium || command -v chromium-browser
+      - name: Measure live homepage (mobile and desktop)
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: |
+          mkdir -p lighthouse-reports
+          npx --yes lighthouse@12 https://gule7309.github.io/yuhisang.lo/ --chrome-flags="--headless --no-sandbox" --only-categories=performance --output=json --output-path=lighthouse-reports/mobile.json --quiet
+          npx --yes lighthouse@12 https://gule7309.github.io/yuhisang.lo/ --preset=desktop --chrome-flags="--headless --no-sandbox" --only-categories=performance --output=json --output-path=lighthouse-reports/desktop.json --quiet
+          node scripts/summarize_lighthouse.cjs lighthouse-reports/mobile.json lighthouse-reports/desktop.json | tee lighthouse-reports/summary.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-homepage
+          path: lighthouse-reports
+          if-no-files-found: warn

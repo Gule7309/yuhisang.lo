@@ -195,7 +195,7 @@ def research_details(item: dict, profile: dict, lang: str) -> str:
     actions = f'<div class="case-actions">{resource_buttons}</div>' if resource_buttons else ""
     hero_image = base.safe_href(item.get("image"), allow_local=True)
     cover = (f'<figure class="research-cover"><img src="{base.escape(hero_image)}" '
-             f'alt="{base.escape(title)}" loading="eager"></figure>') if hero_image else ""
+             f'alt="{base.escape(title)}" loading="eager" fetchpriority="high" decoding="async"></figure>') if hero_image else ""
     body = (
         f'<a class="case-back" href="{base.escape(archive_path(lang))}">{base.icon("bi-arrow-left")} '
         f'{base.escape(l["back"])}</a>'
