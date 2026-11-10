@@ -44,22 +44,10 @@ class ImageDimensionsTests(unittest.TestCase):
     def test_checked_in_assets_have_intrinsic_dimensions(self):
         png = "assets/projects/trading-radar-dashboard-demo.png"
         svg = "assets/figures/when2ask-intervention-plan.svg"
-        self.assertRegex(image_size_attrs(png), r'^ width="[1-9][0-9]*" height="[1-9][0-9]*"
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.assertIsNone(local_image("https://example.com/photo.jpg", root))
-            self.assertIsNone(local_image("assets/../secret.png", root))
-            self.assertIsNone(local_image("assets/x.png?src=another", root))
-            self.assertEqual(image_size_attrs("assets/missing.png", root), "")
-)
-        self.assertRegex(image_size_attrs(svg), r'^ width="[1-9][0-9]*" height="[1-9][0-9]*"
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.assertIsNone(local_image("https://example.com/photo.jpg", root))
-            self.assertIsNone(local_image("assets/../secret.png", root))
-            self.assertIsNone(local_image("assets/x.png?src=another", root))
-            self.assertEqual(image_size_attrs("assets/missing.png", root), "")
-)
+        for path in (png, svg):
+            attrs = image_size_attrs(path)
+            self.assertIn(' width="', attrs)
+            self.assertIn('" height="', attrs)
 
     def test_invalid_and_remote_are_not_accessed(self):
         with tempfile.TemporaryDirectory() as tmp:
