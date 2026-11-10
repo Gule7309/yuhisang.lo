@@ -49,3 +49,5 @@ jobs:
           path: .
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify deployed public routes
+        run: node scripts/post_deploy_smoke.cjs
