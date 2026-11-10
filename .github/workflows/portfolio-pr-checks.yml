@@ -18,6 +18,8 @@ jobs:
           node-version: '22'
       - name: Generate compact CMS-derived homepage index
         run: node scripts/build_homepage_data.cjs
+      - name: Pre-render homepage before tests
+        run: node scripts/prerender_homepage.cjs
       - name: JavaScript tests
         run: node --test tests/*.test.cjs
       - uses: actions/setup-python@v5
