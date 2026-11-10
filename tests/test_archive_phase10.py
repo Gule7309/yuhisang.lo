@@ -31,7 +31,7 @@ class ArchivePhase10Tests(unittest.TestCase):
         self.assertIn('data-archive-filter="all" aria-pressed="true"', en)
         self.assertIn('data-archive-group="agent"', en)
         self.assertIn('data-archive-group="product"', en)
-        self.assertIn("archive-filters.js", en)
+        self.assertIn("archive-search.js", en)
         self.assertIn("Agent systems", en)
         self.assertIn("Agent 系統", zh)
         self.assertIn('data-archive-controls hidden', en)
