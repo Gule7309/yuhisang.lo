@@ -12,6 +12,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import build_project_pages as base
+from image_dimensions import image_size_attrs
 
 ROOT = Path(__file__).resolve().parents[1]
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -129,7 +130,7 @@ def figures_markup(item: dict, lang: str) -> str:
                        f'{base.icon("bi-box-arrow-up-right")}</a>') if source else ""
         result.append(
             f'<figure class="research-figure"><a href="{base.escape(src)}" target="_blank" rel="noopener noreferrer">'
-            f'<img src="{base.escape(src)}" alt="{base.escape(alt)}" loading="lazy"></a>'
+            f'<img src="{base.escape(src)}"{image_size_attrs(src)} alt="{base.escape(alt)}" loading="lazy" decoding="async"></a>'
             f'<figcaption>{base.escape(caption)}{source_html}</figcaption></figure>'
         )
     if not result:
@@ -195,7 +196,7 @@ def research_details(item: dict, profile: dict, lang: str) -> str:
     actions = f'<div class="case-actions">{resource_buttons}</div>' if resource_buttons else ""
     hero_image = base.safe_href(item.get("image"), allow_local=True)
     cover = (f'<figure class="research-cover"><img src="{base.escape(hero_image)}" '
-             f'alt="{base.escape(title)}" loading="eager" fetchpriority="high" decoding="async"></figure>') if hero_image else ""
+             f'{image_size_attrs(hero_image)} alt="{base.escape(title)}" loading="eager" fetchpriority="high" decoding="async"></figure>') if hero_image else ""
     body = (
         f'<a class="case-back" href="{base.escape(archive_path(lang))}">{base.icon("bi-arrow-left")} '
         f'{base.escape(l["back"])}</a>'
@@ -243,7 +244,7 @@ def research_index(items: list[dict], profile: dict, lang: str) -> str:
                        if isinstance(g, dict) and g.get("image") == research_preview(item)), {})
         alt = base.localized(figure, "alt", lang) or title
         thumb = (f'<a href="{base.escape(path)}" class="research-index-preview">'
-                 f'<img src="{base.escape(preview)}" alt="{base.escape(alt)}" loading="lazy">'
+                 f'<img src="{base.escape(preview)}"{image_size_attrs(preview)} alt="{base.escape(alt)}" loading="lazy" decoding="async">'
                  f'</a>') if preview else ""
         publication_caption, publication_kind, has_paper = publication_info(item, lang)
         stage = (f'<span class="research-archive-stage research-archive-stage--{publication_kind}">'

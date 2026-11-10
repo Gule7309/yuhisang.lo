@@ -11,6 +11,8 @@ import html
 import json
 import re
 from pathlib import Path
+
+from image_dimensions import image_size_attrs
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -440,7 +442,7 @@ def phone_strip(item: dict, lang: str) -> str:
         if not image:
             continue
         alt = localized(photo, "caption", lang) or localized(item, "title", lang)
-        figures.append(f'<img src="{escape(image)}" alt="{escape(alt)}" loading="lazy">')
+        figures.append(f'<img src="{escape(image)}"{image_size_attrs(image)} alt="{escape(alt)}" loading="lazy" decoding="async">')
     return '<span class="cover-phone-strip">' + "".join(figures) + '</span>' if len(figures) > 1 else ""
 
 
@@ -456,7 +458,7 @@ def gallery(item: dict, lang: str) -> str:
         caption = localized(photo, "caption", lang) or localized(item, "title", lang)
         output.append(
             f'<figure><a href="{escape(src)}" target="_blank" rel="noopener noreferrer">'
-            f'<img src="{escape(src)}" loading="lazy" alt="{escape(caption)}"></a>'
+            f'<img src="{escape(src)}"{image_size_attrs(src)} loading="lazy" decoding="async" alt="{escape(caption)}"></a>'
             f'<figcaption>{escape(caption)}</figcaption></figure>'
         )
     if not output:
@@ -489,7 +491,7 @@ def details(item: dict, profile: dict, lang: str) -> str:
                     if caption else "")
     image_alt = localized(item, "image_alt", lang) or title
     media = (f'<figure class="case-cover{" has-phone-layout" if item.get("media_layout") == "phone" else ""}"><img src="{escape(safe_img)}"'
-             f' alt="{escape(image_alt)}" loading="eager" fetchpriority="high" decoding="async">{caption_html}</figure>') if safe_img else ""
+             f'{image_size_attrs(safe_img)} alt="{escape(image_alt)}" loading="eager" fetchpriority="high" decoding="async">{caption_html}</figure>') if safe_img else ""
     main = (
         f'<a class="case-back" href="{escape(index_path(lang))}">'
         f'{icon("bi-arrow-left")} {escape(LABELS[lang]["back"])}</a>'
@@ -549,7 +551,7 @@ def listing(works: list[dict], profile: dict, lang: str) -> str:
         image = safe_href(item.get("image"), allow_local=True)
         strip = phone_strip(item, lang)
         cover = (strip if strip else
-                 f'<img src="{escape(image)}" alt="" loading="lazy">' if image else
+                 f'<img src="{escape(image)}"{image_size_attrs(image)} alt="" loading="lazy" decoding="async">' if image else
                  f'<span class="case-placeholder">{escape(item["slug"].replace("-", " ").title())}</span>')
         group = archive_group(item)
         search_text = " ".join(str(value) for value in [
