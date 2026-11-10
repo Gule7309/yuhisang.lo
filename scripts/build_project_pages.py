@@ -489,7 +489,7 @@ def details(item: dict, profile: dict, lang: str) -> str:
                     if caption else "")
     image_alt = localized(item, "image_alt", lang) or title
     media = (f'<figure class="case-cover{" has-phone-layout" if item.get("media_layout") == "phone" else ""}"><img src="{escape(safe_img)}"'
-             f' alt="{escape(image_alt)}" loading="eager">{caption_html}</figure>') if safe_img else ""
+             f' alt="{escape(image_alt)}" loading="eager" fetchpriority="high" decoding="async">{caption_html}</figure>') if safe_img else ""
     main = (
         f'<a class="case-back" href="{escape(index_path(lang))}">'
         f'{icon("bi-arrow-left")} {escape(LABELS[lang]["back"])}</a>'
