@@ -35,6 +35,8 @@ jobs:
           python -m py_compile scripts/build_project_pages.py scripts/build_research_pages.py
           python scripts/build_project_pages.py
           python scripts/build_research_pages.py
+      - name: Validate pinned When2ask executed synthetic audit
+        run: python scripts/validate_research_audit.py
       - name: Check local screenshots, research SVG figures and media sources
         run: python scripts/validate_media.py
       - name: Run product and research generator tests
@@ -148,6 +150,16 @@ jobs:
           sleep 2
           BROWSER=$(command -v google-chrome || command -v chromium || command -v chromium-browser)
           NODE_PATH=/tmp/portfolio-qa/node_modules PORTFOLIO_PREVIEW_URL=http://127.0.0.1:8770/yuhisang.lo PORTFOLIO_BROWSER="$BROWSER" node scripts/capture_homepage_ux_qa.cjs
+      - name: Verify Phase 11B executed synthetic research audit in Chrome
+        run: |
+          mkdir -p /tmp/portfolio-preview
+          ln -sfn "$GITHUB_WORKSPACE" /tmp/portfolio-preview/yuhisang.lo
+          python -m http.server 8771 --bind 127.0.0.1 --directory /tmp/portfolio-preview > /tmp/portfolio-repro-qa.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          sleep 2
+          BROWSER=$(command -v google-chrome || command -v chromium || command -v chromium-browser)
+          NODE_PATH=/tmp/portfolio-qa/node_modules PORTFOLIO_PREVIEW_URL=http://127.0.0.1:8771/yuhisang.lo PORTFOLIO_BROWSER="$BROWSER" node scripts/capture_repro_audit_qa.cjs
       - name: Upload optional research page previews
         if: always()
         uses: actions/upload-artifact@v4
