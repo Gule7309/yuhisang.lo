@@ -18,7 +18,7 @@ const CARD_FIELDS = [
   'year', 'tags', 'image', 'image_alt_en', 'image_alt_zh',
   'media_label_en', 'media_label_zh', 'media_layout',
   'github', 'demo', 'paper', 'publication_status', 'publication_venue',
-  'video_link'
+  'video_link', 'research_question_en', 'research_question_zh'
 ];
 const MEDIA_FIELDS = ['image', 'caption_en', 'caption_zh', 'alt_en', 'alt_zh'];
 
