@@ -33,6 +33,17 @@ The existing Research and Projects collection stores multiple entries in one `co
 
 **Maintenance:** If unrelated code changes reach `main`, staging may be behind. Merge the latest `main` into `cms-staging` carefully, resolve any JSON conflicts and rerun checks before publishing. Do not force-push away draft commits. If other developers are editing the same `works.json`, coordinate review because a single-file collection rewrites that shared file.
 
+## Release status dashboard — staging review visibility
+
+Open the [publishing dashboard](https://gule7309.github.io/yuhisang.lo/admin/publish.html) to inspect **public, read-only** GitHub data before publishing:
+
+- The live comparison against `main...cms-staging`: branch divergence, candidate changed file paths, whether any paths fall outside CMS-approved JSON/media, and a link to any open staging publication PR.
+- A separate, more reliable **effective Research / Projects content comparison** directly reads `content/works.json` from the `main` and `cms-staging` tips; it reports added, modified and removed slugs and does not confuse squash-merged history with actual content changes. Other collections still require PR inspection.
+- Refresh is manual. GitHub's unauthenticated APIs may be rate limited; when either API is unavailable, follow the GitHub Compare/PR links for confirmation.
+- The GitHub Compare candidate file list compares against the **merge base**. After a squash merge, history divergence may cause previously published files to reappear. It is a review aid, not a release guarantee.
+
+**Important:** This dashboard has no GitHub Token and cannot create, approve, merge, or sync PRs. A green status does not mean academic claims, permission, CI or branch protection have been reviewed. Continue to review the full PR, enforce required checks in GitHub repository settings, and explicitly merge only when ready. Never reset a staging branch with unpublished content simply to make the dashboard green.
+
 ## Sveltia CMS live editing preview (Phase 15)
 
 The **Research and Projects** editor now registers a custom bilingual preview pane using the official Sveltia CMS `registerPreviewTemplate('works', ...)` API. This preview is driven by **the current entry in the editor**, including changes not yet saved. It shows English and 中文 title, subtitle, summary and optional research questions side by side, along with a checklist for mandatory fields and missing own-paper URL/venue information. The preview is visually approximate: for final media, routing and full page styling, confirm the actual website after publishing.

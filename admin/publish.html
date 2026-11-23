@@ -19,6 +19,20 @@ article{border:1px solid #e0e8ee;border-radius:9px;padding:18px;min-width:0}arti
 .actions a.primary{background:#244f75;color:#fff;border-color:#244f75}.warning{padding:16px 19px;border-left:3px solid #8daabe;background:#f5f8fa;font-size:13px;line-height:1.9;margin:26px 0}
 ul{padding-left:20px;color:#526a7e;line-height:1.95;font-size:13px}footer{font-size:12px;color:#8495a4;border-top:1px solid #e6edf2;padding-top:18px;margin-top:36px}
 @media(max-width:680px){.steps{grid-template-columns:1fr}h1{font-size:27px}header{padding:15px 22px}}
+.release-panel{border:1px solid #dbe6ee;border-radius:10px;padding:21px;margin:26px 0;background:#fff}
+.release-panel h2{margin-bottom:6px}.release-top{display:flex;align-items:start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.refresh{padding:9px 13px;border:1px solid #d2e0e9;border-radius:6px;background:#f8fafc;color:#254c6a;font:inherit;cursor:pointer}
+.refresh:disabled{opacity:.55;cursor:wait}.refresh:focus-visible{outline:3px solid #8db7dc;outline-offset:2px}
+.state{font-size:13px;font-weight:650;color:#425d70;padding:11px 14px;border-left:3px solid #829bab;background:#f5f8fa;line-height:1.7}
+.state.synced{border-left-color:#4c8b78;background:#eef7f2;color:#315f50}
+.state.attention{border-left-color:#b17b49;background:#fdf7ef;color:#83512c}
+.state.review{border-left-color:#668fb2;background:#f0f6fb;color:#385c7a}
+#branch-delta{font-size:12px;color:#71879a;margin:10px 0}
+#release-notes{margin:12px 0}#release-notes p{font-size:12px;line-height:1.75;color:#6a5965;margin:7px 0}
+.file-list{list-style:none;padding:0;margin:10px 0;max-height:260px;overflow:auto;border-top:1px solid #e5edf2}
+.file-list li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #e5edf2}
+.file-list li.unsafe{color:#a64c3c}.file-name{overflow-wrap:anywhere;min-width:0}.file-state{flex:none;color:#7c8b99}
+.quiet,.release-caption{font-size:12px;line-height:1.8;color:#71869a}
 </style>
 </head>
 <body>
@@ -27,6 +41,20 @@ ul{padding-left:20px;color:#526a7e;line-height:1.95;font-size:13px}footer{font-s
 <p class="kicker">CONTENT RELEASE WORKFLOW</p>
 <h1>Draft → Review → Publish</h1>
 <p class="lead">CMS 儲存現在寫入 <code>cms-staging</code>，不會直接更新正式網站。確認內容後，透過 GitHub Pull Request 提交審核；只有合併到 <code>main</code> 才會觸發 GitHub Pages 發布。</p>
+<section class="release-panel" aria-labelledby="release-heading">
+<div class="release-top"><div><h2 id="release-heading">目前待發佈狀態</h2><p class="release-caption">只讀取公開 GitHub 分支與 PR 資料，不使用 Token，也不會建立、合併或同步分支。</p></div>
+<button class="refresh" id="refresh" type="button">重新整理</button></div>
+<p class="state" id="release-status" role="status" aria-live="polite">正在讀取 GitHub 分支狀態…</p>
+<p id="branch-delta"></p>
+<h3>Research / Projects 實際內容差異</h3>
+<p class="release-caption">直接比對 `main` 與 `cms-staging` 的 works.json 最終內容；不受 Squash Merge 提交歷史影響。其他 CMS 集合請查看下方檔案與 PR Diff。</p>
+<div id="work-diff" aria-live="polite"><p class="quiet">讀取中…</p></div>
+<h3>候選變更檔案</h3>
+<p class="release-caption">以下為 GitHub Compare 相對於 merge-base 的檔案清單；Squash 合併或分支分歧時，可能包含已發佈變更，不能當作精確的未發佈清單。</p>
+<div id="changed-files"><p class="quiet">載入中…</p></div>
+<div id="release-notes" aria-label="發佈前提醒"></div>
+<p><a id="release-link" href="https://github.com/Gule7309/yuhisang.lo/compare/main...cms-staging?expand=1" target="_blank" rel="noopener noreferrer">開啟 GitHub Compare / 建立審核 PR</a></p>
+</section>
 <div class="steps">
 <article><span class="step">01 / DRAFT</span><h2>編輯並儲存</h2><p>在 CMS 中編輯內容並使用雙語即時預覽。Save 將變更存至公開儲存庫的 staging 分支，不會直接上線。</p></article>
 <article><span class="step">02 / REVIEW</span><h2>建立審核 PR</h2><p>點選下方連結，確認 base 為 main、compare 為 cms-staging。檢查全部變更、CI 與公開資訊，再決定是否發布。</p></article>
@@ -48,4 +76,5 @@ ul{padding-left:20px;color:#526a7e;line-height:1.95;font-size:13px}footer{font-s
 </ul>
 <footer>這個頁面只提供流程說明與 GitHub 連結，不會讀取 Token、建立 PR、儲存或自動合併任何變更。</footer>
 </main>
+<script src="release-status-core.js"></script><script src="release-status.js"></script>
 </body></html>
