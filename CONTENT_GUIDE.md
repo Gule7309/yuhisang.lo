@@ -26,6 +26,18 @@ Important: The preview **does not save**, publish, validate academic claims or c
 
 Sveltia already controls its editor dirty/save state. We do not intercept the Save button or install an unverified global `beforeunload` handler. Use the CMS's built-in controls, check both languages in preview, and save only after confirming the publication flag.
 
+## Content Review Center — saved/public source audit
+
+Open **[Content Review Center](https://gule7309.github.io/yuhisang.lo/admin/review.html)** from the CMS live preview's review link, or open its URL directly.
+
+- The **live CMS preview** shows the current editor entry, including edits that have **not** been saved. The separate **Review Center** reads the latest currently deployed public `content/works.json`; it does not inspect unsaved editor state and can lag a new commit while Pages deployment runs.
+- Browse saved research and projects in either language. Filter by category, published/hidden status, missing required fields or keywords, and see duplicate slugs.
+- Required EN/中文 title, subtitle and summary fields are checked **independently**. An English display fallback is explicitly **not** interpreted as completed Chinese translation.
+- Research declaration checks verify the *format* of a paper HTTPS URL, whether peer-reviewed status has a venue, and whether the publication status is recognized. Neither link content nor publication authenticity is certified by these checks.
+- A Published record gets a link to its public detail page. Hidden means *not rendered in site listings*, **not private**: the source and Git history are publicly readable.
+
+**Workflow:** preview current edits in CMS → confirm bilingual fields and public claims → save to `main` only when ready to make the content public → allow Pages to deploy → inspect the saved record in Review Center → inspect the final public page. The checker does not write to GitHub, save CMS edits or prevent publication. No unverified unsaved-change interception is installed.
+
 ## CV (automatically generated)
 
 The PDF at `/assets/generated-cv/Yu-Hsiang_Luo_CV.pdf` is generated on each Pages deployment by `scripts/generate_cv.py`. It uses **public** data from `profile.json`, `works.json`, and `achievements.json` (English fields only). No personal phone, home address, private employer documents, or experimental results are used.
