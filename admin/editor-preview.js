@@ -71,7 +71,8 @@
       h("div",{className:"ep-visibility", "data-key-path":"published",tabIndex:0},notice),
       report,
       h("div",{className:"ep-grid"},language("en","English"),language("zh","繁體中文")),
-      h("p",{className:"ep-caveat ep-foot"},"No changes are saved or published by this preview. Check images, routes and final layout on the actual website."));
+      h("p",{className:"ep-caveat ep-foot"},"No changes are saved or published by this preview. Check images, routes and final layout on the actual website."),
+      h("a",{className:"ep-review-link",href:"/yuhisang.lo/admin/review.html",target:"_blank",rel:"noopener noreferrer"},"Review committed content / 檢查已儲存內容"));
   }
   return {read,inspect,render};
 });

@@ -4,6 +4,7 @@ A bilingual, academic-minimalist personal website for Yu-Hsiang (Gule) Luo, with
 
 **Website:** https://gule7309.github.io/yuhisang.lo/  
 **CMS:** https://gule7309.github.io/yuhisang.lo/admin/  
+**Content Review Center:** https://gule7309.github.io/yuhisang.lo/admin/review.html  
 **Detailed editing guide:** [CONTENT_GUIDE.md](CONTENT_GUIDE.md)
 
 ## Features
