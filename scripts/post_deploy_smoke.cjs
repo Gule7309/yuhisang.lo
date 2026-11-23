@@ -9,7 +9,9 @@ const ROUTES=[
   {path:'projects/',marker:'</html>'},
   {path:'zh/research/',marker:'</html>'},
   {path:'zh/projects/',marker:'</html>'},
-  {path:'admin/',marker:'sveltia-cms.js'}
+  {path:'admin/',marker:'sveltia-cms.js'},
+  {path:'admin/publish.html',marker:'id="release-status"'},
+  {path:'admin/review.html',marker:'id="problems"'}
 ];
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function checkRoute(route,fetcher=fetch,base=BASE){
