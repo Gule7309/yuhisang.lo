@@ -6,7 +6,7 @@ function response(body,type='text/html',status=200){
  return {ok:status>=200&&status<300,status,headers:{get:()=>type},text:async()=>body};
 }
 test('smoke covers public homepage, bilingual archives and CMS',()=>{
- assert.deepEqual(ROUTES.map(x=>x.path),['','research/','projects/','zh/research/','zh/projects/','admin/']);
+ assert.deepEqual(ROUTES.map(x=>x.path),['','research/','projects/','zh/research/','zh/projects/','admin/','admin/publish.html','admin/review.html']);
 });
 test('checks HTTP status and HTML markers',async()=>{
  const route={path:'projects/',marker:'test'};
