@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Content Review · Gule Luo CMS</title>
+<link rel="stylesheet" href="review.css">
+</head>
+<body>
+<a class="skip" href="#content">跳至主要內容</a>
+<header class="top"><a class="brand" href="../">Gule Luo <span>Content Review</span></a><nav aria-label="工具導覽"><a href="./">返回 CMS 編輯</a><a href="../">正式網站</a></nav></header>
+<main id="content">
+<div class="intro"><p class="eyebrow">EDITORIAL QUALITY CONTROL</p><h1>發佈內容檢查</h1>
+<p>快速檢查已提交到公開 GitHub 儲存庫的作品資料。這是<strong>唯讀檢查工具</strong>，不是 CMS 未儲存內容的即時預覽；修改前請回到 CMS。</p></div>
+<div class="notice" role="note"><strong>注意公開範圍</strong><p>Hidden / published: false 只代表不在網站上顯示，資料仍存在公開 GitHub JSON 與歷史版本中。儲存內容前，請勿加入私人資料、金鑰或未獲准公開的研究證據。</p></div>
+<div class="toolbar">
+<label for="search">搜尋標題、摘要或 slug<input id="search" type="search" placeholder="例如 When2ask、PixelFit" autocomplete="off"></label>
+<label for="type">類型<select id="type"><option value="all">全部類型</option><option value="research">Research</option><option value="project">Projects</option></select></label>
+<label for="visibility">可見狀態<select id="visibility"><option value="all">全部狀態</option><option value="published">Published</option><option value="hidden">Hidden</option></select></label>
+<label for="lang">預覽語言<select id="lang"><option value="zh">中文</option><option value="en">English</option></select></label>
+</div>
+<p id="status" role="status" aria-live="polite">讀取公開內容中…</p>
+<div class="layout">
+<section aria-label="作品列表"><div id="list" class="list"></div></section>
+<aside id="detail" aria-label="內容檢查結果"><p class="placeholder">選擇一筆研究或作品以檢查內容。</p></aside>
+</div>
+<footer><p>資料來源：公開的 content/works.json。檢查結果僅供編輯參考，不代表內容、證據或論文發表狀態已經人工核實。</p></footer>
+</main><script src="review-core.js"></script><script src="review.js"></script>
+</body></html>
