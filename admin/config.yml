@@ -1,9 +1,10 @@
 backend:
   name: github
   repo: Gule7309/yuhisang.lo
-  branch: main
+  # Draft saves are isolated from the deployed main branch.
+  branch: cms-staging
   auth_methods: [token]
-app_title: Gule Luo Portfolio CMS
+app_title: Gule Luo Portfolio CMS — Staging
 site_url: https://gule7309.github.io/yuhisang.lo/
 display_url: https://gule7309.github.io/yuhisang.lo/
 media_folder: /assets/uploads
@@ -12,6 +13,7 @@ media_libraries:
   default:
     config:
       slugify_filename: true
+publish_mode: simple # Single-file works.json cannot use Sveltia editorial_workflow.
 collections:
   - name: profile
     label: Profile, Education and Experience

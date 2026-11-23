@@ -3,7 +3,8 @@
 A bilingual, academic-minimalist personal website for Yu-Hsiang (Gule) Luo, with a Git-based content-management interface.
 
 **Website:** https://gule7309.github.io/yuhisang.lo/  
-**CMS:** https://gule7309.github.io/yuhisang.lo/admin/  
+**CMS editor (saves to public staging):** https://gule7309.github.io/yuhisang.lo/admin/  
+**Publishing guide:** https://gule7309.github.io/yuhisang.lo/admin/publish.html  
 **Content Review Center:** https://gule7309.github.io/yuhisang.lo/admin/review.html  
 **Detailed editing guide:** [CONTENT_GUIDE.md](CONTENT_GUIDE.md)
 
@@ -29,7 +30,7 @@ A bilingual, academic-minimalist personal website for Yu-Hsiang (Gule) Luo, with
 
 ## Editing the website
 
-Open **/admin/** and sign in using a GitHub fine-grained personal access token restricted to **Gule7309/yuhisang.lo** with **Contents: Read and write**. Do not share the token. The Sveltia CMS editor directly changes content files on the repository's `main` branch. A GitHub Pages workflow publishes updates automatically.
+Open **/admin/** and sign in using a GitHub fine-grained personal access token restricted to **Gule7309/yuhisang.lo** with **Contents: Read and write**. Do not share the token. The Sveltia CMS editor saves to the public `cms-staging` branch. To publish, review a content-only pull request from `cms-staging` into `main`; a merge into `main` triggers GitHub Pages. The staging branch is not a private workspace.
 
 | Content | Source |
 | --- | --- |

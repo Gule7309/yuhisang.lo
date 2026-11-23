@@ -47,7 +47,7 @@
         h(tag||"p",{className:cls||""},content||"Not provided / 尚未填寫"));
     };
     const notice=published?
-      "Marked Published / 已標記公開：儲存至 main 後可能觸發正式部署。":
+      "Marked Published / 已標記公開：儲存到 staging 不會直接上線；審核 PR 合併到 main 後才發佈。":
       "Marked Hidden / 已標記隱藏：公開 GitHub JSON 仍可被讀取。";
     const meta=[data.category||"Unspecified",read(entry,"year")].filter(Boolean).join(" · ");
     const header=h("header",{className:"ep-header"},
@@ -71,8 +71,9 @@
       h("div",{className:"ep-visibility", "data-key-path":"published",tabIndex:0},notice),
       report,
       h("div",{className:"ep-grid"},language("en","English"),language("zh","繁體中文")),
-      h("p",{className:"ep-caveat ep-foot"},"No changes are saved or published by this preview. Check images, routes and final layout on the actual website."),
-      h("a",{className:"ep-review-link",href:"/yuhisang.lo/admin/review.html",target:"_blank",rel:"noopener noreferrer"},"Review committed content / 檢查已儲存內容"));
+      h("p",{className:"ep-caveat ep-foot"},"This preview does not save or publish. CMS Save writes to cms-staging; only merging its review PR into main publishes changes."),
+      h("a",{className:"ep-review-link",href:"/yuhisang.lo/admin/review.html",target:"_blank",rel:"noopener noreferrer"},"Review live content / 檢查正式內容"),
+      h("a",{className:"ep-review-link",href:"/yuhisang.lo/admin/publish.html",target:"_blank",rel:"noopener noreferrer"},"Draft → Review → Publish / 發佈流程"));
   }
   return {read,inspect,render};
 });

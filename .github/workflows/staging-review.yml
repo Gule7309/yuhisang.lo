@@ -1,0 +1,33 @@
+name: CMS staging publication gate
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  cms-content-only:
+    if: github.event.pull_request.head.ref == 'cms-staging' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify staging branch incorporates current main
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git merge-base --is-ancestor "$BASE_SHA" "$HEAD_SHA" || {
+            echo "::error::cms-staging is behind main. Incorporate latest main without discarding pending drafts before publishing.";
+            exit 1;
+          }
+      - name: Reject non-CMS files in staging publication
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git -c core.quotepath=false diff --no-renames --name-only "$BASE_SHA" "$HEAD_SHA" > /tmp/cms-changed-files.txt
+          node scripts/validate_staging_changes.cjs /tmp/cms-changed-files.txt
