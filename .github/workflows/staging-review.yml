@@ -31,3 +31,21 @@ jobs:
         run: |
           git -c core.quotepath=false diff --no-renames --name-only "$BASE_SHA" "$HEAD_SHA" > /tmp/cms-changed-files.txt
           node scripts/validate_staging_changes.cjs /tmp/cms-changed-files.txt
+      - name: Validate changed published Research and Projects
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if git diff --quiet "$BASE_SHA" "$HEAD_SHA" -- content/works.json; then
+            echo "Research / Projects content unchanged; no record-level validation needed." >> "$GITHUB_STEP_SUMMARY"
+          else
+            git show "$BASE_SHA:content/works.json" > /tmp/cms-base-works.json
+            git show "$HEAD_SHA:content/works.json" > /tmp/cms-staged-works.json
+            node scripts/validate_content_release.cjs /tmp/cms-base-works.json /tmp/cms-staged-works.json | tee /tmp/cms-release-summary.txt
+            {
+              echo '### CMS content release review'
+              echo '```'
+              cat /tmp/cms-release-summary.txt
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
