@@ -46,6 +46,9 @@ ul{padding-left:20px;color:#526a7e;line-height:1.95;font-size:13px}footer{font-s
 <button class="refresh" id="refresh" type="button">重新整理</button></div>
 <p class="state" id="release-status" role="status" aria-live="polite">正在讀取 GitHub 分支狀態…</p>
 <p id="branch-delta"></p>
+<h3>Research / Projects 實際內容差異</h3>
+<p class="release-caption">直接比對 `main` 與 `cms-staging` 的 works.json 最終內容；不受 Squash Merge 提交歷史影響。其他 CMS 集合請查看下方檔案與 PR Diff。</p>
+<div id="work-diff" aria-live="polite"><p class="quiet">讀取中…</p></div>
 <h3>候選變更檔案</h3>
 <p class="release-caption">以下為 GitHub Compare 相對於 merge-base 的檔案清單；Squash 合併或分支分歧時，可能包含已發佈變更，不能當作精確的未發佈清單。</p>
 <div id="changed-files"><p class="quiet">載入中…</p></div>
