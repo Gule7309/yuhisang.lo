@@ -21,6 +21,40 @@ async function json(endpoint){
   }finally{clearTimeout(timeout);}
 }
 const count=n=>new Intl.NumberFormat("zh-TW").format(n);
+async function loadWorkDiff(){
+ const holder=$("work-diff");
+ holder.replaceChildren(elem("p","quiet","正在比對兩個分支的 works.json…"));
+ try{
+   // These are public sources. No credentials or CMS tokens are used.
+   const base="https://raw.githubusercontent.com/"+api.REPO+"/";
+   const controller=new AbortController();
+   const timeout=setTimeout(()=>controller.abort(),10000);
+   let snapshots;
+   try{
+     snapshots=await Promise.all(["main","cms-staging"].map(async ref=>{
+       const response=await fetch(base+ref+"/content/works.json",{cache:"no-store",signal:controller.signal});
+       if(!response.ok)throw Error("HTTP "+response.status);
+       return response.json();
+     }));
+   }finally{clearTimeout(timeout);}
+   const changes=api.diffWorks(snapshots[0],snapshots[1]);
+   holder.replaceChildren();
+   if(!changes.length){holder.append(elem("p","quiet","Research / Projects 目前沒有實際內容差異。"));return;}
+   const summary=elem("p","release-caption",changes.length+" 筆內容差異（草稿分支相對於正式 main）");
+   const list=elem("ul","file-list");
+   const names={added:"新增",modified:"修改",removed:"移除"};
+   for(const c of changes){
+     const li=elem("li",c.type==="removed"?"unsafe":"");
+     li.append(elem("span","file-name",c.title+" · "+c.slug),
+       elem("span","file-state",names[c.type]+(c.published?" · Published":" · Hidden")));
+     list.append(li);
+   }
+   holder.append(summary,list);
+ }catch(_){
+   holder.replaceChildren(elem("p","quiet","無法取得 Research / Projects 內容差異；請在 GitHub PR 的 Files changed 核對，不應根據本頁判斷可直接發布。"));
+ }
+}
+
 function render(data,prUnavailable){
   const status=$("release-status");
   const delta=$("branch-delta");
@@ -73,6 +107,7 @@ async function load(){
     try{prs=await json("/pulls?state=open&base=main&head=Gule7309:cms-staging&per_page=20");}
     catch(_){prUnavailable=true;}
     render(api.analyze(comparison,prs),prUnavailable);
+    await loadWorkDiff();
   }catch(error){
     $("release-status").className="state attention";
     $("release-status").textContent="無法取得 GitHub 分支狀態，請使用下方 GitHub Compare 連結。";
