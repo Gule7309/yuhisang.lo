@@ -16,15 +16,30 @@ The website is intentionally academic and selective: real, public evidence matte
 | Awards & Credentials | `content/achievements.json` | Evidence-backed achievements, English exams and awards |
 | Beyond Research & Photography | `content/personal.json` | Small personal introduction and a photo gallery |
 
-Sveltia CMS uses a repository-limited GitHub token with **Contents: Read and write**. Keep the token private. Every save commits the changed JSON file to `main` and triggers GitHub Pages deployment. A new `published:false` entry is hidden from the website, but **NOT** from this public GitHub repo; keep confidential material outside this repo.
+Sveltia CMS uses a repository-limited GitHub token with **Contents: Read and write**. Keep the token private. Every CMS save commits to `cms-staging`; the public website deploys only when a reviewed PR is merged into `main`. A new `published:false` entry is hidden from the website, but **NOT** from this public GitHub repo; keep confidential material outside this repo.
+
+## Draft → Review → Publish (staging-branch workflow)
+
+**CMS editor:** [Open CMS](https://gule7309.github.io/yuhisang.lo/admin/) · **Release steps:** [Publishing guide](https://gule7309.github.io/yuhisang.lo/admin/publish.html)
+
+The existing Research and Projects collection stores multiple entries in one `content/works.json`. Sveltia CMS explicitly does **not** support Editorial Workflow for this single-file collection. Rather than breaking its editor, this site uses a **branch-level review**: the CMS GitHub backend is configured for `cms-staging`, while GitHub Pages is deployed only on pushes to `main`.
+
+1. Edit a record and use the existing live bilingual CMS preview. **Save** writes to the public `cms-staging` branch, not `main`; this is a persistent branch draft.
+2. Open [Compare main...cms-staging](https://github.com/Gule7309/yuhisang.lo/compare/main...cms-staging?expand=1) and create a PR with base `main` and head `cms-staging`. Check changed files, bilingual text, research provenance and the automated tests.
+3. The staging publication gate fails if the staging branch is behind the current `main` or if its PR changes anything outside approved content JSON and CMS media paths. **This CI check is not an enforced branch protection rule** unless repository settings separately mark it required.
+4. Publish **only** by deliberately merging the reviewed PR to `main`; verify GitHub Pages deployment and public Review Center. Reconcile `cms-staging` with `main` afterward. Never force-reset a branch with unpublished edits.
+
+**Important:** There is no private drafting, per-entry isolated PR or automated publish approval here. The staging branch and all uploaded materials remain visible in the public GitHub repository. Review Center reads the **deployed** source, not pending drafts. Keep confidential information out of this repository.
+
+**Maintenance:** If unrelated code changes reach `main`, staging may be behind. Merge the latest `main` into `cms-staging` carefully, resolve any JSON conflicts and rerun checks before publishing. Do not force-push away draft commits. If other developers are editing the same `works.json`, coordinate review because a single-file collection rewrites that shared file.
 
 ## Sveltia CMS live editing preview (Phase 15)
 
 The **Research and Projects** editor now registers a custom bilingual preview pane using the official Sveltia CMS `registerPreviewTemplate('works', ...)` API. This preview is driven by **the current entry in the editor**, including changes not yet saved. It shows English and 中文 title, subtitle, summary and optional research questions side by side, along with a checklist for mandatory fields and missing own-paper URL/venue information. The preview is visually approximate: for final media, routing and full page styling, confirm the actual website after publishing.
 
-Important: The preview **does not save**, publish, validate academic claims or create private drafts. CMS still uses the current GitHub simple workflow: Save writes to public `main`, and GitHub Pages may deploy. Even `published:false` content remains accessible in the public repository. Do not enter confidential evidence or private drafts.
+Important: The preview **does not save**, publish, validate academic claims or create private drafts. CMS uses Sveltia's simple editor workflow targeting public `cms-staging`: Save does not deploy. Create a content-only GitHub PR to `main`, review it and explicitly merge to deploy. Even `published:false` content remains accessible in the public repository. Do not enter confidential evidence or private drafts.
 
-Sveltia already controls its editor dirty/save state. We do not intercept the Save button or install an unverified global `beforeunload` handler. Use the CMS's built-in controls, check both languages in preview, and save only after confirming the publication flag.
+Sveltia already controls its editor dirty/save state. We do not intercept the Save button or install an unverified global `beforeunload` handler. Use the CMS's built-in controls, check both languages in preview, save the staging draft, then review the entire diff before a separate publishing merge.
 
 ## Content Review Center — saved/public source audit
 
@@ -36,7 +51,7 @@ Open **[Content Review Center](https://gule7309.github.io/yuhisang.lo/admin/revi
 - Research declaration checks verify the *format* of a paper HTTPS URL, whether peer-reviewed status has a venue, and whether the publication status is recognized. Neither link content nor publication authenticity is certified by these checks.
 - A Published record gets a link to its public detail page. Hidden means *not rendered in site listings*, **not private**: the source and Git history are publicly readable.
 
-**Workflow:** preview current edits in CMS → confirm bilingual fields and public claims → save to `main` only when ready to make the content public → allow Pages to deploy → inspect the saved record in Review Center → inspect the final public page. The checker does not write to GitHub, save CMS edits or prevent publication. No unverified unsaved-change interception is installed.
+**Workflow:** preview current edits in CMS → confirm bilingual fields and public claims → save to `cms-staging` → open a content-only PR and review it → merge to `main` → allow Pages to deploy → inspect the saved record in Review Center → inspect the final public page. The checker does not write to GitHub, save CMS edits or prevent publication. No unverified unsaved-change interception is installed.
 
 ## CV (automatically generated)
 
