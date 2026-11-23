@@ -61,11 +61,11 @@
       const key=text(r.slug);
       if(key)counts.set(key,(counts.get(key)||0)+1);
     }
-    return records.filter(r=>r&&typeof r==="object").map(record=>{
+    return records.filter(r=>r&&typeof r==="object").map((record,index)=>{
       const findings=checks(record);
       if(text(record.slug)&&counts.get(text(record.slug))>1)
         findings.push({status:"issue",label:"Duplicate slug",reason:"Slug 在清單中重複，可能造成頁面產生錯誤"});
-      return {record,checks:findings,issues:findings.filter(x=>x.status==="issue").length};
+      return {index,record,checks:findings,issues:findings.filter(x=>x.status==="issue").length};
     });
   }
   function filter(records,{q="",category="all",visibility="all",problems="all"}={}){
