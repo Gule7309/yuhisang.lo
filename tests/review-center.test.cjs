@@ -47,7 +47,7 @@ test('review UI is read-only and live editor links to committed review',()=>{
  const js=fs.readFileSync(path.join(root,'admin/review.js'),'utf8');
  const editor=fs.readFileSync(path.join(root,'admin/editor-preview.js'),'utf8');
  assert.match(html,/id="problems"/);
- assert.match(js,/fetch\("../content\/works\.json"/);
+ assert(js.includes('fetch("../content/works.json"'));
  assert.match(js,/api\.audit\(data\)/);
  assert.match(editor,/\/admin\/review\.html/);
  assert.doesNotMatch(js,/fetch\([^\n]*method:[ ]*["'](POST|PUT|PATCH|DELETE)/);
