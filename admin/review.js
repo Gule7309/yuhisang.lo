@@ -2,7 +2,7 @@
 "use strict";
 const $=id=>document.getElementById(id);
 const api=window.PortfolioReview;
-const state={items:[],selected:""};
+const state={items:[],selected:-1};
 const safe=text=>String(text||"");
 const el=(tag,klass,text)=>{const node=document.createElement(tag);if(klass)node.className=klass;if(text!==undefined)node.textContent=safe(text);return node;};
 function link(parent,label,url){
@@ -10,7 +10,7 @@ function link(parent,label,url){
 }
 function renderDetail(){
   const box=$("detail");box.replaceChildren();
-  const selected=state.items.find(x=>x.record.slug===state.selected);
+  const selected=state.items.find(x=>x.index===state.selected);
   const item=selected&&selected.record;
   if(!item){box.append(el("p","placeholder","選擇一筆研究或作品以檢查內容。"));return;}
   const lang=$("lang").value;
@@ -40,13 +40,13 @@ function renderList(){
  if(!matches.length)list.append(el("p","placeholder","找不到符合條件的內容。"));
  for(const result of matches){
    const record=result.record;
-   const button=el("button","item");button.type="button";button.setAttribute("aria-current",String(record.slug===state.selected));
+   const button=el("button","item");button.type="button";button.setAttribute("aria-current",String(result.index===state.selected));
    button.append(el("strong","",api.localized(record,"title",$("lang").value)||record.slug));
    const meta=el("span","meta");meta.append(el("span","",record.category==="research"?"Research":"Project"));
    meta.append(el("span","chip "+(record.published===true?"live":"hidden"),record.published===true?"Published":"Hidden"));
    const issues=result.issues;
    if(issues)meta.append(el("span","chip",issues+" checks"));
-   button.append(meta);button.addEventListener("click",()=>{state.selected=record.slug;renderList();renderDetail();});
+   button.append(meta);button.addEventListener("click",()=>{state.selected=result.index;renderList();renderDetail();});
    list.append(button);
  }
 }
