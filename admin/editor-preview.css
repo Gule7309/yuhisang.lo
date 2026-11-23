@@ -20,3 +20,4 @@
 .ep-foot{margin-top:24px;border-top:1px solid #e5ebf0;padding-top:13px}
 @media(max-width:700px){.ep-root{padding:15px}.ep-grid{grid-template-columns:1fr}.ep-language{padding:14px}}
 @media(prefers-reduced-motion:reduce){.ep-root *{scroll-behavior:auto!important}}
+.ep-review-link{display:inline-block;margin-top:8px;font-size:12px;font-weight:650;color:#245b8c;text-decoration:underline;text-underline-offset:3px}.ep-review-link:focus-visible{outline:3px solid #8bb9e8;outline-offset:3px}
