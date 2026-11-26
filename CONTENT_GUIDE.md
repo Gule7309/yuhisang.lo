@@ -44,6 +44,18 @@ Open the [publishing dashboard](https://gule7309.github.io/yuhisang.lo/admin/pub
 
 **Important:** This dashboard has no GitHub Token and cannot create, approve, merge, or sync PRs. A green status does not mean academic claims, permission, CI or branch protection have been reviewed. Continue to review the full PR, enforce required checks in GitHub repository settings, and explicitly merge only when ready. Never reset a staging branch with unpublished content simply to make the dashboard green.
 
+## CMS release lifecycle acceptance (Phase 25)
+
+The release workflow has two separate verification layers. **Automated integration tests are safe simulations**, not an authenticated CMS session:
+
+- `tests/cms-release-lifecycle.test.cjs` creates throwaway **local** Git repositories. It simulates a staging save without affecting main, an explicit reviewed main change, successful non-force fast-forward, divergence that preserves unpublished drafts, and stale workflow events that must not update staging. It also tests the published-content validation gate.
+- `scripts/capture_cms_release_qa.cjs` checks the release dashboard in headless Chromium with **mocked GitHub API responses**. It verifies review status, candidate changed files, effective Research / Projects draft content differences, a link to an existing PR, and refresh. No real PRs or edits are created.
+- The `Safely sync CMS staging after deploy` workflow now calls the same `scripts/cms_staging_sync.sh` implementation exercised by local Git tests, avoiding divergence between testing and production.
+
+**Still requiring human acceptance:** Sign in to the real Sveltia CMS with your own restricted GitHub token; make a harmless, non-sensitive staging-only change; confirm that main and GitHub Pages are unchanged; review the actual content PR and its required checks; explicitly merge only after approval; confirm the deployed content; and inspect the staging-sync result. Do not use fake research or publish an unreviewed test record on the public site.
+
+**Branch protection remains a separate repository administrator task.** Before relying on checks as mandatory safeguards, require the Portfolio validation, full PR checks and staging publication gate, require PR review, and block direct pushes to main. The CLI and integration tests do not change repository rulesets or security settings.
+
 ## CMS release safety — checks, synchronization, and recovery
 
 **Before publishing:** The GitHub PR from `cms-staging` into `main` runs the existing content-file allowlist and now compares `content/works.json` against the base branch. New or modified **Published** research/projects require bilingual title, subtitle, and summary, recognized category, and (for preprints and peer-reviewed items) appropriate paper URL and venue fields. Slugs must be valid and unique, even for Hidden items. These are **structural checks only**, not proof of publication, ownership, licensing, or factual correctness. Removed published entries and changed public entries are flagged for human review. The CI report is advisory unless branch protection requires it.

@@ -12,15 +12,17 @@ test('staging release gate checks changed public records',()=>{
  assert.match(yaml,/git show "\$BASE_SHA:content\/works\.json"/);
  assert.match(yaml,/git show "\$HEAD_SHA:content\/works\.json"/);
 });
-test('post-deploy stage sync only fast-forwards and refuses to force push',()=>{
+test('post-deploy stage sync is non-destructive and script-backed',()=>{
  const yaml=read('.github/workflows/staging-sync.yml');
+ const script=read('scripts/cms_staging_sync.sh');
  assert.match(yaml,/workflow_run:/);
  assert.match(yaml,/conclusion == 'success'/);
  assert.match(yaml,/head_branch == 'main'/);
- assert.match(yaml,/git merge-base --is-ancestor "\$stage_sha" "\$main_sha"/);
- assert.match(yaml,/git push origin "\$main_sha:refs\/heads\/cms-staging"/);
- assert.doesNotMatch(yaml,/git push[^\n]*(?:--force| -f\b)/);
- assert.doesNotMatch(yaml,/git reset --hard/);
+ assert.match(yaml,/bash scripts\/cms_staging_sync\.sh/);
+ assert.match(script,/git merge-base --is-ancestor "\$stage_sha" "\$main_sha"/);
+ assert.match(script,/git push "\$remote" "\$main_sha:refs\/heads\/cms-staging"/);
+ assert.doesNotMatch(script,/git push[^\n]*(?:--force| -f\b)/);
+ assert.doesNotMatch(script,/git reset --hard/);
 });
 test('post deployment verifies both CMS publishing and reviewing pages',()=>{
  const src=read('scripts/post_deploy_smoke.cjs');

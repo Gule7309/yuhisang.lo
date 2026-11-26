@@ -21,31 +21,6 @@ jobs:
           persist-credentials: true
       - name: Safe fast-forward only (never discard unpublished drafts)
         env:
-          COMPLETED_SHA: ${{ github.event.workflow_run.head_sha }}
-          EVENT_TYPE: ${{ github.event_name }}
-        run: |
-          set -euo pipefail
-          git fetch origin main cms-staging
-          main_sha="$(git rev-parse refs/remotes/origin/main)"
-          stage_sha="$(git rev-parse refs/remotes/origin/cms-staging)"
-          {
-            echo "### CMS staging post-deploy sync"
-            echo "- Main: `$main_sha`"
-            echo "- Staging before: `$stage_sha`"
-          } >> "$GITHUB_STEP_SUMMARY"
-          if [[ "$EVENT_TYPE" == "workflow_run" && "$main_sha" != "$COMPLETED_SHA" ]]; then
-            echo "Skipped: a newer main commit exists than the completed deployment." | tee -a "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          if [[ "$stage_sha" == "$main_sha" ]]; then
-            echo "Already synchronized." | tee -a "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          if git merge-base --is-ancestor "$stage_sha" "$main_sha"; then
-            # Explicitly NON-force push; if staging moved meanwhile, this command fails.
-            git push origin "$main_sha:refs/heads/cms-staging"
-            echo "Fast-forwarded staging to deployed main. No unpublished commits discarded." | tee -a "$GITHUB_STEP_SUMMARY"
-          else
-            echo "::warning::cms-staging contains commits not reachable from main; refusing to overwrite. Review and merge manually."
-            echo "Skipped: unpublished or divergent staging commits detected. Manual reconciliation required; no force push used." | tee -a "$GITHUB_STEP_SUMMARY"
-          fi
+          CMS_DEPLOYED_SHA: ${{ github.event.workflow_run.head_sha }}
+          CMS_EVENT_TYPE: ${{ github.event_name }}
+        run: bash scripts/cms_staging_sync.sh
