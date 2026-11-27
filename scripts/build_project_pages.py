@@ -570,7 +570,7 @@ def listing(works: list[dict], profile: dict, lang: str) -> str:
         items.append(
             f'<article class="project-list-item" data-archive-item data-archive-group="{group}" '
             f'data-archive-search="{escape(search_text)}">'
-            f'<a class="project-list-cover{" has-phone-layout" if strip else ""}" href="{escape(url)}">'
+            f'<a class="project-list-cover{" has-phone-layout" if strip else ""}" href="{escape(url)}" aria-label="{escape(label)}">'
             f'{cover}</a><div><div class="case-status">{badge(item,lang)}'
             f'<span class="case-year">{escape(item.get("year") or "")}</span></div>'
             f'<h2><a href="{escape(url)}">{escape(label)}</a></h2>'

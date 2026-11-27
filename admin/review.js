@@ -40,13 +40,13 @@ function renderList(){
  if(!matches.length)list.append(el("p","placeholder","找不到符合條件的內容。"));
  for(const result of matches){
    const record=result.record;
-   const button=el("button","item");button.type="button";button.setAttribute("aria-current",String(result.index===state.selected));
+   const button=el("button","item");button.type="button";button.setAttribute("aria-pressed",String(result.index===state.selected));button.setAttribute("aria-controls","detail");
    button.append(el("strong","",api.localized(record,"title",$("lang").value)||record.slug));
    const meta=el("span","meta");meta.append(el("span","",record.category==="research"?"Research":"Project"));
    meta.append(el("span","chip "+(record.published===true?"live":"hidden"),record.published===true?"Published":"Hidden"));
    const issues=result.issues;
    if(issues)meta.append(el("span","chip",issues+" checks"));
-   button.append(meta);button.addEventListener("click",()=>{state.selected=result.index;renderList();renderDetail();});
+   button.append(meta);button.addEventListener("click",()=>{state.selected=result.index;for(const control of list.querySelectorAll(".item"))control.setAttribute("aria-pressed",String(control===button));renderDetail();});
    list.append(button);
  }
 }

@@ -48,6 +48,11 @@ class SeoAccessibilityTests(unittest.TestCase):
         self.assertIn('class="skip">跳至主要內容</a>',research_zh)
         self.assertIn('class="skip">Skip to content</a>',project_en)
 
+    def test_project_cover_has_accessible_link_name(self):
+        html=project.listing([PROJECT],PROFILE,'en')
+        self.assertIn('aria-label="Example"', html)
+        self.assertIn('class="project-list-cover"', html)
+
     def test_og_type_rejects_unknown_value(self):
         with self.assertRaises(ValueError):
             project.head('Title','Description','https://example.org/','/en/','/zh/',page_type='unknown')
