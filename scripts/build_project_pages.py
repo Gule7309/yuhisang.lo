@@ -168,7 +168,9 @@ def index_path(lang: str) -> str:
 
 
 def head(title: str, description: str, canonical: str,
-         alt_en: str, alt_zh: str, image: str = "") -> str:
+         alt_en: str, alt_zh: str, image: str = "", *, page_type: str = "article") -> str:
+    if page_type not in ("article", "website"):
+        raise ValueError("Invalid Open Graph page type")
     og_image = safe_href(image, allow_local=True)
     if og_image.startswith(PREFIX + "/"):
         og_image = "https://gule7309.github.io" + og_image
@@ -176,13 +178,17 @@ def head(title: str, description: str, canonical: str,
     return (f'<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{escape(title)} | Gule Luo</title>'
             f'<meta name="description" content="{escape(description)}">'
-            f'<meta property="og:type" content="article">'
+            f'<meta property="og:type" content="{page_type}">'
             f'<meta property="og:title" content="{escape(title)}">'
             f'<meta property="og:description" content="{escape(description)}">'
             f'<meta property="og:url" content="{escape(canonical)}">{meta_img}'
+            f'<meta name="twitter:card" content="{"summary_large_image" if og_image else "summary"}">'
+            f'<meta name="twitter:title" content="{escape(title)}">'
+            f'<meta name="twitter:description" content="{escape(description)}">'
             f'<link rel="canonical" href="{escape(canonical)}">'
             f'<link rel="alternate" hreflang="en" href="https://gule7309.github.io{escape(alt_en)}">'
             f'<link rel="alternate" hreflang="zh-Hant" href="https://gule7309.github.io{escape(alt_zh)}">'
+            f'<link rel="alternate" hreflang="x-default" href="https://gule7309.github.io{escape(alt_en)}">'
             f'<link rel="stylesheet" href="{PREFIX}/style.css">'
             f'<link rel="stylesheet" href="{PREFIX}/extras.css">'
             f'<link rel="stylesheet" href="{PREFIX}/status-badges.css">'
@@ -227,7 +233,7 @@ def shell(profile: dict, lang: str, head_html: str, main: str,
            f'<a href="{home}#contact">{escape(label["contact"])}</a>')
     return (
         '<!doctype html><html lang="' + ("zh-Hant" if lang == "zh" else "en") + '"><head>'
-        + head_html + '</head><body><a href="#main" class="skip">Skip to content</a>'
+        + head_html + '</head><body><a href="#main" class="skip">' + ('跳至主要內容' if lang == 'zh' else 'Skip to content') + '</a>'
         '<header><div class="top"><a class="logo" href="' + home + '">Gule Luo</a>'
         '<nav aria-label="Main navigation">' + nav + '</nav>'
         '<div class="language">'
@@ -611,7 +617,7 @@ def listing(works: list[dict], profile: dict, lang: str) -> str:
             + ("".join(items) if items else f'<p>{escape(LABELS[lang]["empty"])}</p>'))
     canonical = "https://gule7309.github.io" + path
     page = shell(profile, lang, head(title, LABELS[lang]["intro"], canonical,
-                                     alternate["en"], alternate["zh"]),
+                                     alternate["en"], alternate["zh"], page_type="website"),
                  main, alternate["en"], alternate["zh"])
     return page.replace('</body>', f'<script defer src="{PREFIX}/archive-search.js"></script></body>')
 
