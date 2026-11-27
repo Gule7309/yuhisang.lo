@@ -27,22 +27,22 @@ class SeoAccessibilityTests(unittest.TestCase):
 
     def test_project_archive_uses_website_and_details_article(self):
         listing=project.listing([PROJECT],PROFILE,'en')
-        detail=project.detail(PROJECT,PROFILE,'en')
+        detail=project.details(PROJECT,PROFILE,'en')
         self.assertIn('<meta property="og:type" content="website">',listing)
         self.assertIn('<meta property="og:type" content="article">',detail)
         self.assertIn('hreflang="x-default"',listing)
         self.assertIn('<meta name="twitter:card" content="summary">',listing)
 
     def test_research_archive_uses_website_and_detail_article(self):
-        listing=research.listing([RESEARCH],PROFILE,'zh')
-        detail=research.detail(RESEARCH,PROFILE,'zh')
+        listing=research.research_index([RESEARCH],PROFILE,'zh')
+        detail=research.research_details(RESEARCH,PROFILE,'zh')
         self.assertIn('<meta property="og:type" content="website">',listing)
         self.assertIn('<meta property="og:type" content="article">',detail)
         self.assertIn('hreflang="x-default"',detail)
 
     def test_skip_link_matches_page_language(self):
         project_zh=project.listing([PROJECT],PROFILE,'zh')
-        research_zh=research.listing([RESEARCH],PROFILE,'zh')
+        research_zh=research.research_index([RESEARCH],PROFILE,'zh')
         project_en=project.listing([PROJECT],PROFILE,'en')
         self.assertIn('class="skip">跳至主要內容</a>',project_zh)
         self.assertIn('class="skip">跳至主要內容</a>',research_zh)
