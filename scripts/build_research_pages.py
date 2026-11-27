@@ -90,7 +90,8 @@ def meta_head(title: str, summary: str, item: dict | None, slug: str, lang: str)
     en = archive_path("en") if item is None else note_path(slug, "en")
     zh = archive_path("zh") if item is None else note_path(slug, "zh")
     image = research_preview(item) if item is not None else ""
-    header = base.head(title, summary, "https://gule7309.github.io" + path, en, zh, image,\n                       page_type="website" if item is None else "article")
+    header = base.head(title, summary, "https://gule7309.github.io" + path, en, zh, image,
+                       page_type="website" if item is None else "article")
     return header + f'<link rel="stylesheet" href="{base.PREFIX}/research-pages.css">'
 
 
