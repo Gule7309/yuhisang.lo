@@ -233,7 +233,7 @@ def shell(profile: dict, lang: str, head_html: str, main: str,
            f'<a href="{home}#contact">{escape(label["contact"])}</a>')
     return (
         '<!doctype html><html lang="' + ("zh-Hant" if lang == "zh" else "en") + '"><head>'
-        + head_html + '</head><body><a href="#main" class="skip">Skip to content</a>'
+        + head_html + '</head><body><a href="#main" class="skip">' + ('跳至主要內容' if lang == 'zh' else 'Skip to content') + '</a>'
         '<header><div class="top"><a class="logo" href="' + home + '">Gule Luo</a>'
         '<nav aria-label="Main navigation">' + nav + '</nav>'
         '<div class="language">'
