@@ -60,14 +60,14 @@ async function run(){
    await page.goto(root+'/'+route,{waitUntil:'domcontentloaded'});
    await checkLayout(page,route);
    await accessibility(page,route);
-   const search=page.locator('[data-archive-search]');
+   const search=page.locator('input[data-archive-search]');
    if(await search.count()){
     await search.fill('definitely-no-matching-portfolio-item-xyz');
     assert.equal(await page.locator('[data-archive-item]:visible').count(),0);
     await page.locator('[data-archive-clear]').click();
     assert.equal(await search.inputValue(),'');
     assert(await page.locator('[data-archive-item]:visible').count()>0);
-    assert.equal(await page.evaluate(()=>document.activeElement.matches('[data-archive-search]')),true);
+    assert.equal(await page.evaluate(()=>document.activeElement.matches('input[data-archive-search]')),true);
    }
    await page.close();
   }
